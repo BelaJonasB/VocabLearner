@@ -1,0 +1,133 @@
+/* Login Page */
+.logins {
+	-fx-pref-width: 200;
+}
+.warning {
+	-fx-text-fill: red;
+}
+.loginBox {
+	-fx-alignment: center;
+	-fx-spacing: 5;
+	-fx-background-color: #ffdd00;
+	-fx-padding: 50 20 20 20;
+}
+.userDataField {
+	-fx-padding: 0 0 3 0;
+	-fx-font-weight: bold;
+	-fx-text-fill: white;
+}
+.field {
+	-fx-alignment: top-center;
+}
+.buttons {
+	-fx-alignment: top-center;
+	-fx-spacing: 30;
+}
+.b {
+	-fx-background-color: #ff5900;
+	-fx-text-fill: white;
+	-fx-font-weight: bold;
+	-fx-cursor: hand;
+}
+.spacer {
+	-fx-pref-height: 15;
+}
+.loginMain {
+	-fx-padding: 0 0 0 0;
+	-fx-alignment: top-left;
+	-fx-spacing: 0px;
+}
+.outer {
+	-fx-padding: 40 40 40 40;
+	-fx-background-color: white;
+}
+
+
+/*Main page */
+
+/* Navigation left */
+.imageBox {
+	-fx-background-color: #ffdd00;
+	-fx-alignment: center;
+	-fx-spacing: 10;
+	-fx-padding: 10,0,0,0;
+	-fx-cursor: default;
+}
+.logo {
+	-fx-image: url("logo.png");
+}
+.shadow {
+	-fx-image: url("shadow.png");
+}
+.shadowBox {
+	-fx-alignment: top-left;
+	-fx-fill-width: true;
+	-fx-cursor: default;
+}
+.navBox {
+	-fx-background-color: #ffdd00;
+}
+.navBar {
+	-fx-spacing: 0;
+	-fx-pref-width: 160;
+	-fx-alignment: top-center;
+	-fx-padding: 0 0 0 0;
+	-fx-background-color: #ffdd00;
+	-fx-cursor: default;
+}
+.navBarBot {
+	-fx-spacing: 0;
+	-fx-pref-width: 160;
+	-fx-alignment: bottom-center;
+	-fx-padding: 0 0 0 0;
+	-fx-background-color: #ffdd00;
+	-fx-cursor: default;
+}
+.buttons-nav {
+	-fx-cursor: hand;
+	-fx-font-size: 15;
+	-fx-pref-width: 160;
+	-fx-pref-height: 50px;
+	-fx-background-color: #ffdd00;
+	-fx-font-weight: bold;
+	-fx-text-fill: white;
+	-fx-background-radius: 0%;
+}
+
+
+/* Title Bar */
+.userInfo {
+	-fx-alignment: center-right;
+	-fx-font-size: 16;
+	-fx-background-color: white;
+	-fx-padding: 0 20 0 0;
+	-fx-pref-height: 86;
+}
+.logged {
+	-fx-font-weight: bold;
+}
+
+/* Main */
+.mainContentFrame {
+	-fx-padding: 10 10 10 10;
+	-fx-background-color: #f3f3f3;
+}
+.mainContent {
+	-fx-background-color: white;
+	-fx-padding: 10 10 10 20;
+}
+
+/* Learning */
+.mainLearn {
+	-fx-background-color: white;
+}
+
+/* VocList */
+.mainVocList {
+	-fx-background-color: white;
+}
+
+/* Goals */
+.mainGoals {
+	-fx-background-color: white;
+}

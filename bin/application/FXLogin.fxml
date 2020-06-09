@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox styleClass="outer" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@application.css" fx:controller="application.Controller">
+	<VBox styleClass="loginBox">
+		<HBox styleClass="field">
+			<VBox>
+				<Label text="E-Mail:"  styleClass="userDataField"/>
+				<TextField fx:id="mail" promptText="e-Mail" styleClass="logins"/>
+				<Label text="Not a valid E-Mail!" fx:id="warning" styleClass="warning"/>
+			</VBox>
+		</HBox>
+		<HBox styleClass="field">
+			<VBox>
+				<Label text="Password:"  styleClass="userDataField"/>
+				<TextField fx:id="pw" promptText="Password" styleClass="logins"/>
+			</VBox>
+		</HBox>
+		<VBox  styleClass="spacer" />
+		<HBox styleClass="buttons">
+			<Button styleClass="b" text="Login" onAction="#login" fx:id="login"/>
+			<Button styleClass="b" fx:id="reg" text="Register" />
+		</HBox>
+	</VBox>
+</VBox>
