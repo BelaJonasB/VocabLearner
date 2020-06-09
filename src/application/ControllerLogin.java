@@ -1,11 +1,15 @@
 package application;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,14 +27,13 @@ import org.jetbrains.annotations.NotNull;
 
 public class ControllerLogin extends Main implements Initializable {
 	@FXML
-	private Label loginAs,chuck;
+	private Label loginAs;
 	@FXML
-	private Button back, vocab, learn, goals;
-	Gson g = new Gson();
+	private Button vocab, learn, goals;
 	@FXML
 	ImageView logo,shadow;
 	@FXML
-	VBox shadowBox, navBar, mainContentFrame, navBarBot;
+	VBox shadowBox, navBar, mainContentFrame;
 	@FXML
 	BorderPane mainContent;
 	@FXML
@@ -55,12 +58,20 @@ public class ControllerLogin extends Main implements Initializable {
 		mainContent.prefHeightProperty().bind(mainContentFrame.heightProperty());
 		navBox.prefHeightProperty().bind(primarStage.heightProperty());
 		AnchorPane.setTopAnchor(navBar, 0.0);
-		AnchorPane.setBottomAnchor(navBarBot, 0.0);
 
-		loginAs.setText(Variables.getMailShow());
+		//User Info for User
+		Gson g = new GsonBuilder()
+				.setPrettyPrinting()
+				.create();
+		try {
+			User u = g.fromJson(new FileReader("logInfo.json"), User.class);
+			loginAs.setText(u.getEmail());
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+
 
 		//Button feedback:
-		feedbackButton(back);
 		feedbackButton(vocab);
 		feedbackButton(learn);
 		feedbackButton(goals);
@@ -95,6 +106,22 @@ public class ControllerLogin extends Main implements Initializable {
 	}
 
 	public void back() throws Exception {
-		changeScene("FXLogin.fxml", 350,320, false);
+		changeScene("FXLogin.fxml", 350,470, false);
+	}
+
+	public void logout() throws Exception {
+		Gson g = new GsonBuilder()
+				.setPrettyPrinting()
+				.create();
+
+		//Make User Info empty
+		User u = new User("", "");
+		String s = g.toJson(u);
+
+		//login Info To JSon
+		FileWriter file = new FileWriter("logInfo.json");
+										file.write(s);
+										file.close();
+		changeScene("FXLogin.fxml", 350,470, false);
 	}
 }

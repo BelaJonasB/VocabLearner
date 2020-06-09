@@ -7,9 +7,12 @@
 }
 .loginBox {
 	-fx-alignment: center;
-	-fx-spacing: 5;
+	-fx-spacing: 7;
 	-fx-background-color: #ffdd00;
-	-fx-padding: 50 20 20 20;
+	-fx-padding: 50 20 30 20;
+}
+.serverField {
+	-fx-padding: 15 0 0 0;
 }
 .userDataField {
 	-fx-padding: 0 0 3 0;
@@ -20,8 +23,14 @@
 	-fx-alignment: top-center;
 }
 .buttons {
-	-fx-alignment: top-center;
-	-fx-spacing: 30;
+	-fx-alignment: top-left;
+	-fx-spacing: 0;
+	-fx-padding: 20 0 10 20;
+}
+.logRem {
+	-fx-alignment: top-left;
+	-fx-spacing: 20;
+	-fx-padding: 10 0 0 0;
 }
 .b {
 	-fx-background-color: #ff5900;
@@ -29,9 +38,7 @@
 	-fx-font-weight: bold;
 	-fx-cursor: hand;
 }
-.spacer {
-	-fx-pref-height: 15;
-}
+
 .loginMain {
 	-fx-padding: 0 0 0 0;
 	-fx-alignment: top-left;
@@ -99,6 +106,7 @@
 .userInfo {
 	-fx-alignment: center-right;
 	-fx-font-size: 16;
+	-fx-spacing: 20;
 	-fx-background-color: white;
 	-fx-padding: 0 20 0 0;
 	-fx-pref-height: 86;

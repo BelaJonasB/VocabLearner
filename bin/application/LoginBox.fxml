@@ -21,14 +21,11 @@
 			<Button fx:id="learn" styleClass="buttons-nav" onAction="#gotoLearn" text="Learn"/>
 			<Button fx:id="goals" styleClass="buttons-nav" onAction="#gotoGoals" text="Goals"/>
 		</VBox>
-		<VBox styleClass="navBarBot" fx:id="navBarBot">
-			<Button styleClass="buttons-nav" fx:id="back" onAction="#back" text="Return"/>
-		</VBox>
 	</AnchorPane>
 	<VBox>
 		<HBox styleClass="userInfo" fx:id="userInfo">
-			<Label text="Logged in as:		" styleClass="logged"/>
-			<Label fx:id="loginAs"/>
+			<Label fx:id="loginAs" styleClass="logged"/>
+			<Button onAction="#logout" styleClass="b" text="Log out"/>
 		</HBox>
 		<VBox styleClass="mainContentFrame" fx:id="mainContentFrame">
 			<BorderPane styleClass="mainContent" fx:id="mainContent">

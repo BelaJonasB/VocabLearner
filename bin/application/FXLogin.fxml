@@ -22,10 +22,16 @@
 				<TextField fx:id="pw" promptText="Password" styleClass="logins"/>
 			</VBox>
 		</HBox>
-		<VBox  styleClass="spacer" />
-		<HBox styleClass="buttons">
-			<Button styleClass="b" text="Login" onAction="#login" fx:id="login"/>
-			<Button styleClass="b" fx:id="reg" text="Register" />
-		</HBox>
+		<VBox styleClass="buttons">
+			<CheckBox fx:id="remember" text="Remember me" styleClass="userDataField"/>
+			<HBox styleClass="logRem">
+				<Button styleClass="b" text="Login" onAction="#login" fx:id="login"/>
+				<Button styleClass="b" fx:id="reg" onAction="#register" text="Register" />
+			</HBox>
+		</VBox>
+		<Label fx:id="wrongLogin" styleClass="warning"/>
+		<VBox styleClass="serverField">
+			<TextField text="https://api.voc5.org/" fx:id="serverAdress"/>
+		</VBox>
 	</VBox>
 </VBox>
