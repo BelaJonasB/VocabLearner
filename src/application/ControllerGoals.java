@@ -1,9 +1,13 @@
 package application;
 
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
 
-public class ControllerGoals extends AnchorPane {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class ControllerGoals extends AnchorPane implements Initializable {
     public ControllerGoals() {
         FXMLLoader goGoals = new FXMLLoader(getClass().getResource("Goals.fxml"));
         goGoals.setRoot(this);
@@ -13,5 +17,9 @@ public class ControllerGoals extends AnchorPane {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
     }
 }

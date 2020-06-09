@@ -1,9 +1,13 @@
 package application;
 
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
 
-public class ControllerVocList extends AnchorPane {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class ControllerVocList extends AnchorPane implements Initializable {
     public ControllerVocList() {
         FXMLLoader goList = new FXMLLoader(getClass().getResource("VocList.fxml"));
         goList.setRoot(this);
@@ -15,4 +19,7 @@ public class ControllerVocList extends AnchorPane {
         }
     }
 
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    }
 }
