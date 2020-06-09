@@ -19,6 +19,17 @@
 	-fx-font-weight: bold;
 	-fx-text-fill: white;
 }
+.remember {
+	-fx-padding: 0 0 3 0;
+	-fx-font-weight: bold;
+	-fx-text-fill: white;
+}
+.remember:selected > .box {
+	-fx-background-color: white;
+}
+.remember > .box {
+	-fx-background-color: white;
+}
 .field {
 	-fx-alignment: top-center;
 }

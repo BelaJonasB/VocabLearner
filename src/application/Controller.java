@@ -12,16 +12,13 @@ import com.google.gson.GsonBuilder;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 
 public class Controller extends Main implements Initializable {
-	public TextField pw;
+	public PasswordField pw;
 	@FXML
 	private TextField mail,serverAdress;
 	@FXML
