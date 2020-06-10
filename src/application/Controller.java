@@ -1,10 +1,7 @@
 package application;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.net.URL;
+import java.io.*;
+import java.net.*;
 import java.util.ResourceBundle;
 
 import com.google.gson.Gson;
@@ -30,8 +27,19 @@ public class Controller extends Main implements Initializable {
 	Gson g = new GsonBuilder()
 			.setPrettyPrinting()
 			.create();
+	Crypt c;
 
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		//Enryption key with mac adress
+		String mac = "DiddiKong"; //Default, if no mac adress
+		try {
+			NetworkInterface net = NetworkInterface.getByInetAddress(InetAddress.getLocalHost());
+			mac = new String(net.getHardwareAddress());
+		} catch (SocketException | UnknownHostException e) {
+			System.out.println("No Mac-Adress found");
+		}
+		c = new Crypt(mac);
+
 		//default enabling
 		login.disableProperty().bind(mail.textProperty().isEmpty());
 		reg.disableProperty().bind(mail.textProperty().isEmpty());
@@ -41,10 +49,13 @@ public class Controller extends Main implements Initializable {
 		//set the Remembered values
 		try {
 			User u = g.fromJson(new FileReader("logInfo.json"), User.class);
-			mail.setText(u.getEmail());
-			pw.setText(u.getPassword());
-			if(!u.getEmail().equals("")) {
-				remember.setSelected(true);
+			if(!(u.getEmail().isEmpty()||u.getPassword().isEmpty())) {
+				mail.setText(u.getEmail());
+				pw.setText(c.decrypt(u.getPassword()));
+				if(!u.getEmail().equals("")) {
+					remember.setSelected(true);
+				}
+				login();
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -135,7 +146,10 @@ public class Controller extends Main implements Initializable {
 									String s;
 
 									if(remember.selectedProperty().get()) {
-										User u = new User(mail.textProperty().get(), pw.textProperty().get());
+										//encrypt PW
+										String encryptetPW = c.encrypt(pw.textProperty().get());
+
+										User u = new User(mail.textProperty().get(), encryptetPW);
 										s = g.toJson(u);
 									} else {
 										User u = new User("", "");
@@ -147,7 +161,7 @@ public class Controller extends Main implements Initializable {
 									file.write(s);
 									file.close();
 
-									changeScene("LoginBox.fxml", 900, 520, true);
+									changeScene("LoginBox.fxml", 900, 520, true, true);
 								} catch (Exception e) {
 									e.printStackTrace();
 								}

@@ -3,16 +3,12 @@ package application;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -21,8 +17,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import okhttp3.*;
-import org.jetbrains.annotations.NotNull;
 
 
 public class ControllerLogin extends Main implements Initializable {
@@ -105,10 +99,6 @@ public class ControllerLogin extends Main implements Initializable {
 		mainContent.setCenter(goalsCont);
 	}
 
-	public void back() throws Exception {
-		changeScene("FXLogin.fxml", 350,470, false);
-	}
-
 	public void logout() throws Exception {
 		Gson g = new GsonBuilder()
 				.setPrettyPrinting()
@@ -122,6 +112,6 @@ public class ControllerLogin extends Main implements Initializable {
 		FileWriter file = new FileWriter("logInfo.json");
 										file.write(s);
 										file.close();
-		changeScene("FXLogin.fxml", 350,470, false);
+		changeScene("FXLogin.fxml", 350,470, false, true);
 	}
 }

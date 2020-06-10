@@ -4,7 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
+import javafx.scene.shape.Rectangle;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -22,19 +25,11 @@ public class Main extends Application {
 		Parent root;
 		primarStage = primaryStage;
 
-		//if Remembered -> direkt zum main Window
-		User u = g.fromJson(new FileReader("logInfo.json"), User.class);
-		if(!(u.getEmail().isEmpty()||u.getPassword().isEmpty())) {
-			root = FXMLLoader.load(getClass().getResource("LoginBox.fxml"));
-			primarStage.setResizable(true);
-			primarStage.setScene(new Scene(root, 900, 520));
-		} else {
-			root = FXMLLoader.load(getClass().getResource("FXLogin.fxml"));
-			primarStage.setResizable(false);
-			primarStage.setScene(new Scene(root, 350, 470));
-
-		}
+		root = FXMLLoader.load(getClass().getResource("FXLogin.fxml"));
+		primarStage.setResizable(false);
+		primarStage.setScene(new Scene(root, 350, 470));
 		primarStage.setTitle("Vocabulary");
+		primarStage.centerOnScreen();
 		primarStage.getIcons().add(new Image(getClass().getResourceAsStream("logo-512.png")));
 		primarStage.show();
 
@@ -45,8 +40,14 @@ public class Main extends Application {
 		launch(args);
 	}
 
-	public void changeScene(String fxml, int w, int h, boolean resize) throws Exception {
+	public void changeScene(String fxml, int w, int h, boolean resize, boolean centerScreen) throws Exception {
 		 Parent loader = FXMLLoader.load(getClass().getResource(fxml));
+		 primarStage.hide();
+		 if(centerScreen) {
+			 Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+			 primarStage.setX((screenBounds.getWidth() - w)/2);
+			 primarStage.setY((screenBounds.getHeight() - h)/2);
+		 }
 		 primarStage.setScene(new Scene(loader, w, h));
 		 primarStage.setTitle("Vocabulary");
 		 primarStage.setResizable(resize);
