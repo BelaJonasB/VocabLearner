@@ -109,7 +109,7 @@ public class ControllerLogin extends Main implements Initializable {
 		String s = g.toJson(u);
 
 		//login Info To JSon
-		FileWriter file = new FileWriter("logInfo.json");
+		FileWriter file = new FileWriter("src/main/resources/logInfo.json");
 										file.write(s);
 										file.close();
 		changeScene("FXLogin.fxml", 350,470, false, true);

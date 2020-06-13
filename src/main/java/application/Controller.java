@@ -36,7 +36,7 @@ public class Controller extends Main implements Initializable {
 			NetworkInterface net = NetworkInterface.getByInetAddress(InetAddress.getLocalHost());
 			mac = new String(net.getHardwareAddress());
 		} catch (SocketException | UnknownHostException e) {
-			System.out.println("No Mac-Adress found");
+			System.out.println("No Mac-Address found");
 		}
 		c = new Crypt(mac);
 

@@ -1,7 +1,5 @@
 package application;
-	
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -13,9 +11,6 @@ import javafx.scene.Scene;
 
 public class Main extends Application {
 	public static Stage primarStage;
-	Gson g = new GsonBuilder()
-			.setPrettyPrinting()
-			.create();
 
 	public void start(Stage primaryStage) throws Exception {
 		//First Window
