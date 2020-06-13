@@ -58,7 +58,7 @@ public class ControllerLogin extends Main implements Initializable {
 				.setPrettyPrinting()
 				.create();
 		try {
-			User u = g.fromJson(new FileReader("logInfo.json"), User.class);
+			User u = g.fromJson(new FileReader("src/main/resources/logInfo.json"), User.class);
 			loginAs.setText(u.getEmail());
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
