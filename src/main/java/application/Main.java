@@ -27,7 +27,7 @@ public class Main extends Application {
 		primarStage.setScene(new Scene(root, 350, 470));
 		primarStage.setTitle("Vocabulary");
 		primarStage.centerOnScreen();
-		primarStage.getIcons().add(new Image(getClass().getResourceAsStream("logo-512.png")));
+		primarStage.getIcons().add(new Image(getClass().getResourceAsStream("/logo-512.png")));
 		primarStage.show();
 
 

@@ -48,7 +48,9 @@ public class Controller extends Main implements Initializable {
 
 		//set the Remembered values
 		try {
+			//User u = g.fromJson(new FileReader(getClass().getResource("/logInfo.json").getFile()), User.class);
 			User u = g.fromJson(new FileReader("logInfo.json"), User.class);
+			//accesses the file in the resources not root dir
 			if(!(u.getEmail().isEmpty()||u.getPassword().isEmpty())) {
 				mail.setText(u.getEmail());
 				pw.setText(c.decrypt(u.getPassword()));
