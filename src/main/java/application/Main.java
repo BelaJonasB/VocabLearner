@@ -38,7 +38,7 @@ public class Main extends Application {
 	}
 
 	public void changeScene(String fxml, int w, int h, boolean resize, boolean centerScreen) throws Exception {
-		 Parent loader = FXMLLoader.load(getClass().getResource(fxml));
+		 Parent loader = FXMLLoader.load(getClass().getResource("/"+fxml));
 		 primarStage.hide();
 		 if(centerScreen) {
 			 Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();

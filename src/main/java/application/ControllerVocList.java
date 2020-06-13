@@ -9,7 +9,7 @@ import java.util.ResourceBundle;
 
 public class ControllerVocList extends AnchorPane implements Initializable {
     public ControllerVocList() {
-        FXMLLoader goList = new FXMLLoader(getClass().getResource("../../resources/VocList.fxml"));
+        FXMLLoader goList = new FXMLLoader(getClass().getResource("/VocList.fxml"));
         goList.setRoot(this);
         goList.setController(this);
         try {

@@ -10,7 +10,7 @@ import java.util.ResourceBundle;
 
 public class ControllerLearning extends AnchorPane implements Initializable {
     public ControllerLearning() {
-        FXMLLoader goLog = new FXMLLoader(getClass().getResource("../../resources/Learning.fxml"));
+        FXMLLoader goLog = new FXMLLoader(getClass().getResource("/Learning.fxml"));
         goLog.setRoot(this);
         goLog.setController(this);
         try {
