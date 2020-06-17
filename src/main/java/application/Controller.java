@@ -7,6 +7,8 @@ import java.util.ResourceBundle;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -31,14 +33,15 @@ public class Controller extends Main implements Initializable {
 	private VBox visualBox, loginBox;
 	@FXML
 	private AnchorPane outer;
-
+	double x,y;
 	Gson g = new GsonBuilder()
 			.setPrettyPrinting()
 			.create();
 	Crypt c;
 
 	public void initialize(URL arg0, ResourceBundle arg1) {
-
+		primarStage.xProperty().addListener((observable, oldValue, newValue) -> x = newValue.doubleValue());
+		primarStage.yProperty().addListener((observable, oldValue, newValue) -> y = newValue.doubleValue());
 
 		//Enryption key with mac adress
 		String mac = "DiddiKong"; //Default, if no mac adress
@@ -176,7 +179,7 @@ public class Controller extends Main implements Initializable {
 									file.write(s);
 									file.close();
 
-									changeScene("LoginBox.fxml", 900, 520, true, true);
+									changeScene("LoginBox.fxml", 900, 520, true, false, x, y);
 								} catch (Exception e) {
 									e.printStackTrace();
 								}

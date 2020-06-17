@@ -34,10 +34,12 @@ public class ControllerLogin extends Main implements Initializable {
 	AnchorPane navBox;
 	@FXML
 	HBox userInfo;
-	private Button selected;
-
+	double x,y;
 
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		primarStage.xProperty().addListener((observable, oldValue, newValue) -> x = newValue.doubleValue());
+		primarStage.yProperty().addListener((observable, oldValue, newValue) -> y = newValue.doubleValue());
+
 		//SetDefaultmainContent
 		ControllerVocList VocListCont = new ControllerVocList();
 		mainContent.setCenter(VocListCont);
@@ -113,6 +115,6 @@ public class ControllerLogin extends Main implements Initializable {
 		FileWriter file = new FileWriter("src/main/resources/logInfo.json");
 										file.write(s);
 										file.close();
-		changeScene("FXLogin.fxml", 850,520, false, true);
+		changeScene("FXLogin.fxml", 850,520, false, false, x, y);
 	}
 }

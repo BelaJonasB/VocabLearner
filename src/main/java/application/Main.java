@@ -12,6 +12,8 @@ import javafx.scene.Scene;
 public class Main extends Application {
 	public static Stage primarStage;
 
+
+
 	public void start(Stage primaryStage) throws Exception {
 		//First Window
 		Parent root;
@@ -32,13 +34,16 @@ public class Main extends Application {
 		launch(args);
 	}
 
-	public void changeScene(String fxml, int w, int h, boolean resize, boolean centerScreen) throws Exception {
+	public void changeScene(String fxml, int w, int h, boolean resize, boolean centerScreen, double x, double y) throws Exception {
 		 Parent loader = FXMLLoader.load(getClass().getResource("/"+fxml));
 		 primarStage.hide();
 		 if(centerScreen) {
 			 Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
 			 primarStage.setX((screenBounds.getWidth() - w)/2);
 			 primarStage.setY((screenBounds.getHeight() - h)/2);
+		 } else {
+		 	primarStage.setX(x);
+		 	primarStage.setY(y);
 		 }
 		 primarStage.setScene(new Scene(loader, w, h));
 		 primarStage.setTitle("Vocabulary");
