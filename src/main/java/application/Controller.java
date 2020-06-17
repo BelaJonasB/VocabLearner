@@ -11,6 +11,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,15 +24,22 @@ public class Controller extends Main implements Initializable {
 	@FXML
 	private Button reg,login;
 	@FXML
-	private Label warning,wrongLogin;
+	private Label wrongLogin;
 	@FXML
 	private CheckBox remember;
+	@FXML
+	private VBox visualBox, loginBox;
+	@FXML
+	private AnchorPane outer;
+
 	Gson g = new GsonBuilder()
 			.setPrettyPrinting()
 			.create();
 	Crypt c;
 
 	public void initialize(URL arg0, ResourceBundle arg1) {
+
+
 		//Enryption key with mac adress
 		String mac = "DiddiKong"; //Default, if no mac adress
 		try {
@@ -41,9 +51,11 @@ public class Controller extends Main implements Initializable {
 		c = new Crypt(mac);
 
 		//default enabling
+		AnchorPane.setLeftAnchor(visualBox, 0.0);
+		AnchorPane.setRightAnchor(loginBox, 0.0);
+		loginBox.prefHeightProperty().bind(outer.heightProperty());
 		login.disableProperty().bind(mail.textProperty().isEmpty());
 		reg.disableProperty().bind(mail.textProperty().isEmpty());
-		warning.setVisible(false);
 		wrongLogin.setVisible(false);
 
 		//set the Remembered values
@@ -67,7 +79,7 @@ public class Controller extends Main implements Initializable {
 		mail.textProperty().addListener((observable, oldValue, newValue) -> {
 			if(newValue.contains("@")) {
 				//Warning and Button
-				warning.setVisible(false);
+				wrongLogin.setVisible(false);
 				login.disableProperty().bind(pw.textProperty().isEmpty());
 				reg.disableProperty().bind(pw.textProperty().isEmpty());
 
@@ -87,7 +99,8 @@ public class Controller extends Main implements Initializable {
 				login.setDisable(true);
 				reg.setDisable(true);
 				//show warning
-				warning.setVisible(true);
+				wrongLogin.setText("Not a valid Email");
+				wrongLogin.setVisible(true);
 			};
 		});
 	}

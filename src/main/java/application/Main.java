@@ -19,7 +19,7 @@ public class Main extends Application {
 
 		root = FXMLLoader.load(getClass().getResource("/FXLogin.fxml"));
 		primarStage.setResizable(false);
-		primarStage.setScene(new Scene(root, 350, 470));
+		primarStage.setScene(new Scene(root, 850, 520));
 		primarStage.setTitle("Vocabulary");
 		primarStage.centerOnScreen();
 		primarStage.getIcons().add(new Image(getClass().getResourceAsStream("/logo-512.png")));

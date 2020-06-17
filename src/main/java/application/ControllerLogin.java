@@ -34,6 +34,7 @@ public class ControllerLogin extends Main implements Initializable {
 	AnchorPane navBox;
 	@FXML
 	HBox userInfo;
+	private Button selected;
 
 
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -59,7 +60,7 @@ public class ControllerLogin extends Main implements Initializable {
 				.create();
 		try {
 			User u = g.fromJson(new FileReader("src/main/resources/logInfo.json"), User.class);
-			loginAs.setText(u.getEmail());
+			loginAs.setText(Variables.getMail());
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -74,9 +75,9 @@ public class ControllerLogin extends Main implements Initializable {
 	public void feedbackButton(Button b) {
 		b.hoverProperty().addListener((observableValue, oldV, newV) -> {
 			if (newV) {
-				b.setStyle("-fx-background-color: #ffd500");
+				b.setStyle("-fx-background-color: #ffdc00");
 			} else if(oldV) {
-				b.setStyle("-fx-background-color: #ffdd00");
+				b.setStyle("-fx-background-color: #ffe600");
 			}
 		});
 	}
@@ -112,6 +113,6 @@ public class ControllerLogin extends Main implements Initializable {
 		FileWriter file = new FileWriter("src/main/resources/logInfo.json");
 										file.write(s);
 										file.close();
-		changeScene("FXLogin.fxml", 350,470, false, true);
+		changeScene("FXLogin.fxml", 850,520, false, true);
 	}
 }

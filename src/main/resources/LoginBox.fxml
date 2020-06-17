@@ -25,7 +25,7 @@
 	<VBox>
 		<HBox styleClass="userInfo" fx:id="userInfo">
 			<Label fx:id="loginAs" styleClass="logged"/>
-			<Button onAction="#logout" styleClass="b" text="Log out"/>
+			<Button onAction="#logout" styleClass="bLogout" text="Log out"/>
 		</HBox>
 		<VBox styleClass="mainContentFrame" fx:id="mainContentFrame">
 			<BorderPane styleClass="mainContent" fx:id="mainContent">
