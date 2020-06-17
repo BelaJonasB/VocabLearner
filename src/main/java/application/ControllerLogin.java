@@ -1,7 +1,5 @@
 package application;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -51,22 +49,13 @@ public class ControllerLogin extends Main implements Initializable {
 		shadow.setFitHeight(10);
 		shadow.setPreserveRatio(false);
 		userInfo.prefWidthProperty().bind(primarStage.widthProperty());
-		mainContentFrame.prefHeightProperty().bind(primarStage.heightProperty().subtract(130));
+		mainContentFrame.prefHeightProperty().bind(primarStage.heightProperty().subtract(125));
 		mainContent.prefHeightProperty().bind(mainContentFrame.heightProperty());
 		navBox.prefHeightProperty().bind(primarStage.heightProperty());
 		AnchorPane.setTopAnchor(navBar, 0.0);
 
 		//User Info for User
-		Gson g = new GsonBuilder()
-				.setPrettyPrinting()
-				.create();
-		try {
-			User u = g.fromJson(new FileReader("src/main/resources/logInfo.json"), User.class);
-			loginAs.setText(Variables.getMail());
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-
+		loginAs.setText(Variables.getMail());
 
 		//Button feedback:
 		feedbackButton(vocab);

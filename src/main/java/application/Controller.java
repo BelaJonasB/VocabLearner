@@ -7,15 +7,12 @@ import java.util.ResourceBundle;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -104,7 +101,7 @@ public class Controller extends Main implements Initializable {
 				//show warning
 				wrongLogin.setText("Not a valid Email");
 				wrongLogin.setVisible(true);
-			};
+			}
 		});
 	}
 	public void login() {
@@ -179,7 +176,7 @@ public class Controller extends Main implements Initializable {
 									file.write(s);
 									file.close();
 
-									changeScene("LoginBox.fxml", 900, 520, true, false, x, y);
+									changeScene("LoginBox.fxml", 850, 520, true, false, x, y);
 								} catch (Exception e) {
 									e.printStackTrace();
 								}
