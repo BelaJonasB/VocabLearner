@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -21,11 +22,11 @@ public class ControllerLogin extends Main implements Initializable {
 	@FXML
 	private Label loginAs;
 	@FXML
-	private Button vocab, learn, goals;
+	private Button vocab, learn, goals, logout;
 	@FXML
-	ImageView logo,shadow;
+	ImageView logo;
 	@FXML
-	VBox shadowBox, navBar, mainContentFrame;
+	VBox navBar, mainContentFrame;
 	@FXML
 	BorderPane mainContent;
 	@FXML
@@ -37,6 +38,7 @@ public class ControllerLogin extends Main implements Initializable {
 	String colorVoc = "-fx-background-color: #ffec00 ; -fx-border-width: 0 0 0 5; -fx-border-color: white",colorGoals = "-fx-background-color: #ffe600",colorLearn = "-fx-background-color: #ffe600";
 
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		logout.setTooltip(new Tooltip("Logout"));
 		primarStage.xProperty().addListener((observable, oldValue, newValue) -> x = newValue.doubleValue());
 		primarStage.yProperty().addListener((observable, oldValue, newValue) -> y = newValue.doubleValue());
 

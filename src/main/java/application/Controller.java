@@ -7,8 +7,7 @@ import java.util.ResourceBundle;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -130,7 +129,7 @@ public class Controller extends Main implements Initializable {
 		Variables.setPw(pw.textProperty().get());
 
 		//loading animation
-		ControllerLoading load = new ControllerLoading();
+		ControllerMainScene load = new ControllerMainScene();
 		mainLogCont.setCenter(load);
 
 		OkHttpClient o = new OkHttpClient();
@@ -147,7 +146,7 @@ public class Controller extends Main implements Initializable {
 		Variables.setPw(pw.textProperty().get());
 
 		//loading animation
-		ControllerLoading load = new ControllerLoading();
+		ControllerMainScene load = new ControllerMainScene();
 		mainLogCont.setCenter(load);
 
 		//User data to Object
@@ -205,7 +204,7 @@ public class Controller extends Main implements Initializable {
 										FileWriter file = new FileWriter("src/main/resources/logInfo.json");
 										file.write(s);
 										file.close();
-										changeScene("MainScene.fxml", 850, 520, true, false, x, y);
+										changeScene("MainScene.fxml", 1080, 620, true, false, x, y);
 									} catch (Exception e) {
 										e.printStackTrace();
 									}

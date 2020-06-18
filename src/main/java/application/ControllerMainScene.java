@@ -12,15 +12,13 @@ import javafx.util.Duration;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ControllerLoading extends AnchorPane implements Initializable {
+public class ControllerMainScene extends AnchorPane implements Initializable {
     @FXML
-    private AnchorPane loading;
+    HBox circles;
     @FXML
-    private HBox circles;
-    @FXML
-    private Circle circle1,circle2,circle3;
+    Circle circle1,circle2,circle3;
 
-    public ControllerLoading() {
+    public ControllerMainScene() {
         FXMLLoader loading = new FXMLLoader(getClass().getResource("/loading.fxml"));
         loading.setRoot(this);
         loading.setController(this);

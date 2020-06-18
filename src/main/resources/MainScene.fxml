@@ -14,8 +14,8 @@
 			<VBox styleClass="imageBox">
 				<ImageView styleClass="logo" fx:id="logo"/>
 			</VBox>
-
-			<Button fx:id="vocab" styleClass="buttons-nav" onAction="#gotoVocList" text="Vocabulary"/>
+			<Button fx:id="vocab" styleClass="buttons-nav" onAction="#gotoVocList" text="Vocabulary">
+			</Button>
 			<Button fx:id="learn" styleClass="buttons-nav" onAction="#gotoLearn" text="Learn"/>
 			<Button fx:id="goals" styleClass="buttons-nav" onAction="#gotoGoals" text="Goals"/>
 		</VBox>
@@ -23,7 +23,7 @@
 	<VBox>
 		<HBox styleClass="userInfo" fx:id="userInfo">
 			<Label fx:id="loginAs" styleClass="logged"/>
-			<Button onAction="#logout" styleClass="bLogout" text="Log out"/>
+			<Button onAction="#logout" fx:id="logout" styleClass="bLogout"/>
 		</HBox>
 		<VBox styleClass="mainContentFrame" fx:id="mainContentFrame">
 			<BorderPane styleClass="mainContent" fx:id="mainContent">
