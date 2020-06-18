@@ -7,11 +7,14 @@ import java.util.ResourceBundle;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
@@ -30,15 +33,20 @@ public class Controller extends Main implements Initializable {
 	private VBox visualBox, loginBox;
 	@FXML
 	private AnchorPane outer;
-	double x,y;
+	@FXML
+	private BorderPane mainLogCont;
+
+	double x = primarStage.getX(), y = primarStage.getY();
 	Gson g = new GsonBuilder()
 			.setPrettyPrinting()
 			.create();
 	Crypt c;
 
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		//Position saving for other scenes
 		primarStage.xProperty().addListener((observable, oldValue, newValue) -> x = newValue.doubleValue());
 		primarStage.yProperty().addListener((observable, oldValue, newValue) -> y = newValue.doubleValue());
+
 
 		//Enryption key with mac adress
 		String mac = "DiddiKong"; //Default, if no mac adress
@@ -52,7 +60,7 @@ public class Controller extends Main implements Initializable {
 
 		//default enabling
 		AnchorPane.setLeftAnchor(visualBox, 0.0);
-		AnchorPane.setRightAnchor(loginBox, 0.0);
+		AnchorPane.setRightAnchor(mainLogCont, 0.0);
 		loginBox.prefHeightProperty().bind(outer.heightProperty());
 		login.disableProperty().bind(mail.textProperty().isEmpty());
 		reg.disableProperty().bind(mail.textProperty().isEmpty());
@@ -103,10 +111,27 @@ public class Controller extends Main implements Initializable {
 				wrongLogin.setVisible(true);
 			}
 		});
+
+		//Hover on Buttons
+		buttonFeedback(login);
+		buttonFeedback(reg);
+	}
+	public void buttonFeedback(Button b) {
+		b.hoverProperty().addListener((observable, oldValue, newValue) -> {
+			if(newValue) {
+				b.setStyle("-fx-font-size: 14; -fx-padding: 4 0 4 0");
+			} else {
+				b.setStyle("");
+			}
+		});
 	}
 	public void login() {
 		Variables.setMail(mail.textProperty().get());
 		Variables.setPw(pw.textProperty().get());
+
+		//loading animation
+		ControllerLoading load = new ControllerLoading();
+		mainLogCont.setCenter(load);
 
 		OkHttpClient o = new OkHttpClient();
 		Request req = new Request.Builder()
@@ -117,9 +142,13 @@ public class Controller extends Main implements Initializable {
 		call(o, req, "Wrong eMail and/or password");
 
 	}
-	public void register() {
+	public void register(){
 		Variables.setMail(mail.textProperty().get());
 		Variables.setPw(pw.textProperty().get());
+
+		//loading animation
+		ControllerLoading load = new ControllerLoading();
+		mainLogCont.setCenter(load);
 
 		//User data to Object
 		User u = new User(mail.textProperty().get(), pw.textProperty().get());
@@ -142,6 +171,7 @@ public class Controller extends Main implements Initializable {
 	}
 
 	private void call(OkHttpClient o, Request req, String warn) {
+
 		o.newCall(req).enqueue(new Callback() {
 			@Override
 			public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -154,38 +184,38 @@ public class Controller extends Main implements Initializable {
 			@Override
 			public void onResponse(@NotNull Call call, @NotNull Response response) {
 				System.out.println(response.code());
-				Platform.runLater(() -> {
-							if(response.code()==200) {
-								try {
-									//Object form User if remember is selected, else delete user
-									String s;
+					Platform.runLater(() -> {
+						if(response.code()==200) {
+									try {
+										//Object form User if remember is selected, else delete user
+										String s;
 
-									if(remember.selectedProperty().get()) {
-										//encrypt PW
-										String encryptetPW = c.encrypt(pw.textProperty().get());
+										if(remember.selectedProperty().get()) {
+											//encrypt PW
+											String encryptetPW = c.encrypt(pw.textProperty().get());
 
-										User u = new User(mail.textProperty().get(), encryptetPW);
-										s = g.toJson(u);
-									} else {
-										User u = new User("", "");
-										s = g.toJson(u);
+											User u = new User(mail.textProperty().get(), encryptetPW);
+											s = g.toJson(u);
+										} else {
+											User u = new User("", "");
+											s = g.toJson(u);
+										}
+
+										//login Info To JSon
+										FileWriter file = new FileWriter("src/main/resources/logInfo.json");
+										file.write(s);
+										file.close();
+										changeScene("MainScene.fxml", 850, 520, true, false, x, y);
+									} catch (Exception e) {
+										e.printStackTrace();
 									}
-
-									//login Info To JSon
-									FileWriter file = new FileWriter("src/main/resources/logInfo.json");
-									file.write(s);
-									file.close();
-
-									changeScene("LoginBox.fxml", 850, 520, true, false, x, y);
-								} catch (Exception e) {
-									e.printStackTrace();
+								} else {
+									mainLogCont.setCenter(loginBox);
+									wrongLogin.setText(warn);
+									wrongLogin.setVisible(true);
 								}
-							} else {
-								wrongLogin.setText(warn);
-								wrongLogin.setVisible(true);
 							}
-						}
-				);
+					);
 			}
 		});
 	}

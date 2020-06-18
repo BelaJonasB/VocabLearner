@@ -32,8 +32,9 @@ public class ControllerLogin extends Main implements Initializable {
 	AnchorPane navBox;
 	@FXML
 	HBox userInfo;
-	double x,y;
-	String colorVoc = "-fx-background-color: #ffdc00",colorGoals = "-fx-background-color: #ffe600",colorLearn = "-fx-background-color: #ffe600";
+	double x = primarStage.getX(), y = primarStage.getY();
+	//Standard values for buttons
+	String colorVoc = "-fx-background-color: #ffec00 ; -fx-border-width: 0 0 0 5; -fx-border-color: white",colorGoals = "-fx-background-color: #ffe600",colorLearn = "-fx-background-color: #ffe600";
 
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		primarStage.xProperty().addListener((observable, oldValue, newValue) -> x = newValue.doubleValue());
@@ -46,9 +47,6 @@ public class ControllerLogin extends Main implements Initializable {
 		//Sizes of Elements:
 		logo.setFitWidth(120);
 		logo.setPreserveRatio(true);
-		shadow.setFitWidth(160);
-		shadow.setFitHeight(10);
-		shadow.setPreserveRatio(false);
 		userInfo.prefWidthProperty().bind(primarStage.widthProperty());
 		mainContentFrame.prefHeightProperty().bind(primarStage.heightProperty().subtract(125));
 		mainContent.prefHeightProperty().bind(mainContentFrame.heightProperty());
@@ -88,10 +86,10 @@ public class ControllerLogin extends Main implements Initializable {
 	public void gotoVocList() {
 		ControllerVocList VocListCont = new ControllerVocList();
 		mainContent.setCenter(VocListCont);
-		vocab.setStyle("-fx-background-color: #ffdc00");
-		goals.setStyle("-fx-background-color: #ffe600");
-		learn.setStyle("-fx-background-color: #ffe600");
-		colorVoc = "-fx-background-color: #ffdc00";
+		vocab.setStyle("-fx-background-color: #ffec00; -fx-border-width: 0 0 0 5; -fx-border-color: white");
+		goals.setStyle("-fx-background-color: #ffe600; -fx-border-width: 0 0 0 0");
+		learn.setStyle("-fx-background-color: #ffe600; -fx-border-width: 0 0 0 0");
+		colorVoc = "-fx-background-color: #ffec00; -fx-border-width: 0 0 0 5; -fx-border-color: white";
 		colorGoals = "-fx-background-color: #ffe600";
 		colorLearn = "-fx-background-color: #ffe600";
 	}
@@ -100,23 +98,23 @@ public class ControllerLogin extends Main implements Initializable {
 	public void gotoLearn() {
 		ControllerLearning learnCont = new ControllerLearning();
 		mainContent.setCenter(learnCont);
-		learn.setStyle("-fx-background-color: #ffdc00");
-		vocab.setStyle("-fx-background-color: #ffe600");
-		goals.setStyle("-fx-background-color: #ffe600");
+		learn.setStyle("-fx-background-color: #ffec00; -fx-border-width: 0 0 0 5; -fx-border-color: white");
+		vocab.setStyle("-fx-background-color: #ffe600; -fx-border-width: 0 0 0 0");
+		goals.setStyle("-fx-background-color: #ffe600; -fx-border-width: 0 0 0 0");
 		colorVoc = "-fx-background-color: #ffe600";
 		colorGoals = "-fx-background-color: #ffe600";
-		colorLearn = "-fx-background-color: #ffdc00";
+		colorLearn = "-fx-background-color: #ffec00; -fx-border-width: 0 0 0 5; -fx-border-color: white";
 	}
 
 	//Switch to Goals (what to learn)
 	public void gotoGoals() {
 		ControllerGoals goalsCont = new ControllerGoals();
 		mainContent.setCenter(goalsCont);
-		goals.setStyle("-fx-background-color: #ffdc00");
-		vocab.setStyle("-fx-background-color: #ffe600");
-		learn.setStyle("-fx-background-color: #ffe600");
+		goals.setStyle("-fx-background-color: #ffec00; -fx-border-width: 0 0 0 5; -fx-border-color: white");
+		vocab.setStyle("-fx-background-color: #ffe600; -fx-border-width: 0 0 0 0");
+		learn.setStyle("-fx-background-color: #ffe600; -fx-border-width: 0 0 0 0");
 		colorVoc = "-fx-background-color: #ffe600";
-		colorGoals = "-fx-background-color: #ffdc00";
+		colorGoals = "-fx-background-color: #ffec00; -fx-border-width: 0 0 0 5; -fx-border-color: white";
 		colorLearn = "-fx-background-color: #ffe600";
 	}
 

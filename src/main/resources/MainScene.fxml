@@ -14,9 +14,7 @@
 			<VBox styleClass="imageBox">
 				<ImageView styleClass="logo" fx:id="logo"/>
 			</VBox>
-			<VBox styleClass="shadowBox" fx:id="shadowBox">
-				<ImageView styleClass="shadow" fx:id="shadow"/>
-			</VBox>
+
 			<Button fx:id="vocab" styleClass="buttons-nav" onAction="#gotoVocList" text="Vocabulary"/>
 			<Button fx:id="learn" styleClass="buttons-nav" onAction="#gotoLearn" text="Learn"/>
 			<Button fx:id="goals" styleClass="buttons-nav" onAction="#gotoGoals" text="Goals"/>

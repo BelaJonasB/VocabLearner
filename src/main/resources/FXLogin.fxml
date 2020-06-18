@@ -10,37 +10,42 @@
 
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
 <AnchorPane styleClass="outer" fx:id="outer" stylesheets="@application.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="application.Controller">
 	<VBox fx:id="visualBox">
 		<ImageView styleClass="visualBox"/>
 	</VBox>
-	<VBox styleClass="loginBox" fx:id="loginBox">
-		<HBox styleClass="field">
-			<VBox>
-				<Label prefHeight="20.0" prefWidth="61.0" styleClass="userDataField" text="E-Mail:" />
-				<TextField fx:id="mail" styleClass="logins" />
-			</VBox>
-		</HBox>
-		<HBox styleClass="field">
-			<VBox>
-				<Label styleClass="userDataField" text="Password:" />
-				<PasswordField fx:id="pw" styleClass="logins" />
+	<BorderPane fx:id="mainLogCont">
+		<center>
+		<VBox styleClass="loginBox" fx:id="loginBox">
+			<HBox styleClass="field">
+				<VBox>
+					<Label prefHeight="20.0" prefWidth="61.0" styleClass="userDataField" text="E-Mail:" />
+					<TextField fx:id="mail" styleClass="logins" />
+				</VBox>
+			</HBox>
+			<HBox styleClass="field">
+				<VBox>
+					<Label styleClass="userDataField" text="Password:" />
+					<PasswordField fx:id="pw" styleClass="logins" />
 
+				</VBox>
+			</HBox>
+			<VBox styleClass="buttons">
+				<CheckBox fx:id="remember" styleClass="remember" text="Remember me" />
+				<VBox styleClass="logReg">
+					<Button fx:id="login" onAction="#login" styleClass="b" text="Login" />
+					<Button fx:id="reg" onAction="#register" styleClass="b" text="Register" />
+					<Label fx:id="wrongLogin" styleClass="warning" />
+				</VBox>
 			</VBox>
-		</HBox>
-		<VBox styleClass="buttons">
-			<CheckBox fx:id="remember" styleClass="remember" text="Remember me" />
-			<VBox styleClass="logReg">
-				<Button fx:id="login" onAction="#login" styleClass="b" text="Login" />
-				<Button fx:id="reg" onAction="#register" styleClass="b" text="Register" />
-				<Label fx:id="wrongLogin" styleClass="warning" />
-			</VBox>
+
+			<HBox>
+				<VBox styleClass="serverField">
+					<TextField fx:id="serverAdress" text="https://api.voc5.org/"/>
+				</VBox>
+			</HBox>
 		</VBox>
-
-		<HBox>
-			<VBox styleClass="serverField">
-				<TextField fx:id="serverAdress" text="https://api.voc5.org/"/>
-			</VBox>
-		</HBox>
-	</VBox>
+		</center>
+	</BorderPane>
 </AnchorPane>
