@@ -33,6 +33,7 @@ public class ControllerLogin extends Main implements Initializable {
 	@FXML
 	HBox userInfo;
 	double x,y;
+	String colorVoc = "-fx-background-color: #ffdc00",colorGoals = "-fx-background-color: #ffe600",colorLearn = "-fx-background-color: #ffe600";
 
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		primarStage.xProperty().addListener((observable, oldValue, newValue) -> x = newValue.doubleValue());
@@ -58,37 +59,65 @@ public class ControllerLogin extends Main implements Initializable {
 		loginAs.setText(Variables.getMail());
 
 		//Button feedback:
-		feedbackButton(vocab);
-		feedbackButton(learn);
-		feedbackButton(goals);
-
-	}
-	public void feedbackButton(Button b) {
-		b.hoverProperty().addListener((observableValue, oldV, newV) -> {
+		vocab.setStyle(colorVoc);
+		vocab.hoverProperty().addListener((observableValue, oldV, newV) -> {
 			if (newV) {
-				b.setStyle("-fx-background-color: #ffdc00");
+				vocab.setStyle("-fx-font-size: 17;"+colorVoc);
 			} else if(oldV) {
-				b.setStyle("-fx-background-color: #ffe600");
+				vocab.setStyle("-fx-font-size: 15;"+colorVoc);
 			}
 		});
+		learn.hoverProperty().addListener((observableValue, oldV, newV) -> {
+			if (newV) {
+				learn.setStyle("-fx-font-size: 17;"+colorLearn);
+			} else if(oldV) {
+				learn.setStyle("-fx-font-size: 15;"+colorLearn);
+			}
+		});
+		goals.hoverProperty().addListener((observableValue, oldV, newV) -> {
+			if (newV) {
+				goals.setStyle("-fx-font-size: 17;"+colorGoals);
+			} else if(oldV) {
+				goals.setStyle("-fx-font-size: 15;"+colorGoals);
+			}
+		});
+
 	}
 
 	//Switch to VocList
 	public void gotoVocList() {
 		ControllerVocList VocListCont = new ControllerVocList();
 		mainContent.setCenter(VocListCont);
+		vocab.setStyle("-fx-background-color: #ffdc00");
+		goals.setStyle("-fx-background-color: #ffe600");
+		learn.setStyle("-fx-background-color: #ffe600");
+		colorVoc = "-fx-background-color: #ffdc00";
+		colorGoals = "-fx-background-color: #ffe600";
+		colorLearn = "-fx-background-color: #ffe600";
 	}
 
 	//Switch to Learning
 	public void gotoLearn() {
 		ControllerLearning learnCont = new ControllerLearning();
 		mainContent.setCenter(learnCont);
+		learn.setStyle("-fx-background-color: #ffdc00");
+		vocab.setStyle("-fx-background-color: #ffe600");
+		goals.setStyle("-fx-background-color: #ffe600");
+		colorVoc = "-fx-background-color: #ffe600";
+		colorGoals = "-fx-background-color: #ffe600";
+		colorLearn = "-fx-background-color: #ffdc00";
 	}
 
 	//Switch to Goals (what to learn)
 	public void gotoGoals() {
 		ControllerGoals goalsCont = new ControllerGoals();
 		mainContent.setCenter(goalsCont);
+		goals.setStyle("-fx-background-color: #ffdc00");
+		vocab.setStyle("-fx-background-color: #ffe600");
+		learn.setStyle("-fx-background-color: #ffe600");
+		colorVoc = "-fx-background-color: #ffe600";
+		colorGoals = "-fx-background-color: #ffdc00";
+		colorLearn = "-fx-background-color: #ffe600";
 	}
 
 	public void logout() throws Exception {
