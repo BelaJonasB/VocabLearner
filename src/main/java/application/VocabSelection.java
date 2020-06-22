@@ -31,6 +31,16 @@ public class VocabSelection extends Vocab {
         this.selectVocab = new CheckBox();
     }
 
+    public VocabSelection(int id, String answer, String question, String language, int phase, boolean checkedState){
+        this.id = id;
+        this.answer = answer;
+        this.question = question;
+        this.language = language;
+        this.phase = phase;
+        this.selectVocab = new CheckBox();
+        this.getSelectVocab().setSelected(checkedState);
+    }
+
     public CheckBox getSelectVocab(){
         return selectVocab;
     }

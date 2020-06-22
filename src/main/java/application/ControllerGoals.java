@@ -20,6 +20,9 @@ import java.util.ResourceBundle;
  */
 public class ControllerGoals extends AnchorPane implements Initializable {
 
+    static final String ALLLANGLABLE = "All";
+    private ObservableList<VocabSelection> shownVocabList; // local copy of the vocab from database
+
     @FXML
     private Label title;
     @FXML
@@ -28,8 +31,10 @@ public class ControllerGoals extends AnchorPane implements Initializable {
     private Button returnButton;
     @FXML
     private TableView<VocabSelection> vocabTableView;
+    @FXML
+    private ComboBox languageFilterComboBox;
 
-    ObservableList<VocabSelection> list;
+
 
     public ControllerGoals() {
         FXMLLoader goGoals = new FXMLLoader(getClass().getResource("/Goals.fxml"));
@@ -53,12 +58,7 @@ public class ControllerGoals extends AnchorPane implements Initializable {
 
         vocabTableView.getColumns().addAll(answerColumn, questionColumn, langColumn, phaseColumn, selectCol);
 
-        // dummy List for testing
-        list = FXCollections.observableArrayList(
-                new VocabSelection(1, "test answer", "quest", "ger", 5)
-        );
-
-        // TODO pull from Server
+        getData();
 
         answerColumn.setCellValueFactory(new PropertyValueFactory<VocabSelection, String>("answer"));
         questionColumn.setCellValueFactory(new PropertyValueFactory<VocabSelection, String>("question"));
@@ -66,24 +66,81 @@ public class ControllerGoals extends AnchorPane implements Initializable {
         phaseColumn.setCellValueFactory(new PropertyValueFactory<VocabSelection, Integer>("phase"));
         selectCol.setCellValueFactory(new PropertyValueFactory<VocabSelection, CheckBox>("selectVocab"));
 
-        vocabTableView.setItems(list);
+        vocabTableView.setItems(shownVocabList);
 
+        List<String> s = new ArrayList<String>();
+        s.add(ALLLANGLABLE);
+        s.addAll(searchLanguages(shownVocabList));
+        languageFilterComboBox.setItems(FXCollections.observableList(s));
     }
 
     public void startLearning(){
         System.out.println("Start Learning pressed!");
         List vocabToLearn = new ArrayList<Vocab>();
-        for(VocabSelection v : list){
+        for(VocabSelection v : shownVocabList){
             if(v.getSelectVocab().isSelected()){
                 vocabToLearn.add(v);
-                System.out.println("Selected: ID #" + v.getId());
+                System.out.println(v);
             }
         }
-        // call Learning Frame with vocabToLearn
+        // TODO call Learning Frame with vocabToLearn
     }
 
     public void returnToMainMenu(){
         System.out.println("returnToMainMenu pressed!");
+        // TODO implement
     }
 
+    public void selectAllButtonClicked(){
+        for(VocabSelection v : shownVocabList){
+            v.getSelectVocab().setSelected(true);
+        }
+    }
+
+    public void languageSelected(){
+        String s = languageFilterComboBox.getSelectionModel().getSelectedItem().toString();
+        filterVocabListByLang(s);
+        vocabTableView.setItems(shownVocabList);
+    }
+
+    /**
+     * inits the displayed vocab
+     */
+    private void getData(){
+        // TODO pull from database
+
+        // dummy List for testing
+        shownVocabList = FXCollections.observableArrayList(
+                new VocabSelection(1, "test answer", "quest", "ger", 5, true),
+                new VocabSelection(1, "test answer1", "quest1", "ger", 3, true),
+                new VocabSelection(1, "test anzwort", "quest", "eng", 4, true),
+                new VocabSelection(1, "wort1", "frage", "eng", 1, true),
+                new VocabSelection(1, "unnecessary", ";", "python", 2, true)
+        );
+    }
+
+    /**
+     * @returns the unique languages in the list as String
+     */
+    private List<String> searchLanguages(ObservableList<VocabSelection> list) {
+        List<String> s = new ArrayList<String>();
+        for(Vocab v : list){
+            if(!(s.contains(v.getLanguage()))) s.add(v.getLanguage());
+        }
+        return s;
+    }
+
+    /**
+     * filters shown vocab list to entries with the defined String.
+     */
+    private void filterVocabListByLang(String lang){
+        getData();
+        if(lang.equals(ALLLANGLABLE)) return;   // "all" selected, show all available vocab
+        ObservableList<VocabSelection> tmp = FXCollections.observableArrayList();
+        for(VocabSelection vocab : shownVocabList){
+            if(vocab.getLanguage().equals(lang)) tmp.add(vocab);
+        }
+        this.shownVocabList = tmp;
+        return;
+    }
 }
