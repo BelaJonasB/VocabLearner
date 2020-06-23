@@ -2,13 +2,15 @@ package application;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import okhttp3.*;
 
-import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.Objects;
 
 
@@ -16,15 +18,42 @@ public class APICalls{
     private String user, pw, server;
     final OkHttpClient o = new OkHttpClient();
 
-    public String getUser() {
-        return user;
+
+    //Contructor for when not instantiated in login screen
+    public APICalls() {
+
+        //Enryption key with mac adress
+        String mac = "DiddiKong"; //Default, if no mac adress
+        try {
+            NetworkInterface net = NetworkInterface.getByInetAddress(InetAddress.getLocalHost());
+            mac = new String(net.getHardwareAddress());
+        } catch (SocketException | UnknownHostException e) {
+            System.out.println("No Mac-Address found");
+        }
+        Crypt c = new Crypt(mac);
+        Gson g = new Gson();
+
+        //set Variables for Requests
+        try {
+            User u = g.fromJson(new FileReader("src/main/resources/logInfo.json"), User.class);
+            this.user = u.getEmail();
+            this.pw = c.decrypt(u.getPassword());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        this.server = Variables.getServer();
+    }
+
+    //Constructor for when instantiated by login window
+    public APICalls(String userIn, String pwIn, String serverIn) {
+        this.user = userIn;
+        this.pw = pwIn;
+        this.server = serverIn;
+        Variables.setServer(serverIn);
     }
 
 
-    public Response login(String userIn, String pwIn, String serverIn) throws IOException {
-        user = userIn;
-        pw = pwIn;
-        server = serverIn;
+    public Response login() throws IOException {
 
         Request req = new Request.Builder()
                 .header("email", user)
@@ -36,10 +65,7 @@ public class APICalls{
 
     }
 
-    public Response register(String userIn, String pwIn, String serverIn) throws IOException {
-        user = userIn;
-        pw = pwIn;
-        server = serverIn;
+    public Response register() throws IOException {
 
         //User data to Object
         User u = new User(user, pw);

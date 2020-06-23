@@ -37,7 +37,6 @@ public class Controller extends Main implements Initializable {
 			.setPrettyPrinting()
 			.create();
 	Crypt c;
-	APICalls resp = new APICalls();
 
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		//Position saving for other scenes
@@ -137,8 +136,9 @@ public class Controller extends Main implements Initializable {
 
 
 		Thread t = new Thread(() -> {
+			APICalls resp = new APICalls(mail.textProperty().get(), pw.textProperty().get(), serverAdress.textProperty().get());
 			try {
-				Response regResp = resp.login(mail.textProperty().get(), pw.textProperty().get(), serverAdress.textProperty().get());
+				Response regResp = resp.login();
 				Platform.runLater(() -> logReg(regResp, "Wrong eMail and/or password"));
 				//resp.postToVoc(new Vocab("Fungus", "Fuchs", "ENG"));
 				resp.getUsersVocab();
@@ -165,8 +165,9 @@ public class Controller extends Main implements Initializable {
 
 
 		Thread t = new Thread(() -> {
+			APICalls resp = new APICalls(mail.textProperty().get(), pw.textProperty().get(), serverAdress.textProperty().get());
 			try {
-				Response regResp = resp.register(mail.textProperty().get(), pw.textProperty().get(), serverAdress.textProperty().get());
+				Response regResp = resp.register();
 				Platform.runLater(() -> logReg(regResp, "eMail already registered"));
 				resp.getUsersVocab();
 			} catch (UnknownHostException h) {

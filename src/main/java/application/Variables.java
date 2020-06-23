@@ -2,9 +2,15 @@ package application;
 
 
 public class Variables {
-	private static String mail;
+	private static String mail, server;
 	private static Vocab[]  usersVocab;
 
+	public static String getServer() {
+		return server;
+	}
+	public static void setServer(String server) {
+		Variables.server = server;
+	}
 
 	public static Vocab[] getUsersVocab() {
 		return usersVocab;
