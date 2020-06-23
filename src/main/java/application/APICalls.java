@@ -1,8 +1,14 @@
 package application;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import okhttp3.*;
+
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Objects;
 
 
@@ -13,6 +19,7 @@ public class APICalls{
     public String getUser() {
         return user;
     }
+
 
     public Response login(String userIn, String pwIn, String serverIn) throws IOException {
         user = userIn;
@@ -26,6 +33,7 @@ public class APICalls{
                 .build();
 
         return call(o, req);
+
     }
 
     public Response register(String userIn, String pwIn, String serverIn) throws IOException {
@@ -43,7 +51,6 @@ public class APICalls{
         final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
         //Call
-        OkHttpClient o = new OkHttpClient();
         RequestBody regBody = RequestBody.create(s, JSON);
         Request req = new Request.Builder()
                 .post(regBody)
@@ -52,12 +59,58 @@ public class APICalls{
         return call(o, req);
     }
 
+    //Get the existing Vocab of the User and set it as a Variable in Variables
+    public void getUsersVocab() throws IOException {
+        Request req = new Request.Builder()
+                .header("email", user)
+                .header("password", pw)
+                .url(server+"voc")
+                .build();
+        Response re = call(o, req);
+        Gson g = new Gson();
+
+        Vocab[] wholeVocab = g.fromJson(Objects.requireNonNull(re.body()).string(), Vocab[].class);
+        for(Vocab v : wholeVocab) {
+            System.out.println(v.toString());
+        }
+        Variables.setUsersVocab(wholeVocab);
+        Objects.requireNonNull(re.body()).close();
+    }
+
+
+    //Create new Entry in Vocabulary
+    public void postToVoc(Vocab vocab) throws IOException {
+
+        Gson g = new GsonBuilder()
+                .excludeFieldsWithoutExposeAnnotation()
+                .create();
+
+        //User data to Object
+        String s = g.toJson(vocab);
+        System.out.println(s);
+
+        //For Media Type in request body
+        final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+
+        //Build and call
+        RequestBody regBody = RequestBody.create(s, JSON);
+        Request req = new Request.Builder()
+                .header("email", user)
+                .header("password", pw)
+                .url(server+"voc")
+                .post(regBody)
+                .build();
+        call(o, req);
+
+        //Update the Vocab List in Variables (with id and phase)
+        getUsersVocab();
+    }
+
     //Call to API
     private Response call(OkHttpClient o, Request req) throws IOException {
         Call call = o.newCall(req);
         Response resp;
         resp = call.execute();
-        Objects.requireNonNull(resp.body()).close();
         return resp;
 
     }

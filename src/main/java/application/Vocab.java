@@ -1,5 +1,7 @@
 package application;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,8 +12,11 @@ import java.util.List;
 public class Vocab {
 
     int id;
+    @Expose
     String answer;
+    @Expose
     String question;
+    @Expose
     String language;
     int phase;
 
@@ -37,6 +42,11 @@ public class Vocab {
         this.question = question;
         this.language = language;
         this.phase = phase;
+    }
+    public Vocab(String answer, String question, String language){
+        this.answer = answer;
+        this.question = question;
+        this.language = language;
     }
 
     public int getId() {

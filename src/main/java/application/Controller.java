@@ -140,6 +140,9 @@ public class Controller extends Main implements Initializable {
 			try {
 				Response regResp = resp.login(mail.textProperty().get(), pw.textProperty().get(), serverAdress.textProperty().get());
 				Platform.runLater(() -> logReg(regResp, "Wrong eMail and/or password"));
+				//resp.postToVoc(new Vocab("Fungus", "Fuchs", "ENG"));
+				resp.getUsersVocab();
+
 			} catch (UnknownHostException|IllegalArgumentException i) {
 				Platform.runLater(() -> {
 					mainLogCont.setCenter(loginBox);
@@ -165,6 +168,7 @@ public class Controller extends Main implements Initializable {
 			try {
 				Response regResp = resp.register(mail.textProperty().get(), pw.textProperty().get(), serverAdress.textProperty().get());
 				Platform.runLater(() -> logReg(regResp, "eMail already registered"));
+				resp.getUsersVocab();
 			} catch (UnknownHostException h) {
 				Platform.runLater(() -> {
 					mainLogCont.setCenter(loginBox);
@@ -182,7 +186,6 @@ public class Controller extends Main implements Initializable {
 	private void logReg(Response regResp, String warn) {
 		if(regResp.code()==200) {
 			try {
-				System.out.println(regResp);
 				//Object form User if remember is selected, else delete user
 				String s;
 
