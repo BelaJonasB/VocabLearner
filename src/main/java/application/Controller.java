@@ -3,17 +3,11 @@ package application;
 import java.io.*;
 import java.net.*;
 import java.util.ResourceBundle;
-import java.util.concurrent.CountDownLatch;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
@@ -136,7 +130,6 @@ public class Controller extends Main implements Initializable {
 
 	public void login() {
 		Variables.setMail(mail.textProperty().get());
-		Variables.setPw(pw.textProperty().get());
 
 		//loading animation
 		ControllerLoading load = new ControllerLoading();
@@ -162,7 +155,6 @@ public class Controller extends Main implements Initializable {
 
 	public void register() {
 		Variables.setMail(mail.textProperty().get());
-		Variables.setPw(pw.textProperty().get());
 
 		//loading animation
 		ControllerLoading load = new ControllerLoading();
