@@ -1,5 +1,6 @@
 package application;
 
+
 public class Variables {
 	private static String mail,pw;
 	private static boolean remember;
