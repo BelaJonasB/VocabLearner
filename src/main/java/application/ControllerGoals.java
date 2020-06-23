@@ -42,6 +42,7 @@ public class ControllerGoals extends AnchorPane implements Initializable {
         }
     }
 
+    @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         TableColumn answerColumn = new TableColumn("answer");

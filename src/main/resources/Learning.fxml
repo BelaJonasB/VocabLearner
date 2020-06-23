@@ -1,11 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
 
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.TextField?>
 <fx:root xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" prefHeight="400.0" prefWidth="600.0" styleClass="mainLearn" stylesheets="@application.css" type="AnchorPane">
-    <Label text="Learning"/>
+
+    <HBox layoutY="353.0" spacing="15">
+        <Button fx:id="solveButton" mnemonicParsing="false" onAction="#solveVocable" prefHeight="25.0" prefWidth="258.0" text="Solve"/>
+        <Button fx:id="nextButton" mnemonicParsing="false" onAction="#nextVocable" prefHeight="25.0" prefWidth="258.0" text="Next"/>
+    </HBox>
+
+    <HBox spacing="15">
+        <VBox spacing="10">
+            <Label fx:id="Vocable" styleClass="logins" text="Vocable" />
+            <TextField disable="true" fx:id="selectedVocable" styleClass="logins"/>
+        </VBox>
+        <VBox spacing="10">
+            <Label fx:id="Translation" styleClass="logins" text="Translation?" />
+            <TextField editable="true" fx:id="userTranslation" styleClass="logins"/>
+
+        </VBox>
+        <VBox spacing="10">
+            <Label fx:id="Answer" styleClass="logins" text="Answer" />
+            <TextField disable="true" fx:id="vocTranslation" styleClass="logins"/>
+        </VBox>
+    </HBox>
+
 </fx:root>
