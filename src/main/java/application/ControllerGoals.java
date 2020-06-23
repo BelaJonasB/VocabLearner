@@ -11,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -33,8 +34,6 @@ public class ControllerGoals extends AnchorPane implements Initializable {
     private TableView<VocabSelection> vocabTableView;
     @FXML
     private ComboBox languageFilterComboBox;
-
-
 
     public ControllerGoals() {
         FXMLLoader goGoals = new FXMLLoader(getClass().getResource("/Goals.fxml"));
@@ -75,33 +74,43 @@ public class ControllerGoals extends AnchorPane implements Initializable {
         languageFilterComboBox.setItems(FXCollections.observableList(s));
     }
 
-    public void startLearning(){
+    public void startLearningPressed(){
         System.out.println("Start Learning pressed!");
-        List vocabToLearn = new ArrayList<Vocab>();
-        for(VocabSelection v : shownVocabList){
-            if(v.getSelectVocab().isSelected()){
-                vocabToLearn.add(v);
-                System.out.println(v);
-            }
-        }
-        // TODO call Learning Frame with vocabToLearn
+        List vocabToLearn = getSelectedVocab();
+        ControllerLearning.startLearning(vocabToLearn);
     }
 
-    public void returnToMainMenu(){
-        System.out.println("returnToMainMenu pressed!");
-        // TODO implement
-    }
-
-    public void selectAllButtonClicked(){
-        for(VocabSelection v : shownVocabList){
-            v.getSelectVocab().setSelected(true);
-        }
+    public void startLearningRandomPressed(){
+        System.out.println("Start Learning random order pressed!");
+        List vocabToLearn = getSelectedVocab();
+        Collections.shuffle(vocabToLearn);
+        ControllerLearning.startLearning(vocabToLearn);
     }
 
     public void languageSelected(){
         String s = languageFilterComboBox.getSelectionModel().getSelectedItem().toString();
         filterVocabListByLang(s);
         vocabTableView.setItems(shownVocabList);
+    }
+
+    /**
+     * @return list of selected Vocab
+     */
+    private List<Vocab> getSelectedVocab(){
+        List<Vocab> list = new ArrayList<Vocab>();
+        for(VocabSelection v : shownVocabList){
+            if(v.getSelectVocab().isSelected()){
+                list.add(v);
+                System.out.println(v);
+            }
+        }
+        return list;
+    }
+
+    public void selectAllButtonClicked(){
+        for(VocabSelection v : shownVocabList){
+            v.getSelectVocab().setSelected(true);
+        }
     }
 
     /**
