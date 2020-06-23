@@ -14,6 +14,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -70,4 +71,13 @@ public class ControllerLearning extends AnchorPane implements Initializable {
 
 
     }
+
+    /**
+     * Method to start Learning. Called when "start Learning" in Goal Scene is pressed. Starts Learning Scene
+     * @param vocabToLearn list of Vocabs selected in screen in randomized order if wanted.
+     */
+    public static void startLearning(List<Vocab> vocabToLearn) {
+        // TODO implement
+    }
+
 }

@@ -96,4 +96,9 @@ public class Vocab {
     public static List<Vocab> parseVocabListFromGson(String gson){
         return new ArrayList<Vocab>();
     }
+
+    public String toString(){
+        return ("ID# " + this.id + ": " + this.question + " : " + this.answer + " in " + this.language +
+                ", phase " + this.phase);
+    }
 }
