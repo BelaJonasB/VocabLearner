@@ -14,12 +14,13 @@ public class VocabSelection extends Vocab {
     public VocabSelection(){
     }
 
-    public VocabSelection(Vocab v, boolean selectVocab){
+    public VocabSelection(Vocab v, boolean checkedState){
         super.answer = v.answer;
         super.id = v.id;
         super.language = v.language;
         super.phase = v.phase;
         super.question = v.question;
+        this.getSelectVocab().setSelected(checkedState);
     }
 
     public VocabSelection(int id, String answer, String question, String language, int phase){
@@ -41,10 +42,17 @@ public class VocabSelection extends Vocab {
         this.getSelectVocab().setSelected(checkedState);
     }
 
+    /**
+     * @return state of checkbox (true = checked)
+     */
     public CheckBox getSelectVocab(){
         return selectVocab;
     }
 
+    /**
+     * Allows to check the checkbox of the object
+     * @param selectVocab checkbox is set if true
+     */
     public void setSelectVocab(CheckBox selectVocab) {
         this.selectVocab = selectVocab;
     }

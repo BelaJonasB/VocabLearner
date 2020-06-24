@@ -21,8 +21,8 @@ import java.util.ResourceBundle;
  */
 public class ControllerGoals extends AnchorPane implements Initializable {
 
-    static final String ALLLANGLABLE = "All";
-    private ObservableList<VocabSelection> shownVocabList; // local copy of the vocab from database
+    static final String ALLLANGLABLE = "All";   // label shown in dropdown-menu to select vocab from all languages
+    private ObservableList<VocabSelection> shownVocabList; // local copy of the vocab from database with checkbox
 
     @FXML
     private Label title;
@@ -74,12 +74,18 @@ public class ControllerGoals extends AnchorPane implements Initializable {
         languageFilterComboBox.setItems(FXCollections.observableList(s));
     }
 
+    /**
+     * Starts loads learning scene and starts learning with the selected Vocab in order
+     */
     public void startLearningPressed(){
         System.out.println("Start Learning pressed!");
         List vocabToLearn = getSelectedVocab();
         ControllerLearning.startLearning(vocabToLearn);
     }
 
+    /**
+     * Starts loads learning scene and starts learning with the selected Vocab in random order
+     */
     public void startLearningRandomPressed(){
         System.out.println("Start Learning random order pressed!");
         List vocabToLearn = getSelectedVocab();
@@ -87,10 +93,22 @@ public class ControllerGoals extends AnchorPane implements Initializable {
         ControllerLearning.startLearning(vocabToLearn);
     }
 
+    /**
+     * updates the screen after vocabs are filtered by languages (or all)
+     */
     public void languageSelected(){
         String s = languageFilterComboBox.getSelectionModel().getSelectedItem().toString();
         filterVocabListByLang(s);
         vocabTableView.setItems(shownVocabList);
+    }
+
+    /**
+     * enables the user to select all vocabs
+     */
+    public void selectAllButtonClicked(){
+        for(VocabSelection v : shownVocabList){
+            v.getSelectVocab().setSelected(true);
+        }
     }
 
     /**
@@ -107,26 +125,28 @@ public class ControllerGoals extends AnchorPane implements Initializable {
         return list;
     }
 
-    public void selectAllButtonClicked(){
-        for(VocabSelection v : shownVocabList){
-            v.getSelectVocab().setSelected(true);
-        }
-    }
-
     /**
-     * inits the displayed vocab
+     * Access pulled list of vocab from the API and inits the list of shown vocabs.
+     * Only shows Vocab of phase 1-4
      */
     private void getData(){
-        // TODO pull from database
 
-        // dummy List for testing
-        shownVocabList = FXCollections.observableArrayList(
-                new VocabSelection(1, "test answer", "quest", "ger", 5, true),
-                new VocabSelection(1, "test answer1", "quest1", "ger", 3, true),
-                new VocabSelection(1, "test anzwort", "quest", "eng", 4, true),
-                new VocabSelection(1, "wort1", "frage", "eng", 1, true),
-                new VocabSelection(1, "unnecessary", ";", "python", 2, true)
-        );
+        ArrayList<VocabSelection> tmp = new ArrayList<>();
+        for(Vocab v : Variables.getUsersVocab()){
+            if(v.getPhase() < 5){
+                tmp.add(new VocabSelection(v, true));
+            }
+        }
+        shownVocabList = FXCollections.observableList(tmp);
+//
+//        // dummy List for testing
+//        shownVocabList = FXCollections.observableArrayList(
+//                new VocabSelection(1, "test answer", "quest", "ger", 5, true),
+//                new VocabSelection(1, "test answer1", "quest1", "ger", 3, true),
+//                new VocabSelection(1, "test anzwort", "quest", "eng", 4, true),
+//                new VocabSelection(1, "wort1", "frage", "eng", 1, true),
+//                new VocabSelection(1, "unnecessary", ";", "python", 2, true)
+//        );
     }
 
     /**
@@ -141,7 +161,7 @@ public class ControllerGoals extends AnchorPane implements Initializable {
     }
 
     /**
-     * filters shown vocab list to entries with the defined String.
+     * filters shown vocab list to entries with the defined Language as String
      */
     private void filterVocabListByLang(String lang){
         getData();
