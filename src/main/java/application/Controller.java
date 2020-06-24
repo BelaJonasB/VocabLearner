@@ -3,11 +3,9 @@ package application;
 import java.io.*;
 import java.net.*;
 import java.util.ResourceBundle;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import javafx.application.Platform;
-
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -15,8 +13,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import okhttp3.*;
-import org.jetbrains.annotations.NotNull;
+import okhttp3.Response;
 
 public class Controller extends Main implements Initializable {
 	public PasswordField pw;
@@ -67,20 +64,20 @@ public class Controller extends Main implements Initializable {
 
 		//set the Remembered values
 		try {
-			//User u = g.fromJson(new FileReader(getClass().getResource("/logInfo.json").getFile()), User.class);
 			User u = g.fromJson(new FileReader("src/main/resources/logInfo.json"), User.class);
 			//accesses the file in the resources not root dir
-			if(!(u.getEmail().isEmpty()||u.getPassword().isEmpty())) {
+			if (!(u.getEmail().isEmpty() || u.getPassword().isEmpty())) {
 				mail.setText(u.getEmail());
 				pw.setText(c.decrypt(u.getPassword()));
-				if(!u.getEmail().equals("")) {
+				if (!u.getEmail().equals("")) {
 					remember.setSelected(true);
 				}
 				login();
 			}
-		} catch (FileNotFoundException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 
 		//Listener for Mail
 		mail.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -114,6 +111,8 @@ public class Controller extends Main implements Initializable {
 		//Hover on Buttons
 		buttonFeedback(login);
 		buttonFeedback(reg);
+
+
 	}
 	public void buttonFeedback(Button b) {
 		b.hoverProperty().addListener((observable, oldValue, newValue) -> {
@@ -124,99 +123,98 @@ public class Controller extends Main implements Initializable {
 			}
 		});
 	}
+
+
+	//Login and register by using the Methods from APICalls:
+
 	public void login() {
 		Variables.setMail(mail.textProperty().get());
-		Variables.setPw(pw.textProperty().get());
 
 		//loading animation
-		ControllerMainScene load = new ControllerMainScene();
+		ControllerLoading load = new ControllerLoading();
 		mainLogCont.setCenter(load);
 
-		OkHttpClient o = new OkHttpClient();
-		Request req = new Request.Builder()
-				.header("email", mail.textProperty().get())
-				.header("password", pw.textProperty().get())
-				.url(serverAdress.textProperty().get()+"login")
-				.build();
-		call(o, req, "Wrong eMail and/or password");
 
-	}
-	public void register(){
-		Variables.setMail(mail.textProperty().get());
-		Variables.setPw(pw.textProperty().get());
+		Thread t = new Thread(() -> {
+			APICalls resp = new APICalls(mail.textProperty().get(), pw.textProperty().get(), serverAdress.textProperty().get());
+			try {
+				Response regResp = resp.login();
+				Platform.runLater(() -> logReg(regResp, "Wrong eMail and/or password"));
+				//resp.postToVoc(new Vocab("Fungus", "Fuchs", "ENG"));
+				resp.getUsersVocab();
 
-		//loading animation
-		ControllerMainScene load = new ControllerMainScene();
-		mainLogCont.setCenter(load);
-
-		//User data to Object
-		User u = new User(mail.textProperty().get(), pw.textProperty().get());
-		Gson g = new Gson();
-		String s = g.toJson(u);
-		System.out.println(s);
-
-		//For Media Type in request body
-		final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-
-		//Call
-		OkHttpClient o = new OkHttpClient();
-		RequestBody regBody = RequestBody.create(s, JSON);
-		Request req = new Request.Builder()
-				.post(regBody)
-				.url(serverAdress.textProperty().get()+"register")
-				.build();
-		call(o, req, "User already registered");
-
-	}
-
-	private void call(OkHttpClient o, Request req, String warn) {
-
-		o.newCall(req).enqueue(new Callback() {
-			@Override
-			public void onFailure(@NotNull Call call, @NotNull IOException e) {
+			} catch (UnknownHostException|IllegalArgumentException i) {
 				Platform.runLater(() -> {
+					mainLogCont.setCenter(loginBox);
 					wrongLogin.setText("Server error!");
-					wrongLogin.setVisible(true);}
-				);
-			}
-
-			@Override
-			public void onResponse(@NotNull Call call, @NotNull Response response) {
-				System.out.println(response.code());
-					Platform.runLater(() -> {
-						if(response.code()==200) {
-									try {
-										//Object form User if remember is selected, else delete user
-										String s;
-
-										if(remember.selectedProperty().get()) {
-											//encrypt PW
-											String encryptetPW = c.encrypt(pw.textProperty().get());
-
-											User u = new User(mail.textProperty().get(), encryptetPW);
-											s = g.toJson(u);
-										} else {
-											User u = new User("", "");
-											s = g.toJson(u);
-										}
-
-										//login Info To JSon
-										FileWriter file = new FileWriter("src/main/resources/logInfo.json");
-										file.write(s);
-										file.close();
-										changeScene("MainScene.fxml", 1080, 620, true, false, x, y);
-									} catch (Exception e) {
-										e.printStackTrace();
-									}
-								} else {
-									mainLogCont.setCenter(loginBox);
-									wrongLogin.setText(warn);
-									wrongLogin.setVisible(true);
-								}
-							}
-					);
+					wrongLogin.setVisible(true);
+				});
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		});
+		t.start();
+	}
+
+	public void register() {
+		Variables.setMail(mail.textProperty().get());
+
+		//loading animation
+		ControllerLoading load = new ControllerLoading();
+		mainLogCont.setCenter(load);
+
+
+		Thread t = new Thread(() -> {
+			APICalls resp = new APICalls(mail.textProperty().get(), pw.textProperty().get(), serverAdress.textProperty().get());
+			try {
+				Response regResp = resp.register();
+				Platform.runLater(() -> logReg(regResp, "eMail already registered"));
+				resp.getUsersVocab();
+			} catch (UnknownHostException h) {
+				Platform.runLater(() -> {
+					mainLogCont.setCenter(loginBox);
+					wrongLogin.setText("Server error!");
+					wrongLogin.setVisible(true);
+				});
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
+		t.start();
+	}
+
+	//what to do with Response code:
+	private void logReg(Response regResp, String warn) {
+		if(regResp.code()==200) {
+			try {
+				//Object form User if remember is selected, else delete user
+				String s;
+
+				if(remember.selectedProperty().get()) {
+					//encrypt PW
+					String encryptetPW = c.encrypt(pw.textProperty().get());
+
+					User u = new User(mail.textProperty().get(), encryptetPW);
+					s = g.toJson(u);
+				} else {
+					User u = new User("", "");
+					s = g.toJson(u);
+				}
+
+				//login Info To JSon
+				FileWriter file = new FileWriter("src/main/resources/logInfo.json");
+				file.write(s);
+				file.close();
+				changeScene("MainScene.fxml", 1080, 620, true, false, x, y);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+			mainLogCont.setCenter(loginBox);
+			wrongLogin.setText(warn);
+			wrongLogin.setVisible(true);
+		}
+
 	}
 
 

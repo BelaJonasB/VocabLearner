@@ -1,15 +1,22 @@
 package application;
 
-public class Variables {
-	private static String mail,pw;
-	private static boolean remember;
 
-	public static boolean isRemember() {
-		return remember;
+public class Variables {
+	private static String mail, server;
+	private static Vocab[]  usersVocab;
+
+	public static String getServer() {
+		return server;
+	}
+	public static void setServer(String server) {
+		Variables.server = server;
 	}
 
-	public static void setRemember(boolean remember) {
-		Variables.remember = remember;
+	public static Vocab[] getUsersVocab() {
+		return usersVocab;
+	}
+	public static void setUsersVocab(Vocab[] usersVocab) {
+		Variables.usersVocab = usersVocab;
 	}
 
 	public static String getMail() {
@@ -20,11 +27,6 @@ public class Variables {
 		Variables.mail = mail;
 	}
 
-	public static String getPw() {
-		return pw;
-	}
 
-	public static void setPw(String pw) {
-		Variables.pw = pw;
-	}
+
 }
