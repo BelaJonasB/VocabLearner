@@ -15,6 +15,7 @@ public class VocabSelection extends Vocab {
     }
 
     public VocabSelection(Vocab v, boolean checkedState){
+        this.selectVocab = new CheckBox();
         super.answer = v.answer;
         super.id = v.id;
         super.language = v.language;
