@@ -10,57 +10,36 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<fx:root prefHeight="400.0" prefWidth="600.0" styleClass="mainVocList" stylesheets="@application.css" type="AnchorPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" >
-   <children>
-      <VBox id="VBoxMain" prefHeight="400.0" prefWidth="606.0">
-         <children>
-            <VBox id="VBoxMenu" prefHeight="105.0" prefWidth="606.0">
-               <children>
-                  <HBox id="HBoxMenuFrame" prefHeight="100.0" prefWidth="200.0">
-                     <children>
-                        <VBox id="VBoxMenuFrameLeft" prefHeight="100.0" prefWidth="426.0">
-                           <children>
-                              <VBox id="VBoxMenuFrameLeft" prefHeight="100.0" prefWidth="458.0">
-                                 <children>
-                                    <TextField id="SearchBarTextField" prefHeight="37.0" prefWidth="393.0" promptText="Suche eingeben" />
-                                    <Separator prefHeight="23.0" prefWidth="426.0" />
-                                    <Button id="FilterButton" mnemonicParsing="false" text="Filter" />
-                                 </children>
-                              </VBox>
-                           </children>
-                        </VBox>
-                        <VBox id="VBoxMenuFrameRight" prefHeight="100.0" prefWidth="174.0">
-                           <children>
-                              <Button id="SearchButton" mnemonicParsing="false" text="Suche" />
-                              <Separator prefHeight="16.0" prefWidth="162.0" />
-                              <ToggleButton id="EditSwitch" mnemonicParsing="false" text="Vokabeln bearbeiten" />
-                           </children>
-                        </VBox>
-                     </children>
-                  </HBox>
-               </children>
+<fx:root prefHeight="400.0" prefWidth="600.0" styleClass="mainVocList" stylesheets="@application.css" type="AnchorPane"
+         xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <VBox fx:id="VBoxMain" prefHeight="400.0" prefWidth="606.0">
+      <VBox fx:id="VBoxMenu" prefHeight="105.0" prefWidth="606.0">
+         <HBox fx:id="HBoxMenuFrame" prefHeight="100.0" prefWidth="200.0">
+            <VBox fx:id="VBoxMenuFrameLeft" prefHeight="100.0" prefWidth="458.0">
+               <TextField fx:id="SearchBarTextField" prefHeight="37.0" prefWidth="393.0"
+                          promptText="Suche eingeben"/>
+               <Separator prefHeight="23.0" prefWidth="426.0"/>
+               <Button fx:id="FilterButton" mnemonicParsing="false" text="Filter"/>
             </VBox>
-            <VBox id="VBoxList" prefHeight="306.0" prefWidth="606.0">
-               <children>
-                  <Separator prefHeight="15.0" prefWidth="606.0" />
-                  <HBox prefHeight="332.0" prefWidth="606.0">
-                     <children>
-                        <HBox prefHeight="313.0" prefWidth="591.0">
-                           <children>
-                              <TableView id="VocTableList" layoutX="14.0" layoutY="75.0" prefHeight="298.0" prefWidth="571.0">
-                              </TableView>
-                           </children>
-                        </HBox>
-                        <HBox prefHeight="235.0" prefWidth="50.0">
-                           <children>
-                              <ScrollBar id="ScrollBar" orientation="VERTICAL" prefHeight="294.0" prefWidth="1.0" />
-                           </children>
-                        </HBox>
-                     </children>
-                  </HBox>
-               </children>
+            <VBox fx:id="VBoxMenuFrameRight" prefHeight="100.0" prefWidth="174.0">
+               <Button fx:id="SearchButton" mnemonicParsing="false" text="Suche"/>
+               <Separator prefHeight="16.0" prefWidth="162.0"/>
+               <ToggleButton fx:id="EditSwitch" mnemonicParsing="false" text="Vokabeln bearbeiten"/>
             </VBox>
-         </children>
+         </HBox>
       </VBox>
-   </children>
+      <VBox fx:id="VBoxList" prefHeight="306.0" prefWidth="606.0">
+         <Separator prefHeight="15.0" prefWidth="606.0"/>
+         <HBox prefHeight="332.0" prefWidth="606.0">
+            <HBox prefHeight="313.0" prefWidth="591.0">
+               <TableView fx:id="VocTableList" layoutX="14.0" layoutY="75.0" prefHeight="298.0"
+                          prefWidth="571.0">
+               </TableView>
+            </HBox>
+            <HBox prefHeight="235.0" prefWidth="50.0">
+               <ScrollBar fx:id="ScrollBar" orientation="VERTICAL" prefHeight="294.0" prefWidth="1.0"/>
+            </HBox>
+         </HBox>
+      </VBox>
+   </VBox>
 </fx:root>
