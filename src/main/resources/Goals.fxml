@@ -14,8 +14,8 @@
       </font></Label>
    <TableView fx:id="vocabTableView" layoutX="14.0" layoutY="75.0" prefHeight="257.0" prefWidth="561.0">
    </TableView>
-   <Button fx:id="startLearningButton" layoutX="14.0" layoutY="353.0" mnemonicParsing="false" onAction="#startLearningPressed" prefHeight="25.0" prefWidth="265.0" text="Start Learning" />
-   <Button fx:id="startLearningRandom" layoutX="302.0" layoutY="353.0" mnemonicParsing="false" onAction="#startLearningRandomPressed" prefHeight="25.0" prefWidth="273.0" text="Start Learning in Random Order" />
-   <Button fx:id="selectAllButton" layoutX="484.0" layoutY="42.0" mnemonicParsing="false" onAction="#selectAllButtonClicked" prefHeight="26.0" prefWidth="91.0" text="Select All" />
+   <Button fx:id="startLearningButton" layoutX="14.0" layoutY="353.0" mnemonicParsing="false" onAction="#startLearningPressed" prefHeight="25.0" prefWidth="265.0" text="Start Learning" styleClass="b"/>
+   <Button fx:id="startLearningRandom" layoutX="302.0" layoutY="353.0" mnemonicParsing="false" onAction="#startLearningRandomPressed" prefHeight="25.0" prefWidth="273.0" text="Start Learning in Random Order" styleClass="b"/>
+   <Button fx:id="selectAllButton" layoutX="484.0" layoutY="42.0" mnemonicParsing="false" onAction="#selectAllButtonClicked" prefHeight="26.0" prefWidth="91.0" text="Select All"/>
    <ComboBox fx:id="languageFilterComboBox" layoutX="14.0" layoutY="42.0" onAction="#languageSelected" prefHeight="25.0" prefWidth="173.0" promptText="Filter Language" />
 </fx:root>

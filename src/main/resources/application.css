@@ -68,6 +68,14 @@
 	-fx-background-radius: 15px;
 	-fx-padding: 5 0 5 0;
 }
+#startLearningButton {
+	-fx-pref-height: 25px;
+	-fx-pref-width: 265;
+}
+#startLearningRandom {
+	-fx-pref-height: 25px;
+	-fx-pref-width: 265;
+}
 
 .loginMain {
 	-fx-padding: 0 0 0 0;
