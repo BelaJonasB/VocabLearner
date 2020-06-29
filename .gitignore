@@ -33,6 +33,7 @@ gradle-app.setting
 
 # Manual entries:
 logInfo.json
+Settings.json
 /.idea/
 misc.xml
 

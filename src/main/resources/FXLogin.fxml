@@ -20,13 +20,13 @@
 		<VBox styleClass="loginBox" fx:id="loginBox">
 			<HBox styleClass="field">
 				<VBox>
-					<Label prefHeight="20.0" prefWidth="61.0" styleClass="userDataField" text="E-Mail:" />
+					<Label fx:id="loginLabel" prefHeight="20.0" prefWidth="61.0" styleClass="userDataField" text="E-Mail:" />
 					<TextField fx:id="mail" styleClass="logins" />
 				</VBox>
 			</HBox>
 			<HBox styleClass="field">
 				<VBox>
-					<Label styleClass="userDataField" text="Password:" />
+					<Label fx:id="pwLabel" styleClass="userDataField" text="Password:" />
 					<PasswordField fx:id="pw" styleClass="logins" />
 
 				</VBox>
@@ -42,7 +42,7 @@
 
 			<HBox>
 				<VBox styleClass="serverField">
-					<TextField fx:id="serverAdress" text="https://api.voc5.org/"/>
+					<TextField fx:id="serverAddress" text="https://api.voc5.org/"/>
 				</VBox>
 			</HBox>
 		</VBox>

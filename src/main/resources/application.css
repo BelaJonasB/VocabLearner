@@ -163,6 +163,16 @@
 #learn {
 	-fx-background-image: url("learnIcon.png");
 }
+.settings {
+	-fx-background-color: #ffe600;
+	-fx-pref-width: 50px;
+	-fx-pref-height: 50px;
+	-fx-cursor: hand;
+	-fx-background-image: url("settingsIcon.png");
+	-fx-background-repeat: no-repeat;
+	-fx-background-size: 35px;
+	-fx-background-position: 20%;
+}
 
 
 /* Title Bar */
@@ -176,7 +186,16 @@
 }
 .logged {
 	-fx-font-weight: bold;
+	-fx-alignment: center-right;
 	-fx-text-fill: #555555;
+}
+.titleBar {
+	-fx-background-color: white;
+}
+.page {
+	-fx-font-weight: bold;
+	-fx-text-fill: #555555;
+	-fx-font-size: 20;
 }
 .bLogout {
 	-fx-background-color: #ffe600;
@@ -215,4 +234,29 @@
 /* Goals */
 .mainGoals {
 	-fx-background-color: white;
+}
+
+/* Settings */
+#apply {
+	-fx-pref-height: 30px;
+	-fx-pref-width: 80px;
+}
+.setts {
+	-fx-spacing: 10px;
+}
+.listSetts {
+	-fx-font-weight: bold;
+	-fx-text-fill: #555555;
+	-fx-font-size: 16;
+}
+.langDD {
+	-fx-background-color: #ffe600;
+}
+.combo-box .cell:selected {
+	-fx-text-fill: #555555;
+	-fx-font-weight: bold;
+}
+.combo-box .list-view .list-cell {
+	-fx-background-color: #ffe600;
+	-fx-text-fill: #555555;
 }

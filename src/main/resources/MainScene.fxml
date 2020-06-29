@@ -19,12 +19,16 @@
 			<Button fx:id="learn" styleClass="buttons-nav" onAction="#gotoLearn" text="Learn"/>
 			<Button fx:id="goals" styleClass="buttons-nav" onAction="#gotoGoals" text="Goals"/>
 		</VBox>
+		<Button fx:id="settings" styleClass="settings" onAction="#openSettings"/>
 	</AnchorPane>
-	<VBox>
-		<HBox styleClass="userInfo" fx:id="userInfo">
-			<Label fx:id="loginAs" styleClass="logged"/>
-			<Button onAction="#logout" fx:id="logout" styleClass="bLogout"/>
-		</HBox>
+	<VBox AnchorPane.rightAnchor="10.0">
+		<AnchorPane fx:id="userInfo" styleClass="titleBar">
+			<Label fx:id="page" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="25.0" AnchorPane.bottomAnchor="25" styleClass="page"/>
+			<HBox styleClass="userInfo" AnchorPane.rightAnchor="10.0">
+				<Label fx:id="loginAs" styleClass="logged"/>
+				<Button onAction="#logout" fx:id="logout" styleClass="bLogout"/>
+			</HBox>
+		</AnchorPane>
 		<VBox styleClass="mainContentFrame" fx:id="mainContentFrame">
 			<BorderPane styleClass="mainContent" fx:id="mainContent">
 			</BorderPane>

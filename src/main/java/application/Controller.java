@@ -18,11 +18,11 @@ import okhttp3.Response;
 public class Controller extends Main implements Initializable {
 	public PasswordField pw;
 	@FXML
-	private TextField mail,serverAdress;
+	private TextField mail, serverAddress;
 	@FXML
 	private Button reg,login;
 	@FXML
-	private Label wrongLogin;
+	private Label wrongLogin, pwLabel;
 	@FXML
 	private CheckBox remember;
 	@FXML
@@ -31,14 +31,19 @@ public class Controller extends Main implements Initializable {
 	private AnchorPane outer;
 	@FXML
 	private BorderPane mainLogCont;
+	private String wrongLogText, serverText, validMail, wrongRegText;
 
 	double x = primarStage.getX(), y = primarStage.getY();
 	Gson g = new GsonBuilder()
 			.setPrettyPrinting()
 			.create();
 	Crypt c;
+	APICalls resp;
 
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		LocalizationManager.Init();
+		setLang();
+
 		//Position saving for other scenes
 		primarStage.xProperty().addListener((observable, oldValue, newValue) -> x = newValue.doubleValue());
 		primarStage.yProperty().addListener((observable, oldValue, newValue) -> y = newValue.doubleValue());
@@ -103,7 +108,7 @@ public class Controller extends Main implements Initializable {
 				login.setDisable(true);
 				reg.setDisable(true);
 				//show warning
-				wrongLogin.setText("Not a valid Email");
+				wrongLogin.setText(validMail);
 				wrongLogin.setVisible(true);
 			}
 		});
@@ -111,8 +116,6 @@ public class Controller extends Main implements Initializable {
 		//Hover on Buttons
 		buttonFeedback(login);
 		buttonFeedback(reg);
-
-
 	}
 	public void buttonFeedback(Button b) {
 		b.hoverProperty().addListener((observable, oldValue, newValue) -> {
@@ -124,11 +127,24 @@ public class Controller extends Main implements Initializable {
 		});
 	}
 
+	//Set Strings to language
+	public void setLang() {
+		reg.setText(LocalizationManager.get("reg"));
+		login.setText(LocalizationManager.get("login"));
+		wrongLogText = LocalizationManager.get("wrongLogText");
+		wrongRegText = LocalizationManager.get("wrongRegText");
+		serverText = LocalizationManager.get("serverText");
+		validMail = LocalizationManager.get("validMail");
+		remember.setText(LocalizationManager.get("remember"));
+		pwLabel.setText(LocalizationManager.get("pwLabel"));
+	}
+
 
 	//Login and register by using the Methods from APICalls:
 
 	public void login() {
 		Variables.setMail(mail.textProperty().get());
+		resp = new APICalls(mail.textProperty().get(), pw.textProperty().get(), serverAddress.textProperty().get());
 
 		//loading animation
 		ControllerLoading load = new ControllerLoading();
@@ -136,17 +152,15 @@ public class Controller extends Main implements Initializable {
 
 
 		Thread t = new Thread(() -> {
-			APICalls resp = new APICalls(mail.textProperty().get(), pw.textProperty().get(), serverAdress.textProperty().get());
 			try {
 				Response regResp = resp.login();
-				Platform.runLater(() -> logReg(regResp, "Wrong eMail and/or password"));
+				Platform.runLater(() -> logReg(regResp, wrongLogText));
 				//resp.postToVoc(new Vocab("Fungus", "Fuchs", "ENG"));
-				resp.getUsersVocab();
 
 			} catch (UnknownHostException|IllegalArgumentException i) {
 				Platform.runLater(() -> {
 					mainLogCont.setCenter(loginBox);
-					wrongLogin.setText("Server error!");
+					wrongLogin.setText(serverText);
 					wrongLogin.setVisible(true);
 				});
 			} catch (Exception e) {
@@ -158,6 +172,7 @@ public class Controller extends Main implements Initializable {
 
 	public void register() {
 		Variables.setMail(mail.textProperty().get());
+		resp = new APICalls(mail.textProperty().get(), pw.textProperty().get(), serverAddress.textProperty().get());
 
 		//loading animation
 		ControllerLoading load = new ControllerLoading();
@@ -165,15 +180,13 @@ public class Controller extends Main implements Initializable {
 
 
 		Thread t = new Thread(() -> {
-			APICalls resp = new APICalls(mail.textProperty().get(), pw.textProperty().get(), serverAdress.textProperty().get());
 			try {
 				Response regResp = resp.register();
-				Platform.runLater(() -> logReg(regResp, "eMail already registered"));
-				resp.getUsersVocab();
+				Platform.runLater(() -> logReg(regResp, wrongRegText));
 			} catch (UnknownHostException h) {
 				Platform.runLater(() -> {
 					mainLogCont.setCenter(loginBox);
-					wrongLogin.setText("Server error!");
+					wrongLogin.setText(serverText);
 					wrongLogin.setVisible(true);
 				});
 			} catch (Exception e) {
@@ -187,6 +200,7 @@ public class Controller extends Main implements Initializable {
 	private void logReg(Response regResp, String warn) {
 		if(regResp.code()==200) {
 			try {
+				resp.getUsersVocab();
 				//Object form User if remember is selected, else delete user
 				String s;
 

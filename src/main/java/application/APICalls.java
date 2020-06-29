@@ -96,9 +96,6 @@ public class APICalls{
         Gson g = new Gson();
 
         Vocab[] wholeVocab = g.fromJson(Objects.requireNonNull(re.body()).string(), Vocab[].class);
-        for(Vocab v : wholeVocab) {
-            System.out.println(v.toString());
-        }
         Variables.setUsersVocab(wholeVocab);
         Objects.requireNonNull(re.body()).close();
     }

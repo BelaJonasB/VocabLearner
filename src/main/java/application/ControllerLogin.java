@@ -22,7 +22,7 @@ public class ControllerLogin extends Main implements Initializable {
 	@FXML
 	private Label loginAs;
 	@FXML
-	private Button vocab, learn, goals, logout;
+	Button vocab, learn, goals, logout, settings;
 	@FXML
 	ImageView logo;
 	@FXML
@@ -32,21 +32,33 @@ public class ControllerLogin extends Main implements Initializable {
 	@FXML
 	AnchorPane navBox;
 	@FXML
-	HBox userInfo;
-	double x = primarStage.getX(), y = primarStage.getY();
+	AnchorPane userInfo;
+	@FXML
+	Label page;
+
 	//Standard values for buttons
 	String colorVoc = "-fx-background-color: #ffec00 ; -fx-border-width: 0 0 0 5; -fx-border-color: white",colorGoals = "-fx-background-color: #ffe600",colorLearn = "-fx-background-color: #ffe600";
 
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		//set Language stuff
+		LocalizationManager.Init();
+		setLang();
+
+		//Position
+		Variables.setX(primarStage.getX());
+		Variables.setY(primarStage.getY());
+		primarStage.xProperty().addListener((observable, oldValue, newValue) -> Variables.setX(newValue.doubleValue()));
+		primarStage.yProperty().addListener((observable, oldValue, newValue) -> Variables.setY(newValue.doubleValue()));
+
+		//Tooltips
 		logout.setTooltip(new Tooltip("Logout"));
-		primarStage.xProperty().addListener((observable, oldValue, newValue) -> x = newValue.doubleValue());
-		primarStage.yProperty().addListener((observable, oldValue, newValue) -> y = newValue.doubleValue());
 
 		//SetDefaultmainContent
 		ControllerVocList VocListCont = new ControllerVocList();
 		mainContent.setCenter(VocListCont);
 
-		//Sizes of Elements:
+		//Sizes of Elements and their values/bindings:
+		page.setText(vocab.getText());
 		logo.setFitWidth(120);
 		logo.setPreserveRatio(true);
 		userInfo.prefWidthProperty().bind(primarStage.widthProperty());
@@ -54,6 +66,8 @@ public class ControllerLogin extends Main implements Initializable {
 		mainContent.prefHeightProperty().bind(mainContentFrame.heightProperty());
 		navBox.prefHeightProperty().bind(primarStage.heightProperty());
 		AnchorPane.setTopAnchor(navBar, 0.0);
+		AnchorPane.setBottomAnchor(settings, 10.0);
+		AnchorPane.setLeftAnchor(settings, 10.0);
 
 		//User Info for User
 		loginAs.setText(Variables.getMail());
@@ -83,11 +97,18 @@ public class ControllerLogin extends Main implements Initializable {
 		});
 
 	}
+	//Set Language specific String names
+	public void setLang() {
+		vocab.setText(LocalizationManager.get("vocab"));
+		learn.setText(LocalizationManager.get("learn"));
+		goals.setText(LocalizationManager.get("goals"));
+	}
 
 	//Switch to VocList
 	public void gotoVocList() {
 		ControllerVocList VocListCont = new ControllerVocList();
 		mainContent.setCenter(VocListCont);
+		page.setText(vocab.getText());
 		vocab.setStyle("-fx-background-color: #ffec00; -fx-border-width: 0 0 0 5; -fx-border-color: white");
 		goals.setStyle("-fx-background-color: #ffe600; -fx-border-width: 0 0 0 0");
 		learn.setStyle("-fx-background-color: #ffe600; -fx-border-width: 0 0 0 0");
@@ -100,6 +121,7 @@ public class ControllerLogin extends Main implements Initializable {
 	public void gotoLearn() {
 		ControllerLearning learnCont = new ControllerLearning();
 		mainContent.setCenter(learnCont);
+		page.setText(learn.getText());
 		learn.setStyle("-fx-background-color: #ffec00; -fx-border-width: 0 0 0 5; -fx-border-color: white");
 		vocab.setStyle("-fx-background-color: #ffe600; -fx-border-width: 0 0 0 0");
 		goals.setStyle("-fx-background-color: #ffe600; -fx-border-width: 0 0 0 0");
@@ -112,12 +134,20 @@ public class ControllerLogin extends Main implements Initializable {
 	public void gotoGoals() {
 		ControllerGoals goalsCont = new ControllerGoals();
 		mainContent.setCenter(goalsCont);
+		page.setText(goals.getText());
 		goals.setStyle("-fx-background-color: #ffec00; -fx-border-width: 0 0 0 5; -fx-border-color: white");
 		vocab.setStyle("-fx-background-color: #ffe600; -fx-border-width: 0 0 0 0");
 		learn.setStyle("-fx-background-color: #ffe600; -fx-border-width: 0 0 0 0");
 		colorVoc = "-fx-background-color: #ffe600";
 		colorGoals = "-fx-background-color: #ffec00; -fx-border-width: 0 0 0 5; -fx-border-color: white";
 		colorLearn = "-fx-background-color: #ffe600";
+	}
+
+	//Open Settings
+	public void openSettings(){
+		page.setText(LocalizationManager.get("setting"));
+		ControllerSettings settingsCont = new ControllerSettings();
+		mainContent.setCenter(settingsCont);
 	}
 
 	public void logout() throws Exception {
@@ -133,6 +163,6 @@ public class ControllerLogin extends Main implements Initializable {
 		FileWriter file = new FileWriter("src/main/resources/logInfo.json");
 										file.write(s);
 										file.close();
-		changeScene("FXLogin.fxml", 850,520, false, false, x, y);
+		changeScene("FXLogin.fxml", 850,520, false, false, Variables.getX(), Variables.getY());
 	}
 }
