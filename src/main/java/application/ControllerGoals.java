@@ -35,7 +35,11 @@ public class ControllerGoals extends AnchorPane implements Initializable {
     @FXML
     private ComboBox languageFilterComboBox;
 
-    public ControllerGoals() {
+    private final ControllerLogin controllerLogin;          //Changed to call startLearning
+
+    public ControllerGoals(ControllerLogin controllerLogin) {        //Changed to call startLearning
+        this.controllerLogin = controllerLogin;                              //Changed to call startLearning
+
         FXMLLoader goGoals = new FXMLLoader(getClass().getResource("/Goals.fxml"));
         goGoals.setRoot(this);
         goGoals.setController(this);
@@ -80,7 +84,8 @@ public class ControllerGoals extends AnchorPane implements Initializable {
     public void startLearningPressed(){
         System.out.println("Start Learning pressed!");
         List vocabToLearn = getSelectedVocab();
-        ControllerLearning.startLearning(vocabToLearn);
+
+        controllerLogin.gotoLearn();
     }
 
     /**
@@ -90,7 +95,8 @@ public class ControllerGoals extends AnchorPane implements Initializable {
         System.out.println("Start Learning random order pressed!");
         List vocabToLearn = getSelectedVocab();
         Collections.shuffle(vocabToLearn);
-        ControllerLearning.startLearning(vocabToLearn);
+
+        controllerLogin.gotoLearn();
     }
 
     /**

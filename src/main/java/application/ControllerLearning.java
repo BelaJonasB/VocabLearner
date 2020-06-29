@@ -14,6 +14,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -23,19 +24,25 @@ import java.util.ResourceBundle;
 public class ControllerLearning extends AnchorPane implements Initializable {
 
     @FXML
-    private Button solveButton;
+    private HBox mainLearning, learningButtons, results, resultButtons;
     @FXML
-    private Button nextButton;
+    private Button solveButton, nextButton, returnButton, showAllVocablesButton;
     @FXML
-    private TextField selectedVocable;
-    @FXML
-    private TextField vocTranslation;
+    private TextField selectedVocable, selectedVocableTranslation, userTranslation, userScore, userErrors, userScored, testedVocables, correctVocables, wrongVocables, partCorrectVocables, scoreFinal;
 
+    private Vocab one = new Vocab(1,"Reason","Grund","english",1);//for testing
+    private Vocab two = new Vocab(2,"LikyLiky","MögiMögi","english",1);//for testing
+    private Vocab three = new Vocab(3,"Learning","Lernen","english",1);//for testing
 
-    int i=0;
+    private List<Vocab> list = List.of(one, two, three);
+    private int currentVocIndex = -1;
+    private Vocab currentVocable;
 
-
-    ObservableList<VocabSelection> list;
+    private int score = 0;
+    private int completelyCorrect = 0;
+    private int partlyCorrect = 0;
+    private int completelyWrong = 0;
+    private int testedAmount = 0;
 
     public ControllerLearning()
     {
@@ -51,33 +58,125 @@ public class ControllerLearning extends AnchorPane implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        results.setVisible(false);
+        resultButtons.setVisible(false);
+        userTranslation.textProperty().addListener((observable, oldValue, newValue) -> {
+            solveButton.setDisable(newValue.isEmpty());
+        });
         nextVocable();
     }
 
     public void solveVocable(){
         nextButton.setVisible(true);
-        vocTranslation.setText("transTest"+i);
+        solveButton.setDisable(true);
+        userTranslation.setDisable(true);
+        selectedVocableTranslation.setText((currentVocable.answer));
+        compareAnswer();
     }
 
     public void nextVocable(){
-        i++;
+        currentVocIndex++;
+        if (currentVocIndex == list.size()) {
+            openResults();
+            return;
+        }
+
         nextButton.setVisible(false);
-        selectedVocable.setText("test"+i);
-        vocTranslation.setText(" ");
+        userTranslation.setDisable(false);
+
+        currentVocable = list.get(currentVocIndex);
+        selectedVocable.setText(currentVocable.question);
+        userTranslation.setText("");
+        selectedVocableTranslation.setText(" ");
     }
 
-    public void selectVocable(String setting1 , String setting2){
-        //TODO get list
-
+    public void returnToXYZ(){
 
     }
+
+    public void showAllVocables(){
+
+    }
+
+    public void compareAnswer(){
+        String translation = userTranslation.getText();
+        int scored = 0;
+
+        int errors = calculate(translation,currentVocable.answer);
+
+
+        if(errors == 0) {
+            scored = 3;
+            completelyCorrect++;
+        }
+        if(errors == 1) {
+            scored = 1;
+            partlyCorrect++;
+        }
+        else{
+            completelyWrong++;
+        }
+        testedAmount++;
+
+        score +=  scored;
+
+        userErrors.setText(" " + errors);
+        userScored.setText(" " + scored);
+        userScore.setText(" " + score);
+    }
+
+
+    /**
+     * Algorithmus for Levenshtein distance
+     * @param x
+     * @param y
+     * @return
+     */
+    static int calculate(String x, String y) {
+        if (x.isEmpty()) {
+            return y.length();
+        }
+
+        if (y.isEmpty()) {
+            return x.length();
+        }
+
+        int substitution = calculate(x.substring(1), y.substring(1))
+                + costOfSubstitution(x.charAt(0), y.charAt(0));
+        int insertion = calculate(x, y.substring(1)) + 1;
+        int deletion = calculate(x.substring(1), y) + 1;
+
+        return min(substitution, insertion, deletion);
+    }
+
+    public static int costOfSubstitution(char a, char b) {
+        return a == b ? 0 : 1;
+    }
+
+    public static int min(int... numbers) {
+        return Arrays.stream(numbers)
+                .min().orElse(Integer.MAX_VALUE);
+    }
+
 
     /**
      * Method to start Learning. Called when "start Learning" in Goal Scene is pressed. Starts Learning Scene
      * @param vocabToLearn list of Vocabs selected in screen in randomized order if wanted.
      */
-    public static void startLearning(List<Vocab> vocabToLearn) {
-        // TODO implement
+    public void startLearning(List<Vocab> vocabToLearn) {
+        list = vocabToLearn;
     }
 
+    public void openResults(){
+        mainLearning.setVisible(false);
+        learningButtons.setVisible(false);
+        results.setVisible(true);
+        resultButtons.setVisible(true);
+
+        testedVocables.setText("" + testedAmount);
+        correctVocables.setText("" + completelyCorrect);
+        partCorrectVocables.setText("" + partlyCorrect);
+        wrongVocables.setText("" + completelyWrong);
+        scoreFinal.setText("" + score);
+    }
 }
