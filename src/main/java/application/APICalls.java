@@ -1,5 +1,6 @@
 package application;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import okhttp3.*;
@@ -11,6 +12,8 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -94,9 +97,11 @@ public class APICalls{
                 .build();
         Response re = call(o, req);
         Gson g = new Gson();
+        ObjectMapper o = new ObjectMapper();
 
-        Vocab[] wholeVocab = g.fromJson(Objects.requireNonNull(re.body()).string(), Vocab[].class);
-        Variables.setUsersVocab(wholeVocab);
+        //Vocab[] wholeVocab = g.fromJson(Objects.requireNonNull(re.body()).string(), Vocab[].class);
+        List<Vocab> vocabList = Arrays.asList(o.readValue(Objects.requireNonNull(re.body()).string(), Vocab[].class));
+        Variables.setUsersVocab(vocabList);
         Objects.requireNonNull(re.body()).close();
     }
 

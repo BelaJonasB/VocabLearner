@@ -2,10 +2,8 @@ package application;
 
 import java.io.FileWriter;
 import java.net.URL;
-import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import javafx.fxml.FXML;
@@ -16,7 +14,6 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 
@@ -38,7 +35,6 @@ public class ControllerLogin extends Main implements Initializable {
 	@FXML
 	Label page;
 
-	private ControllerLearning learnCont = new ControllerLearning();
 	//Standard values for buttons
 	String colorVoc = "-fx-background-color: #ffec00 ; -fx-border-width: 0 0 0 5; -fx-border-color: white",colorGoals = "-fx-background-color: #ffe600",colorLearn = "-fx-background-color: #ffe600";
 
@@ -131,16 +127,15 @@ public class ControllerLogin extends Main implements Initializable {
 	 * if you want to get back to the learning Tab via the Selection-Bar	on the left Side.
 	 */
 	public void gotoLearn() {
-		gotoLearn(Collections.emptyList());
+		gotoLearn(Variables.getUsersVocab());
 	}
 
 	/**
 	 * if you want to start learning (via Goals)
 	 */
 	public void gotoLearn(List<Vocab> vocabList) {
-		if (!vocabList.isEmpty())
-			learnCont.startLearning(vocabList);
-
+		Variables.setSelectedVocab(vocabList);
+		ControllerLearning learnCont = new ControllerLearning();
 		mainContent.setCenter(learnCont);
 		page.setText(learn.getText());
 		learn.setStyle("-fx-background-color: #ffec00; -fx-border-width: 0 0 0 5; -fx-border-color: white");

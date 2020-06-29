@@ -93,9 +93,9 @@ public class ControllerGoals extends AnchorPane implements Initializable {
      */
     public void startLearningPressed(){
         System.out.println("Start Learning pressed!");
-        List vocabToLearn = getSelectedVocab();
+        List<Vocab> vocabToLearn = getSelectedVocab();
 
-        controllerLogin.gotoLearn();
+        controllerLogin.gotoLearn(vocabToLearn);
     }
 
     /**
@@ -105,8 +105,7 @@ public class ControllerGoals extends AnchorPane implements Initializable {
         System.out.println("Start Learning random order pressed!");
         List<Vocab> vocabToLearn = getSelectedVocab();
         Collections.shuffle(vocabToLearn);
-
-        controllerLogin.gotoLearn();
+        controllerLogin.gotoLearn(vocabToLearn);
     }
 
     /**

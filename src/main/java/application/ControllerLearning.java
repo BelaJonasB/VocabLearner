@@ -30,11 +30,11 @@ public class ControllerLearning extends AnchorPane implements Initializable {
     @FXML
     private TextField selectedVocable, selectedVocableTranslation, userTranslation, userScore, userErrors, userScored, testedVocables, correctVocables, wrongVocables, partCorrectVocables, scoreFinal;
 
-    private Vocab one = new Vocab(1,"Reason","Grund","english",1);//for testing
-    private Vocab two = new Vocab(2,"LikyLiky","MögiMögi","english",1);//for testing
-    private Vocab three = new Vocab(3,"Learning","Lernen","english",1);//for testing
+    private final Vocab one = new Vocab(1,"Reason","Grund","english",1);//for testing
+    private final Vocab two = new Vocab(2,"LikyLiky","MögiMögi","english",1);//for testing
+    private final Vocab three = new Vocab(3,"Learning","Lernen","english",1);//for testing
 
-    private List<Vocab> list = List.of(one, two, three);
+    private List<Vocab> list;
     private int currentVocIndex = -1;
     private Vocab currentVocable;
 
@@ -58,6 +58,11 @@ public class ControllerLearning extends AnchorPane implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        if(Variables.getSelectedVocab().isEmpty()) {
+            list = List.of(one,two,three);
+        } else {
+            list = Variables.getSelectedVocab();
+        }
         results.setVisible(false);
         resultButtons.setVisible(false);
         userTranslation.textProperty().addListener((observable, oldValue, newValue) -> {
