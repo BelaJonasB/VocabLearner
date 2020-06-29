@@ -2,6 +2,7 @@ package application;
 
 import java.io.*;
 import java.net.*;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -228,7 +229,7 @@ public class Controller extends Main implements Initializable {
 			wrongLogin.setText(warn);
 			wrongLogin.setVisible(true);
 		}
-
+	Objects.requireNonNull(regResp.body()).close();
 	}
 
 

@@ -95,6 +95,13 @@ public class ControllerLogin extends Main implements Initializable {
 				goals.setStyle("-fx-font-size: 15;"+colorGoals);
 			}
 		});
+		settings.hoverProperty().addListener(((observable, oldValue, newValue) -> {
+			if(newValue) {
+				settings.setStyle("-fx-background-size: 40px");
+			} else if(oldValue) {
+				settings.setStyle("-fx-background-size: 35px");
+			}
+		}));
 
 	}
 	//Set Language specific String names

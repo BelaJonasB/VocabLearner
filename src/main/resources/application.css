@@ -257,6 +257,6 @@
 	-fx-font-weight: bold;
 }
 .combo-box .list-view .list-cell {
-	-fx-background-color: #ffe600;
+	-fx-background-color: white;
 	-fx-text-fill: #555555;
 }
