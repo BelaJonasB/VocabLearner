@@ -152,6 +152,12 @@ public class ControllerLogin extends Main implements Initializable {
 
 	//Open Settings
 	public void openSettings(){
+		goals.setStyle("-fx-background-color: #ffe600; -fx-border-width: 0 0 0 0");
+		vocab.setStyle("-fx-background-color: #ffe600; -fx-border-width: 0 0 0 0");
+		learn.setStyle("-fx-background-color: #ffe600; -fx-border-width: 0 0 0 0");
+		colorVoc = "-fx-background-color: #ffe600";
+		colorGoals = "-fx-background-color: #ffe600";
+		colorLearn = "-fx-background-color: #ffe600";
 		page.setText(LocalizationManager.get("setting"));
 		ControllerSettings settingsCont = new ControllerSettings();
 		mainContent.setCenter(settingsCont);

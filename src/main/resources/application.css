@@ -68,13 +68,11 @@
 	-fx-background-radius: 15px;
 	-fx-padding: 5 0 5 0;
 }
-#startLearningButton {
+#startLearningButton, #startLearningRandom {
 	-fx-pref-height: 25px;
 	-fx-pref-width: 265;
-}
-#startLearningRandom {
-	-fx-pref-height: 25px;
-	-fx-pref-width: 265;
+	-fx-background-radius: 5px;
+	-fx-font-size: 14;
 }
 
 .loginMain {
@@ -235,6 +233,80 @@
 .mainGoals {
 	-fx-background-color: white;
 }
+.cont {
+	-fx-spacing: 10;
+	-fx-alignment: center-left;
+}
+.classicButton {
+	-fx-background-color: #ffe600;
+	-fx-font-weight: bold;
+	-fx-text-fill: white;
+	-fx-font-size: 14;
+}
+.combo-box#languageFilterComboBox .cell:selected {
+	-fx-text-fill: white;
+	-fx-font-weight: bold;
+}
+.table {
+	-fx-pref-width: 561.0;
+	-fx-pref-height: 257.0 ;
+}
+.table-view *.scroll-bar:horizontal *.increment-button,
+.table-view *.scroll-bar:horizontal *.decrement-button {
+	-fx-background-color: null;
+	-fx-background-radius: 0;
+	-fx-background-insets: 0;
+	-fx-padding: 0;
+}
+.table-view *.scroll-bar:horizontal *.increment-arrow,
+.table-view *.scroll-bar:horizontal *.decrement-arrow {
+	-fx-background-color: null;
+	-fx-background-radius: 0;
+	-fx-background-insets: 0;
+	-fx-padding: 0;
+	-fx-shape: null;
+}
+.table-view, .table-view:selected {
+	-fx-background-color: transparent;
+}
+.table-view .column-header,
+.table-view .column-header-background .filler {
+	-fx-background-color: #ffe600;
+	-fx-pref-height: 30px;
+	-fx-font-size: 15;
+	-fx-padding: 0 0 0 10;
+}
+.table-view .column-header .label{
+	-fx-text-fill: white;
+	-fx-font-weight: bold;
+	-fx-alignment: CENTER-LEFT;
+}
+.table-view .column-header#phase .label,
+.table-view .column-header#select .label {
+	-fx-alignment: center;
+}
+.table-view .cell#select > .check-box > .box{
+	-fx-background-color: #ffe600;
+}
+.table-view .cell{
+	-fx-cell-size: 35;
+	-fx-border-width: 0px;
+	-fx-text-fill: #555555;
+	-fx-alignment: center-left;
+	-fx-padding: 0 0 0 6;
+}
+.table-row-cell:odd {
+	-fx-background-color: #f6f6f6;
+	-fx-border-width: 0px;
+}
+.table-row-cell:selected:odd {
+	-fx-background-color: #f6f6f6;
+	-fx-border-width: 0px;
+}
+.table-row-cell:selected:even {
+	-fx-background-color: white;
+	-fx-border-width: 0px;
+}
 
 /* Settings */
 #apply {
@@ -252,11 +324,11 @@
 .langDD {
 	-fx-background-color: #ffe600;
 }
-.combo-box .cell:selected {
+.combo-box#langDD .cell:selected {
 	-fx-text-fill: #555555;
 	-fx-font-weight: bold;
 }
-.combo-box .list-view .list-cell {
+.combo-box#langDD .list-view .list-cell {
 	-fx-background-color: white;
 	-fx-text-fill: #555555;
 }

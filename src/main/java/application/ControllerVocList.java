@@ -52,11 +52,11 @@ public class ControllerVocList extends AnchorPane implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         //Create Columns
-        TableColumn <VocabList, String> numberColumn = new TableColumn("Nummer");
-        TableColumn language1Column = new TableColumn("Deutsch");
-        TableColumn language2Column = new TableColumn("Englisch");
-        TableColumn phaseColumn = new TableColumn("Phase");
-        TableColumn selectColumn = new TableColumn("Auswählen");
+        TableColumn <VocabList, String> numberColumn = new TableColumn<>("Nummer");
+        TableColumn<VocabList, String> language1Column = new TableColumn<>("Deutsch");
+        TableColumn<VocabList, String> language2Column = new TableColumn<>("Englisch");
+        TableColumn<VocabList, String> phaseColumn = new TableColumn<>("Phase");
+        TableColumn<VocabList, String> selectColumn = new TableColumn<>("Auswählen");
         selectColumn.setVisible(false);
 
         //VocTableList.getColumns().addAll(numberColumn, language1Column, language2Column, phaseColumn, selectColumn);
@@ -68,6 +68,7 @@ public class ControllerVocList extends AnchorPane implements Initializable {
 
         ObservableList<VocabList> list = getVocList();
         VocTableList.setItems(list);
+        VocTableList.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         VocTableList.getColumns().addAll(numberColumn, language1Column, language2Column, phaseColumn, selectColumn);
 

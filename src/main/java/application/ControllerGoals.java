@@ -27,13 +27,15 @@ public class ControllerGoals extends AnchorPane implements Initializable {
     @FXML
     private Label title;
     @FXML
-    private Button startLearningButton;
+    private Button startLearningButton, startLearningRandom;
     @FXML
-    private Button returnButton;
+    private Button returnButton, selectAllButton;
     @FXML
     private TableView<VocabSelection> vocabTableView;
     @FXML
-    private ComboBox languageFilterComboBox;
+    private ComboBox<String> languageFilterComboBox;
+    @FXML
+    private AnchorPane cont, mainGoals;
 
     public ControllerGoals() {
         FXMLLoader goGoals = new FXMLLoader(getClass().getResource("/Goals.fxml"));
@@ -48,23 +50,31 @@ public class ControllerGoals extends AnchorPane implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        AnchorPane.setTopAnchor(vocabTableView, 50.0);
+        AnchorPane.setBottomAnchor(startLearningButton, 40.0);
+        AnchorPane.setBottomAnchor(startLearningRandom, 40.0);
 
-        TableColumn answerColumn = new TableColumn("answer");
-        TableColumn questionColumn = new TableColumn("question");
-        TableColumn langColumn = new TableColumn("language");
-        TableColumn phaseColumn = new TableColumn("phase");
-        TableColumn selectCol = new TableColumn("Learn");
+        TableColumn<VocabSelection, String> answerColumn = new TableColumn<>("answer");
+        TableColumn<VocabSelection, String> questionColumn = new TableColumn<>("question");
+        TableColumn<VocabSelection, String> langColumn = new TableColumn<VocabSelection, String>("language");
+        TableColumn<VocabSelection, Integer> phaseColumn = new TableColumn<>("phase");
+        TableColumn<VocabSelection, CheckBox> selectCol = new TableColumn<>("Learn");
 
+        phaseColumn.setId("phase");
+        selectCol.setId("select");
+        phaseColumn.setStyle("-fx-alignment: center");
+        selectCol.setStyle("-fx-alignment: center");
 
         vocabTableView.getColumns().addAll(answerColumn, questionColumn, langColumn, phaseColumn, selectCol);
+        vocabTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         getData();
 
-        answerColumn.setCellValueFactory(new PropertyValueFactory<VocabSelection, String>("answer"));
-        questionColumn.setCellValueFactory(new PropertyValueFactory<VocabSelection, String>("question"));
-        langColumn.setCellValueFactory(new PropertyValueFactory<VocabSelection, String>("language"));
-        phaseColumn.setCellValueFactory(new PropertyValueFactory<VocabSelection, Integer>("phase"));
-        selectCol.setCellValueFactory(new PropertyValueFactory<VocabSelection, CheckBox>("selectVocab"));
+        answerColumn.setCellValueFactory(new PropertyValueFactory<>("answer"));
+        questionColumn.setCellValueFactory(new PropertyValueFactory<>("question"));
+        langColumn.setCellValueFactory(new PropertyValueFactory<>("language"));
+        phaseColumn.setCellValueFactory(new PropertyValueFactory<>("phase"));
+        selectCol.setCellValueFactory(new PropertyValueFactory<>("selectVocab"));
 
         vocabTableView.setItems(shownVocabList);
 
@@ -79,7 +89,7 @@ public class ControllerGoals extends AnchorPane implements Initializable {
      */
     public void startLearningPressed(){
         System.out.println("Start Learning pressed!");
-        List vocabToLearn = getSelectedVocab();
+        List<Vocab> vocabToLearn = getSelectedVocab();
         ControllerLearning.startLearning(vocabToLearn);
     }
 
@@ -88,7 +98,7 @@ public class ControllerGoals extends AnchorPane implements Initializable {
      */
     public void startLearningRandomPressed(){
         System.out.println("Start Learning random order pressed!");
-        List vocabToLearn = getSelectedVocab();
+        List<Vocab> vocabToLearn = getSelectedVocab();
         Collections.shuffle(vocabToLearn);
         ControllerLearning.startLearning(vocabToLearn);
     }
@@ -171,6 +181,5 @@ public class ControllerGoals extends AnchorPane implements Initializable {
             if(vocab.getLanguage().equals(lang)) tmp.add(vocab);
         }
         this.shownVocabList = tmp;
-        return;
     }
 }

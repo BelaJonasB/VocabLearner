@@ -5,17 +5,15 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
 <fx:root prefHeight="400.0" prefWidth="600.0" styleClass="mainGoals" stylesheets="@application.css" type="AnchorPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
-    <Label fx:id="title" layoutX="14.0" layoutY="7.0" prefHeight="28.0" prefWidth="333.0" text="Select Vocabulary to Learn">
-      <font>
-         <Font name="System Bold" size="16.0" />
-      </font></Label>
-   <TableView fx:id="vocabTableView" layoutX="14.0" layoutY="75.0" prefHeight="257.0" prefWidth="561.0">
-   </TableView>
-   <Button fx:id="startLearningButton" layoutX="14.0" layoutY="353.0" mnemonicParsing="false" onAction="#startLearningPressed" prefHeight="25.0" prefWidth="265.0" text="Start Learning" styleClass="b"/>
-   <Button fx:id="startLearningRandom" layoutX="302.0" layoutY="353.0" mnemonicParsing="false" onAction="#startLearningRandomPressed" prefHeight="25.0" prefWidth="273.0" text="Start Learning in Random Order" styleClass="b"/>
-   <Button fx:id="selectAllButton" layoutX="484.0" layoutY="42.0" mnemonicParsing="false" onAction="#selectAllButtonClicked" prefHeight="26.0" prefWidth="91.0" text="Select All"/>
-   <ComboBox fx:id="languageFilterComboBox" layoutX="14.0" layoutY="42.0" onAction="#languageSelected" prefHeight="25.0" prefWidth="173.0" promptText="Filter Language" />
+    <AnchorPane AnchorPane.topAnchor="20.0" AnchorPane.leftAnchor="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" styleClass="cont">
+        <ComboBox fx:id="languageFilterComboBox" onAction="#languageSelected" prefHeight="25.0" prefWidth="173.0" promptText="Filter Language" styleClass="classicButton" AnchorPane.leftAnchor="0.0"/>
+        <Button fx:id="selectAllButton" mnemonicParsing="false" onAction="#selectAllButtonClicked" prefHeight="26.0" prefWidth="91.0" text="Select All" styleClass="classicButton" AnchorPane.leftAnchor="470.0"/>
+        <TableView styleClass="table" fx:id="vocabTableView"/>
+        <Button fx:id="startLearningButton" mnemonicParsing="false" onAction="#startLearningPressed" prefHeight="25.0" prefWidth="265.0" text="Start Learning" styleClass="b" AnchorPane.leftAnchor="0.0"/>
+        <Button fx:id="startLearningRandom" mnemonicParsing="false" onAction="#startLearningRandomPressed" prefHeight="25.0" prefWidth="273.0" text="Start Learning in Random Order" styleClass="b" AnchorPane.leftAnchor="300.0"/>
+    </AnchorPane>
 </fx:root>
