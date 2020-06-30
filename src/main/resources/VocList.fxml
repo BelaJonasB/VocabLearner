@@ -17,17 +17,7 @@
       <VBox fx:id="VBoxMenu" prefHeight="105.0" prefWidth="606.0">
          <HBox fx:id="HBoxMenuFrame" prefHeight="100.0" prefWidth="200.0">
             <VBox fx:id="VBoxMenuFrameLeft" prefHeight="100.0" prefWidth="458.0">
-<<<<<<< Updated upstream
-               <TextField fx:id="SearchBarTextField" prefHeight="37.0" prefWidth="393.0"
-                          promptText="Suche eingeben"/>
-               <Separator prefHeight="23.0" prefWidth="426.0"/>
-               <Button fx:id="FilterButton" mnemonicParsing="false" text="Filter" styleClass="classicButton"/>
-            </VBox>
-            <VBox fx:id="VBoxMenuFrameRight" prefHeight="100.0" prefWidth="174.0">
-               <Button fx:id="SearchButton" mnemonicParsing="false" text="Suche" styleClass="classicButton"/>
-               <Separator prefHeight="16.0" prefWidth="162.0"/>
-               <ToggleButton fx:id="EditSwitch" mnemonicParsing="false" text="Vokabeln bearbeiten" styleClass="classicButton"/>
-=======
+
                <VBox prefHeight="200.0" prefWidth="100.0">
                   <children>
                      <TextField fx:id="SearchBarTextField" prefHeight="37.0" prefWidth="393.0" promptText="Suche eingeben" />
@@ -51,7 +41,6 @@
                    <MenuItem mnemonicParsing="false" text="Action 2" />
                  </items>
                </SplitMenuButton>
->>>>>>> Stashed changes
             </VBox>
          </HBox>
       </VBox>

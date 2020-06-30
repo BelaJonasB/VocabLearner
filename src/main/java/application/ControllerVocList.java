@@ -57,22 +57,13 @@ public class ControllerVocList extends AnchorPane implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         //Create Columns
-<<<<<<< Updated upstream
-        TableColumn <VocabList, String> numberColumn = new TableColumn<>("Nummer");
-        TableColumn<VocabList, String> language1Column = new TableColumn<>("Deutsch");
-        TableColumn<VocabList, String> language2Column = new TableColumn<>("Englisch");
-        TableColumn<VocabList, String> phaseColumn = new TableColumn<>("Phase");
-        TableColumn<VocabList, String> selectColumn = new TableColumn<>("Auswählen");
-        selectColumn.setVisible(false);
 
-        //VocTableList.getColumns().addAll(numberColumn, language1Column, language2Column, phaseColumn, selectColumn);
-=======
-        TableColumn <VocabList, Integer> numberColumn = new TableColumn("Nummer");
+TableColumn <VocabList, Integer> numberColumn = new TableColumn("Nummer");
         TableColumn <VocabList, String> language1Column  = new TableColumn("Deutsch");
         TableColumn <VocabList, String> language2Column = new TableColumn("Englisch");
         TableColumn <VocabList, Integer> phaseColumn = new TableColumn("Phase");
         TableColumn <VocabList, Boolean> selectColumn = new TableColumn("Auswaehlen");
->>>>>>> Stashed changes
+
 
         //Fill all Cells
         numberColumn.setCellValueFactory(new PropertyValueFactory<>("number"));
@@ -86,11 +77,10 @@ public class ControllerVocList extends AnchorPane implements Initializable {
 
         //Get Data from list
         ObservableList<VocabList> list = getVocList();
-<<<<<<< Updated upstream
+
         VocTableList.setItems(list);
         VocTableList.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-=======
->>>>>>> Stashed changes
+
 
         for (int i= 0; i< 20 ;i++){
             list.add(new VocabList(i+3 ,"test"+i,"result"+i,0));
