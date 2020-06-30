@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
  */
 public class ControllerGoals extends AnchorPane implements Initializable {
 
-    static final String ALLLANGLABLE = "All";   // label shown in dropdown-menu to select vocab from all languages
+    static String ALLLANGLABLE = "All";   // label shown in dropdown-menu to select vocab from all languages
     private ObservableList<VocabSelection> shownVocabList; // local copy of the vocab from database with checkbox
 
     @FXML
@@ -29,7 +29,7 @@ public class ControllerGoals extends AnchorPane implements Initializable {
     @FXML
     private Button startLearningButton, startLearningRandom;
     @FXML
-    private Button returnButton, selectAllButton;
+    private Button selectAllButton;
     @FXML
     private TableView<VocabSelection> vocabTableView;
     @FXML
@@ -54,15 +54,18 @@ public class ControllerGoals extends AnchorPane implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        setLang();
+
         AnchorPane.setTopAnchor(vocabTableView, 50.0);
         AnchorPane.setBottomAnchor(startLearningButton, 40.0);
         AnchorPane.setBottomAnchor(startLearningRandom, 40.0);
 
-        TableColumn<VocabSelection, String> answerColumn = new TableColumn<>("answer");
-        TableColumn<VocabSelection, String> questionColumn = new TableColumn<>("question");
-        TableColumn<VocabSelection, String> langColumn = new TableColumn<VocabSelection, String>("language");
-        TableColumn<VocabSelection, Integer> phaseColumn = new TableColumn<>("phase");
-        TableColumn<VocabSelection, CheckBox> selectCol = new TableColumn<>("Learn");
+        TableColumn<VocabSelection, String> answerColumn = new TableColumn<>(LocalizationManager.get("answer"));
+        TableColumn<VocabSelection, String> questionColumn = new TableColumn<>(LocalizationManager.get("question"));
+        TableColumn<VocabSelection, String> langColumn = new TableColumn<VocabSelection, String>(LocalizationManager.get("language"));
+        TableColumn<VocabSelection, Integer> phaseColumn = new TableColumn<>(LocalizationManager.get("phase"));
+        TableColumn<VocabSelection, CheckBox> selectCol = new TableColumn<>(LocalizationManager.get("selectToLearn"));
 
         phaseColumn.setId("phase");
         selectCol.setId("select");
@@ -92,9 +95,7 @@ public class ControllerGoals extends AnchorPane implements Initializable {
      * Starts loads learning scene and starts learning with the selected Vocab in order
      */
     public void startLearningPressed(){
-        System.out.println("Start Learning pressed!");
         List<Vocab> vocabToLearn = getSelectedVocab();
-
         controllerLogin.gotoLearn(vocabToLearn);
     }
 
@@ -102,7 +103,6 @@ public class ControllerGoals extends AnchorPane implements Initializable {
      * Starts loads learning scene and starts learning with the selected Vocab in random order
      */
     public void startLearningRandomPressed(){
-        System.out.println("Start Learning random order pressed!");
         List<Vocab> vocabToLearn = getSelectedVocab();
         Collections.shuffle(vocabToLearn);
         controllerLogin.gotoLearn(vocabToLearn);
@@ -124,6 +124,17 @@ public class ControllerGoals extends AnchorPane implements Initializable {
         for(VocabSelection v : shownVocabList){
             v.getSelectVocab().setSelected(true);
         }
+    }
+
+    /**
+     * inits labels depending on set language
+     */
+    private void setLang() {
+        ALLLANGLABLE = LocalizationManager.get("allLangLabel");
+        startLearningButton.setText(LocalizationManager.get("startLearning"));
+        startLearningRandom.setText(LocalizationManager.get("startLearningRand"));
+        selectAllButton.setText(LocalizationManager.get("selectAll"));
+        languageFilterComboBox.setPromptText(LocalizationManager.get("filterLang"));
     }
 
     /**
@@ -153,15 +164,6 @@ public class ControllerGoals extends AnchorPane implements Initializable {
             }
         }
         shownVocabList = FXCollections.observableList(tmp);
-//
-//        // dummy List for testing
-//        shownVocabList = FXCollections.observableArrayList(
-//                new VocabSelection(1, "test answer", "quest", "ger", 5, true),
-//                new VocabSelection(1, "test answer1", "quest1", "ger", 3, true),
-//                new VocabSelection(1, "test anzwort", "quest", "eng", 4, true),
-//                new VocabSelection(1, "wort1", "frage", "eng", 1, true),
-//                new VocabSelection(1, "unnecessary", ";", "python", 2, true)
-//        );
     }
 
     /**
