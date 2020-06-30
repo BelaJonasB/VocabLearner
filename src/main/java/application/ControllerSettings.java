@@ -12,6 +12,9 @@ import java.io.FileReader;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Class for the Controller of the Settings Window
+ */
 public class ControllerSettings extends AnchorPane implements Initializable {
     public ControllerSettings() {
         FXMLLoader goSett = new FXMLLoader(getClass().getResource("/Settings.fxml"));
@@ -31,6 +34,9 @@ public class ControllerSettings extends AnchorPane implements Initializable {
     @FXML
     Button apply;
 
+    /**
+     * Init the default Settings and Tools to edit them
+     */
     public void initialize(URL location, ResourceBundle resources) {
         LocalizationManager.Init();
         setLang();
@@ -50,6 +56,9 @@ public class ControllerSettings extends AnchorPane implements Initializable {
 
     }
 
+    /**
+     * Apply changes and reload Scene
+     */
     public void apply() {
         try {
             LocalizationManager.setLanguage(LocalizationManager.SupportedLanguage.valueOf(langDD.getSelectionModel().getSelectedItem().toUpperCase()));
@@ -61,6 +70,9 @@ public class ControllerSettings extends AnchorPane implements Initializable {
         }
     }
 
+    /**
+     * Set the Strings for Language of Program
+     */
     public void setLang() {
         listSetts1.setText(LocalizationManager.get("listSetts1"));
         apply.setText(LocalizationManager.get("apply"));

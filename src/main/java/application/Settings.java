@@ -1,5 +1,8 @@
 package application;
 
+/**
+ * Class to construct Settings Json
+ */
 public class Settings {
     private String lang;
 

@@ -13,7 +13,9 @@ public class Main extends Application {
 	public static Stage primarStage;
 
 
-
+	/**
+	 *Initialize First Window (Login-Screen)
+	 */
 	public void start(Stage primaryStage) throws Exception {
 		//First Window
 		Parent root;
@@ -34,6 +36,16 @@ public class Main extends Application {
 		launch(args);
 	}
 
+	/**
+	 * Method to use in other Controllers to change whole Scene
+	 * @param fxml which fxml file
+	 * @param w width of new Scene
+	 * @param h height of new Scene
+	 * @param resize if able to resize
+	 * @param centerScreen if to display in center of Screen
+	 * @param x if not centered: the x-Coordinate for the new Scene
+	 * @param y if not centered: the y-Coordinate for the new Scene
+	 */
 	public void changeScene(String fxml, int w, int h, boolean resize, boolean centerScreen, double x, double y) throws Exception {
 		 Parent loader = FXMLLoader.load(getClass().getResource("/"+fxml));
 		 primarStage.hide();

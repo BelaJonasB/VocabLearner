@@ -16,7 +16,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
-
+/**
+ * Controller for the Main Window where the other sub-Content-Windows are situated
+ * Controls Navigation Bar, Window switching, Title Bar and the main Content
+ */
 public class ControllerLogin extends Main implements Initializable {
 	@FXML
 	private Label loginAs;
@@ -38,6 +41,10 @@ public class ControllerLogin extends Main implements Initializable {
 	//Standard values for buttons
 	String colorVoc = "-fx-background-color: #ffec00 ; -fx-border-width: 0 0 0 5; -fx-border-color: white",colorGoals = "-fx-background-color: #ffe600",colorLearn = "-fx-background-color: #ffe600";
 
+	/**
+	 * inits the Controler
+	 * -Defaults for language, Position of window, Default content, Positions and Bindings and Button Feedback
+	 */
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		//set Language stuff
 		LocalizationManager.Init();
@@ -103,14 +110,19 @@ public class ControllerLogin extends Main implements Initializable {
 		}));
 
 	}
-	//Set Language specific String names
+
+	/**
+	 * Sets Language specific String names
+	 */
 	public void setLang() {
 		vocab.setText(LocalizationManager.get("vocab"));
 		learn.setText(LocalizationManager.get("learn"));
 		goals.setText(LocalizationManager.get("goals"));
 	}
 
-	//Switch to VocList
+	/**
+	 * Switch main content to VocList
+	 */
 	public void gotoVocList() {
 		ControllerVocList VocListCont = new ControllerVocList();
 		mainContent.setCenter(VocListCont);
@@ -132,6 +144,7 @@ public class ControllerLogin extends Main implements Initializable {
 
 	/**
 	 * if you want to start learning (via Goals)
+	 * @param vocabList to learn that specific List
 	 */
 	public void gotoLearn(List<Vocab> vocabList) {
 		Variables.setSelectedVocab(vocabList);
@@ -146,7 +159,9 @@ public class ControllerLogin extends Main implements Initializable {
 		colorLearn = "-fx-background-color: #ffec00; -fx-border-width: 0 0 0 5; -fx-border-color: white";
 	}
 
-	//Switch to Goals (what to learn)
+	/**
+	 * Switch main content to Goals (what to learn)
+	 */
 	public void gotoGoals() {
 		ControllerGoals goalsCont = new ControllerGoals(this);
 		mainContent.setCenter(goalsCont);
@@ -159,7 +174,9 @@ public class ControllerLogin extends Main implements Initializable {
 		colorLearn = "-fx-background-color: #ffe600";
 	}
 
-	//Open Settings
+	/**
+	 * Switch main content to Settings
+	 */
 	public void openSettings(){
 		goals.setStyle("-fx-background-color: #ffe600; -fx-border-width: 0 0 0 0");
 		vocab.setStyle("-fx-background-color: #ffe600; -fx-border-width: 0 0 0 0");
@@ -172,6 +189,9 @@ public class ControllerLogin extends Main implements Initializable {
 		mainContent.setCenter(settingsCont);
 	}
 
+	/**
+	 * Method to Logout and return to Login window
+	 */
 	public void logout() throws Exception {
 		Gson g = new GsonBuilder()
 				.setPrettyPrinting()

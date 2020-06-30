@@ -6,9 +6,16 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Base64;
 
+/**
+ * Class to encrypt Strings using AES (primarily the PW)
+ */
 public class Crypt {
     private SecretKeySpec secretKeySpec = null;
 
+    /**
+     * Constructor to create encryption Key from String
+     * @param s which String to use for key
+     */
     public Crypt(String s) {
         try {
             //generate key based on String input
@@ -21,6 +28,11 @@ public class Crypt {
         }
     }
 
+    /**
+     * Encrypt using the secretKey
+     * @param text What to encrypt
+     * @return decrypted text
+     */
     public String encrypt(String text) {
         String decrypted = null;
         //encrypt
@@ -38,6 +50,11 @@ public class Crypt {
 
     }
 
+    /**
+     * Descrypt using secretKey
+     * @param text what to decrypt
+     * @return decrypted String
+     */
     public String decrypt(String text) {
         String encrypted = null;
         try {

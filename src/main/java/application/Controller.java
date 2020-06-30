@@ -16,6 +16,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import okhttp3.Response;
 
+
+/**
+ * Controller for Login-Window
+ */
 public class Controller extends Main implements Initializable {
 	public PasswordField pw;
 	@FXML
@@ -41,6 +45,10 @@ public class Controller extends Main implements Initializable {
 	Crypt c;
 	APICalls resp;
 
+	/**
+	 * Initializes the Window
+	 * -Controls: Position, Encryption for PW, Bindings and Default Values, checks for correct Inputs, straight Login if Remembered
+	 */
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		LocalizationManager.Init();
 		setLang();
@@ -118,6 +126,11 @@ public class Controller extends Main implements Initializable {
 		buttonFeedback(login);
 		buttonFeedback(reg);
 	}
+
+	/**
+	 * Apply Button-Feedback
+	 * @param b to apply deafult feedback to
+	 */
 	public void buttonFeedback(Button b) {
 		b.hoverProperty().addListener((observable, oldValue, newValue) -> {
 			if(newValue) {
@@ -128,7 +141,9 @@ public class Controller extends Main implements Initializable {
 		});
 	}
 
-	//Set Strings to language
+	/**
+	 * Set Strings to set language
+	 */
 	public void setLang() {
 		reg.setText(LocalizationManager.get("reg"));
 		login.setText(LocalizationManager.get("login"));
@@ -141,8 +156,9 @@ public class Controller extends Main implements Initializable {
 	}
 
 
-	//Login and register by using the Methods from APICalls:
-
+	/**
+	 * Login method, uses APICalls
+	 */
 	public void login() {
 		Variables.setMail(mail.textProperty().get());
 		resp = new APICalls(mail.textProperty().get(), pw.textProperty().get(), serverAddress.textProperty().get());
@@ -178,6 +194,9 @@ public class Controller extends Main implements Initializable {
 		t.start();
 	}
 
+	/**
+	 * Register method, uses APICalls
+	 */
 	public void register() {
 		Variables.setMail(mail.textProperty().get());
 		resp = new APICalls(mail.textProperty().get(), pw.textProperty().get(), serverAddress.textProperty().get());
@@ -204,7 +223,11 @@ public class Controller extends Main implements Initializable {
 		t.start();
 	}
 
-	//what to do with Response code:
+	/**
+	 * Encrypts PW, saves Data to json, changes Scene and catches errors from API
+	 * @param regResp Response from APICall
+	 * @param warn what to display if something went wrong
+	 */
 	private void logReg(Response regResp, String warn) {
 		if(regResp.code()==200) {
 			try {

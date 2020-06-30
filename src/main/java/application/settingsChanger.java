@@ -1,6 +1,8 @@
 package application;
 
-
+/**
+ * Class to make "Apply" in settings work
+ */
 public class settingsChanger extends ControllerLogin {
         public settingsChanger() {
             try {

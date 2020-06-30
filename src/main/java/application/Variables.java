@@ -3,6 +3,9 @@ package application;
 
 import java.util.List;
 
+/**
+ * Contains global Variables to pass between Classes
+ */
 public class Variables {
 	private static String mail, server;
 	private static List<Vocab> usersVocab, selectedVocab;

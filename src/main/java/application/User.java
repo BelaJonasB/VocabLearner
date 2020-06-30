@@ -1,5 +1,8 @@
 package application;
 
+/**
+ * Class to pass User-Information around
+ */
 public class User {
     private String email, password;
 

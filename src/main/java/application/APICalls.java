@@ -16,13 +16,17 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-
+/**
+ * Class to make all calls to the API
+ */
 public class APICalls{
     private String user, pw, server;
     final OkHttpClient o = new OkHttpClient();
 
 
-    //Contructor for when not instantiated in login screen
+    /**
+     * Constructor for when not instantiated in login screen
+     */
     public APICalls() {
 
         //Enryption key with mac adress
@@ -47,7 +51,12 @@ public class APICalls{
         this.server = Variables.getServer();
     }
 
-    //Constructor for when instantiated by login window
+    /**
+     * Constructor for when instantiated by login window
+     * @param userIn User trying to Login
+     * @param pwIn Users PW
+     * @param serverIn the server the user tries to connect to
+     */
     public APICalls(String userIn, String pwIn, String serverIn) {
         this.user = userIn;
         this.pw = pwIn;
@@ -55,7 +64,10 @@ public class APICalls{
         Variables.setServer(serverIn);
     }
 
-
+    /**
+     * Method to Login
+     * @return Response
+     */
     public Response login() throws IOException {
 
         Request req = new Request.Builder()
@@ -68,6 +80,10 @@ public class APICalls{
 
     }
 
+    /**
+     * Method to Register
+     * @return Response
+     */
     public Response register() throws IOException {
 
         //User data to Object
@@ -88,7 +104,9 @@ public class APICalls{
         return call(o, req);
     }
 
-    //Get the existing Vocab of the User and set it as a Variable in Variables
+    /**
+     * Get the existing Vocab of the User and set it as a Variable in Variables
+     */
     public void getUsersVocab() throws IOException {
         Request req = new Request.Builder()
                 .header("email", user)
@@ -106,7 +124,10 @@ public class APICalls{
     }
 
 
-    //Create new Entry in Vocabulary
+    /**
+     * Create new Entry in Vocabulary
+     * @param vocab Vocab to post to API
+     */
     public void postToVoc(Vocab vocab) throws IOException {
 
         Gson g = new GsonBuilder()
@@ -134,12 +155,16 @@ public class APICalls{
         getUsersVocab();
     }
 
-    //Delete Voc
-    public int deleteVoc(String v) {
+    /**
+     * Delete an Entry in users Vocab
+     * @param v the id which gets deleted
+     * @return
+     */
+    public int deleteVoc(String id) {
         Request req = new Request.Builder()
                 .header("email", user)
                 .header("password", pw)
-                .url(server+"voc/"+v)
+                .url(server+"voc/"+id)
                 .delete()
                 .build();
         try {
@@ -153,7 +178,11 @@ public class APICalls{
         }
     }
 
-    //Edit Voc
+    /**
+     * Edit an entry in users Vocab
+     * @param v new Vocab with existing id (of the entry that gets edited)
+     * @return response code to handle if there's a problem/everything fine
+     */
     public int editVoc(Vocab v) {
         Gson g = new GsonBuilder()
                 .create();
@@ -183,7 +212,12 @@ public class APICalls{
         }
     }
 
-    //Call to API
+    /**
+     * Call to the API
+     * @param o Client to use
+     * @param req Request to send to API
+     * @return Response
+     */
     private Response call(OkHttpClient o, Request req) throws IOException {
         Call call = o.newCall(req);
         Response resp;
