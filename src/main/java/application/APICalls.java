@@ -153,6 +153,36 @@ public class APICalls{
         }
     }
 
+    //Edit Voc
+    public int editVoc(Vocab v) {
+        Gson g = new GsonBuilder()
+                .create();
+
+        //User data to Object
+        String s = g.toJson(v);
+        System.out.println(s);
+
+        //For Media Type in request body
+        final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+
+        //Build and call
+        RequestBody regBody = RequestBody.create(s, JSON);
+        Request req = new Request.Builder()
+                .header("email", user)
+                .header("password", pw)
+                .url(server+"voc/"+v.getId())
+                .patch(regBody)
+                .build();
+        try {
+            Response r = call(o, req);
+            int i = r.code();
+            Objects.requireNonNull(r.body()).close();
+            return i;
+        } catch (Exception e) {
+            return 404;
+        }
+    }
+
     //Call to API
     private Response call(OkHttpClient o, Request req) throws IOException {
         Call call = o.newCall(req);
