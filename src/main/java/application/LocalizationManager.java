@@ -10,6 +10,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * handles internationalization
+ */
 public class LocalizationManager extends ControllerLogin{
     private static SupportedLanguage currentLanguage = SupportedLanguage.ENGLISH;//defaults to english
     private static final Map<SupportedLanguage, Map<String, String>> translations = new HashMap<>();
@@ -36,6 +39,19 @@ public class LocalizationManager extends ControllerLogin{
         english.put("apply", "Apply");
         english.put("setting", "Settings");
 
+        // Goals
+        english.put("filterLang", "Filter Language");
+        english.put("selectAll", "Select All");
+        english.put("startLearning", "Start Lerning");
+        english.put("startLearningRand", "Start Learning in Random Order");
+        english.put("answer", "answer");
+        english.put("question", "question");
+        english.put("phase", "phase");
+        english.put("id", "ID");
+        english.put("language", "language");
+        english.put("selectToLearn", "Learn");
+        english.put("allLangLabel", "All");
+
         german.put("vocab", "Vokabeln");
         german.put("learn", "Lernen");
         german.put("goals", "Ziele");
@@ -50,6 +66,19 @@ public class LocalizationManager extends ControllerLogin{
         german.put("listSetts1", "Sprache:");
         german.put("apply", "Anwenden");
         german.put("setting", "Einstellungen");
+
+        // Goals
+        german.put("filterLang", "Nach Sprache Filtern");
+        german.put("selectAll", "Alle Ausw\u00E4hlen");
+        german.put("startLearning", "Lernen Starten");
+        german.put("startLearningRand", "Lernen in zuf\u00E4lliger Reihenfolge");
+        german.put("answer", "Antwort");
+        german.put("question", "Frage");
+        german.put("phase", "Phase");
+        german.put("language", "Sprache");
+        german.put("id", "ID");
+        german.put("selectToLearn", "Lernen");
+        german.put("allLangLabel", "Alle");
 
 
         translations.put(SupportedLanguage.ENGLISH, english);
