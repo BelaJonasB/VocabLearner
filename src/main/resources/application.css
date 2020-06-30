@@ -62,7 +62,7 @@
 	-fx-background-color: #ffe600;
 	-fx-pref-width: 200px;
 	-fx-pref-height: 100px;
-	-fx-text-fill: white;
+	-fx-text-fill: #767676;
 	-fx-font-weight: bold;
 	-fx-cursor: hand;
 	-fx-background-radius: 15px;
@@ -240,11 +240,11 @@
 .classicButton {
 	-fx-background-color: #ffe600;
 	-fx-font-weight: bold;
-	-fx-text-fill: white;
+	-fx-text-fill: #767676;
 	-fx-font-size: 14;
 }
 .combo-box#languageFilterComboBox .cell:selected {
-	-fx-text-fill: white;
+	-fx-text-fill: #767676;
 	-fx-font-weight: bold;
 }
 .table {
@@ -325,10 +325,10 @@
 	-fx-background-color: #ffe600;
 }
 .combo-box#langDD .cell:selected {
-	-fx-text-fill: #555555;
+	-fx-text-fill: #767676;
 	-fx-font-weight: bold;
 }
-.combo-box#langDD .list-view .list-cell {
+.combo-box .list-view .list-cell {
 	-fx-background-color: white;
-	-fx-text-fill: #555555;
+	-fx-text-fill: #767676;
 }
