@@ -1,5 +1,7 @@
 package application;
 
+import javafx.scene.control.CheckBox;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,10 +11,19 @@ public class VocabList {
     String language1;
     String language2;
     int phase;
+    private boolean select;
 
     public VocabList(){
 
     }
+    public VocabList (int number, String language1, String language2, int phase, boolean select){
+        this.number = number;
+        this.language1 = language1;
+        this.language2 = language2;
+        this.phase = phase;
+        this.select = select;
+    }
+
     public VocabList (int number, String language1, String language2, int phase){
         this.number = number;
         this.language1 = language1;
@@ -37,6 +48,8 @@ public class VocabList {
         return language2;
     }
 
+    public boolean getSelect(){ return select;}
+
     //Set data
     public void setLanguage1(String language1) {
         this.language1 = language1;
@@ -54,6 +67,9 @@ public class VocabList {
         this.phase = phase;
     }
 
+    public void setSelect (boolean select){
+        this.select = select;
+    }
     // Liste
     public static ArrayList<VocabList> list = new ArrayList<VocabList>();
 
