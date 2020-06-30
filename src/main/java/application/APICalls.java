@@ -134,6 +134,25 @@ public class APICalls{
         getUsersVocab();
     }
 
+    //Delete Voc
+    public int deleteVoc(String v) {
+        Request req = new Request.Builder()
+                .header("email", user)
+                .header("password", pw)
+                .url(server+"voc/"+v)
+                .delete()
+                .build();
+        try {
+            Response r = call(o, req);
+            int i = r.code();
+            Objects.requireNonNull(r.body()).close();
+            return i;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 404;
+        }
+    }
+
     //Call to API
     private Response call(OkHttpClient o, Request req) throws IOException {
         Call call = o.newCall(req);
