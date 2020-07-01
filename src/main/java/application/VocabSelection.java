@@ -1,5 +1,6 @@
 package application;
 
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 
 /**
@@ -10,9 +11,12 @@ import javafx.scene.control.CheckBox;
 public class VocabSelection extends Vocab {
 
     private CheckBox selectVocab;
+    private Button deleteButton;
+    private Button editButton;
 
     public VocabSelection(){
     }
+
 
     public VocabSelection(Vocab v, boolean checkedState){
         this.selectVocab = new CheckBox();

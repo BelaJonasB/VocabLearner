@@ -38,6 +38,12 @@ public class LocalizationManager extends ControllerLogin{
         english.put("listSetts1", "Language:");
         english.put("apply", "Apply");
         english.put("setting", "Settings");
+        //English text for VocList
+        english.put("searchField","Enter search");
+        english.put("search","Search");
+        english.put("add","Add");
+        english.put("delete","Delete");
+        english.put("switch","Edit");
 
         // Goals
         english.put("filterLang", "Filter Language");
@@ -66,6 +72,13 @@ public class LocalizationManager extends ControllerLogin{
         german.put("listSetts1", "Sprache:");
         german.put("apply", "Anwenden");
         german.put("setting", "Einstellungen");
+        //German text for VocList
+        german.put("searchField","Suche hier ein eingeben");
+        german.put("search","Suchen");
+        german.put("add","Hinzuf\u00FCgen");
+        german.put("delete","L\u00F6schen");
+        german.put("switch","Bearbeiten");
+
 
         // Goals
         german.put("filterLang", "Nach Sprache Filtern");
