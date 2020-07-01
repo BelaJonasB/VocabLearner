@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <Label prefHeight="17.0" prefWidth="449.0" text="Vokabeln hinzufügen" />
+            <HBox prefHeight="201.0" prefWidth="600.0">
+               <children>
+                  <VBox prefHeight="100.0" prefWidth="213.0">
+                     <children>
+                        <TextField fx:id="Language1TextField" promptText="1. Sprache eingeben" />
+                        <Label text="Label" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="49.0" prefWidth="191.0">
+                     <children>
+                        <TextField fx:id="Language2TextField" promptText="2. Sprache eingeben" />
+                        <Label text="Label" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="100.0" prefWidth="195.0">
+                     <children>
+                        <TextField onAction="#PhaseTextField" promptText="Phase eingeben" />
+                        <Label text="Label" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="ConfirmButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="261.0" text="Bestätigen" />
+                  <Button fx:id="CancelButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="193.0" text="Abbrechen" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

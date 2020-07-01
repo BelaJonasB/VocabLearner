@@ -10,6 +10,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -19,7 +21,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.event.ActionEvent;
-
+import javafx.stage.Stage;
 
 
 import java.net.URL;
@@ -45,6 +47,7 @@ public class ControllerVocList extends AnchorPane implements Initializable {
     public ButtonBar ButtonBar;
     @FXML
     public TableView<VocabList> VocTableList;
+
 
     private ObservableList<VocabList> list;
 
@@ -87,7 +90,7 @@ public class ControllerVocList extends AnchorPane implements Initializable {
         selectColumn.setCellValueFactory(new PropertyValueFactory<>("select"));
         selectColumn.setCellFactory(CheckBoxTableCell.forTableColumn(selectColumn));
         //selectColumn.setEditable(false); //Makes selectColumn not editable
-        selectColumn.setVisible(false); //Makes selectColumn invisible by default !!
+        selectColumn.setVisible(true); //Makes selectColumn invisible by default !!
 
         //Get Data from list
         ObservableList<VocabList> list = getVocList();
@@ -113,15 +116,15 @@ public class ControllerVocList extends AnchorPane implements Initializable {
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
                     VocabList rowData = row.getItem();
-                    System.out.println(rowData);
+                    System.out.println("test" +rowData);
                 }
             });
             return row ;
         });
 
         //Listener for Search (should work but doesn't)
-        /*
-        FilteredList<VocabList> filteredVocList = new FilteredList<>(list, p -> true);
+/*
+        FilteredList<VocabList> filteredVocList = new FilteredList<>(list, fl -> true);
 
         SearchBarTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             SearchBarTextField.setPredicate (VocabList-> {
@@ -131,20 +134,27 @@ public class ControllerVocList extends AnchorPane implements Initializable {
 
                 String lowerCaseFilter = newValue.toLowerCase();
 
-                if (VocabList.getLanguage1.contains(lowerCaseFilter)){
-                    return true;
-                }
-                else if (String.valueOf(VocabList.getLanguage2()).toLowerCase().contains(lowerCaseFilter)){
-                    return true;
+                for (VocabList voc : list) {
+                    int i = 0;
+
+                    if (voc.getLanguage1().toLowerCase().contains(lowerCaseFilter)) {
+                        return true;
+                    } else if (lowerCaseFilter.valueOf(VocabList.getLanguage2()).toLowerCase().contains(lowerCaseFilter)) {
+                        return true;
+                    }
+                    i++;
                 }
                 return false;
                     });
+
+
                 });
+
         SortedList<VocabList> sortedVocList = new SortedList<>(filteredVocList);
         sortedVocList.comparatorProperty().bind(VocTableList.comparatorProperty());
         VocTableList.setItems(sortedVocList);
         //TODO clear Field when clicked at
-        */
+*/
 
         //Old Code
         /*
@@ -170,17 +180,29 @@ public class ControllerVocList extends AnchorPane implements Initializable {
             public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
                 if (newValue.isSelected()==true){
                     //selectColumn.setEditable(false); //Makes selectColumn not editable
-                    selectColumn.setVisible(true); //Makes selectColumn invisible by default !!
+                    selectColumn.setVisible(true); //Makes selectColumn visible
                 }
                 else {
                     //selectColumn.setEditable(false); //Makes selectColumn not editable
-                    selectColumn.setVisible(false); //Makes selectColumn invisible by default !!
+                    selectColumn.setVisible(false); //Makes selectColumn invisible
                 }
             }
         });
 
     }
 
+    /**
+     * When called, opens a new window an asks for new Vocabulary
+     */
+    public void addButtonPressed(Stage addStage) throws Exception{
+
+        Parent root = FXMLLoader.load(getClass().getResource("AddVoc.fxml"));
+
+        Scene scene = new Scene(root, 400,400);
+        addStage.setScene(scene);
+        addStage.show();
+
+    }
     /**
      * When called, starts searching for the String entered in SearchBarTextField (Wahrscheinlich) obsolet!
      */
@@ -193,23 +215,24 @@ public class ControllerVocList extends AnchorPane implements Initializable {
      * Enables/ disables edit
      */
 
-    public void editSwitchPressed (){
+    public void editSwitchPressed (ActionEvent event){
         /*
         //Toggle Edit (does not work, what so ever)
         final ToggleGroup editGroup = new ToggleGroup();
         editGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
             @Override
             public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
-                if (newValue.isSelected()==true){
+                if (newValue.isSelected()){
                     //selectColumn.setEditable(false); //Makes selectColumn not editable
-                    selectColumn.setVisible(true); //Makes selectColumn invisible by default !!
+                    selectColumn.setVisible(true); //Makes selectColumn visible
                 }
                 else {
                     //selectColumn.setEditable(false); //Makes selectColumn not editable
-                    selectColumn.setVisible(false); //Makes selectColumn invisible by default !!
+                    setColumn.setVisible(false); //Makes selectColumn invisible
                 }
             }
         });
+
 */
     }
 

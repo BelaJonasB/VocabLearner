@@ -28,7 +28,7 @@
                <ButtonBar fx:id="ButtonBar" prefHeight="40.0" prefWidth="200.0">
                  <buttons>
                    <Button fx:id="DeleteButton" onAction="#deleteSelected" mnemonicParsing="false" text="Löschen" />
-                     <Button fx:id="AddButton" mnemonicParsing="false" text="Hinzufügen" />
+                     <Button fx:id="AddButton" onAction="#addButtonPressed" mnemonicParsing="false" text="Hinzufügen" />
                  </buttons>
                </ButtonBar>
             </VBox>
