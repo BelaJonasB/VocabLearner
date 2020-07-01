@@ -64,6 +64,7 @@ public class APICalls{
         Variables.setServer(serverIn);
     }
 
+
     /**
      * Method to Login
      * @return Response

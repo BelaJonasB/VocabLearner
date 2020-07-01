@@ -7,38 +7,37 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ControllerVocabAdd">
    <children>
       <VBox prefHeight="400.0" prefWidth="600.0">
          <children>
-            <Label prefHeight="17.0" prefWidth="449.0" text="Vokabeln hinzufügen" />
+            <Label fx:id="TopLabel" prefHeight="17.0" prefWidth="449.0" text="Vokabeln hinzufügen" />
             <HBox prefHeight="201.0" prefWidth="600.0">
                <children>
-                  <VBox prefHeight="100.0" prefWidth="213.0">
+                  <VBox  prefHeight="100.0" prefWidth="213.0">
                      <children>
-                        <TextField fx:id="Language1TextField" promptText="1. Sprache eingeben" />
-                        <Label text="Label" />
+                        <TextField fx:id="AnswerTextField" promptText="1. Sprache eingeben" />
+                        <Label fx:id="Lower1Label" text="Label" />
                      </children>
                   </VBox>
-                  <VBox prefHeight="49.0" prefWidth="191.0">
+                  <VBox  prefHeight="49.0" prefWidth="191.0">
                      <children>
-                        <TextField fx:id="Language2TextField" promptText="2. Sprache eingeben" />
-                        <Label text="Label" />
+                        <TextField fx:id="QuestionTextField" promptText="2. Sprache eingeben" />
+                        <Label fx:id="Lower2Label" text="Label" />
                      </children>
                   </VBox>
-                  <VBox prefHeight="100.0" prefWidth="195.0">
+                  <VBox  prefHeight="100.0" prefWidth="195.0">
                      <children>
-                        <TextField fx:id="#PhaseTextField" promptText="Phase eingeben" />
-                        <Label text="Label" />
+                        <TextField fx:id="LanguageTextField" promptText="Sprache eingeben" />
+                        <Label fx:id="Lower3Label" text="Label" />
                      </children>
                   </VBox>
                </children>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="ConfirmButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="261.0" text="Bestätigen" />
-                  <Button fx:id="CancelButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="193.0" text="Abbrechen" />
+                  <Button fx:id="ConfirmButton" onAction="#parseNewVoc" mnemonicParsing="false" prefHeight="25.0" prefWidth="261.0" text="Bestätigen" />
+                  <Button fx:id="CancelButton" onAction="#closeAddStage" mnemonicParsing="false" prefHeight="25.0" prefWidth="193.0" text="Abbrechen" />
                </children>
             </HBox>
          </children>

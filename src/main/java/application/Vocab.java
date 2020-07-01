@@ -19,7 +19,7 @@ public class Vocab {
     @Expose
     String language;
     int phase;
-
+    boolean select;
     /**
      * Creates new Vocab entry
      */
@@ -48,7 +48,21 @@ public class Vocab {
         this.question = question;
         this.language = language;
     }
-
+    //Transfered VocabList Constructors to Vocab
+    public Vocab (int id, String answer, String question,String language, int phase, boolean select){
+        this.id = id;
+        this.answer = answer;
+        this.question = question;
+        this.language = language;
+        this.phase = phase;
+        this.select = select;
+    }
+    public Vocab (String answer, String question,String language, int phase){
+        this.answer = answer;
+        this.question = question;
+        this.language = language;
+        this.phase = phase;
+    }
     public int getId() {
         return id;
     }

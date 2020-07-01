@@ -4,9 +4,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -46,13 +43,13 @@ public class ControllerVocList extends AnchorPane implements Initializable {
     @FXML
     public ButtonBar ButtonBar;
     @FXML
-    public TableView<VocabList> VocTableList;
+    public TableView<Vocab> VocTableList;
+
+    public ObservableList<Vocab> list;
 
     private final ControllerLogin controllerLogin;
 
-    private ObservableList<VocabList> list;
-
-    public ControllerVocList(ControllerLogin controllerLogin) {        //Changed to call startLearning
+    public ControllerVocList(ControllerLogin controllerLogin) {        //
         this.controllerLogin = controllerLogin;
 
         FXMLLoader goList = new FXMLLoader(getClass().getResource("/VocList.fxml"));
@@ -69,7 +66,6 @@ public class ControllerVocList extends AnchorPane implements Initializable {
      * Initializes the controller class.
      * This method is automatically called after the login is finished(the corresponding fxml file: VocList.fxml is loaded)
      *
-     * Initializes the search function,
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -78,17 +74,19 @@ public class ControllerVocList extends AnchorPane implements Initializable {
         setLang();
 
         //Create Columns
-        TableColumn <VocabList, Integer> numberColumn = new TableColumn("Nummer");
-        TableColumn <VocabList, String> language1Column  = new TableColumn("Deutsch");
-        TableColumn <VocabList, String> language2Column = new TableColumn("Englisch");
-        TableColumn <VocabList, Integer> phaseColumn = new TableColumn("Phase");
-        TableColumn <VocabList, Boolean> selectColumn = new TableColumn("Auswaehlen");
+        TableColumn <Vocab, Integer> idColumn = new TableColumn("Nummer");
+        TableColumn <Vocab, String> answerColumn  = new TableColumn("Deutsch");
+        TableColumn <Vocab, String> questionColumn = new TableColumn("Englisch");
+        TableColumn <Vocab, String> languageColumn = new TableColumn<>("Sprache");
+        TableColumn <Vocab, Integer> phaseColumn = new TableColumn("Phase");
+        TableColumn <Vocab, Boolean> selectColumn = new TableColumn("Auswaehlen");
 
 
         //Fill Cells with content
-        numberColumn.setCellValueFactory(new PropertyValueFactory<>("number"));
-        language1Column.setCellValueFactory(new PropertyValueFactory<>("language1"));
-        language2Column.setCellValueFactory(new PropertyValueFactory<>("language2"));
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("number"));
+        answerColumn.setCellValueFactory(new PropertyValueFactory<>("language1"));
+        questionColumn.setCellValueFactory(new PropertyValueFactory<>("language2"));
+        languageColumn.setCellValueFactory(new PropertyValueFactory<>("language"));
         phaseColumn.setCellValueFactory(new PropertyValueFactory<>("phase"));
         selectColumn.setCellValueFactory(new PropertyValueFactory<>("select"));
         selectColumn.setCellFactory(CheckBoxTableCell.forTableColumn(selectColumn));
@@ -96,37 +94,33 @@ public class ControllerVocList extends AnchorPane implements Initializable {
         selectColumn.setVisible(true); //Makes selectColumn invisible by default !!
 
         //Get Data from list
-        ObservableList<VocabList> list = getVocList();
+        //list = getVocList();
+
+        //Set standarts
+        SearchBarTextField.setPromptText("Test");
 
         //Set Data to list and add Columns
-        VocTableList.setItems(list);
+        VocTableList.getColumns().addAll(idColumn, answerColumn, questionColumn,languageColumn, phaseColumn, selectColumn);
         VocTableList.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        //Tmp
-        for (int i= 0; i< 20 ;i++){
-            list.add(new VocabList(i+3 ,"test"+i,"result"+i,0));
-        }
+        getData();
 
         VocTableList.setItems(list);
-        VocTableList.getColumns().addAll(numberColumn, language1Column, language2Column, phaseColumn, selectColumn);
+
         VocTableList.setEditable(true);  //ENABLED FOR TESTING
 
 
         //Doppelklick zum editieren 0.1
         VocTableList.setRowFactory( tv -> {
-            TableRow<VocabList> row = new TableRow<>();
+            TableRow<Vocab> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
-                    VocabList rowData = row.getItem();
+                    Vocab rowData = row.getItem();
                     System.out.println("test" +rowData);
                 }
             });
             return row ;
         });
-
-        //Listener for Search (should work but doesn't)
-
-
 
         //Old Code
         /*
@@ -162,36 +156,48 @@ public class ControllerVocList extends AnchorPane implements Initializable {
         });
 
     }
-    public void textEntered(String input) {
+
+    public void textEntered() {
+        String input = SearchBarTextField.getText();
         list = getVocList();
         if (input == null || input.isEmpty()) {
+            VocTableList.setItems(list);
             return;
         }
         String lowerCaseFilter = input.toLowerCase();
-        ObservableList<VocabList> tmp = FXCollections.observableArrayList();
+        ObservableList<Vocab> tmp = FXCollections.observableArrayList();
 
-        for (VocabList voc : list) {
+        for (Vocab voc : list) {
 
-            if (voc.getLanguage1().toLowerCase().contains(lowerCaseFilter)) {
+            if (voc.getAnswer().toLowerCase().contains(lowerCaseFilter)) {
                 tmp.add(voc);
-
+                System.out.println("test"+tmp.toString() );
             }
-
+            else if (voc.getQuestion().toLowerCase().contains(lowerCaseFilter)) {
+                tmp.add(voc);
+                System.out.println("test2"+tmp.toString() );
+            }
         }
+        list = tmp;
+        System.out.println("erg"+ list);
+        VocTableList.setItems(list);
     }
-
+//TODO empty search field when clicked at
 
     /**
      * When called, opens a new window an asks for new Vocabulary
      */
-    public void addButtonPressed(Stage addStage) throws Exception{
+    public void addButtonPressed() {
+        try {
+            Stage addStage = new Stage();
+            Parent root = FXMLLoader.load(getClass().getResource("/AddVoc.fxml"));
 
-        Parent root = FXMLLoader.load(getClass().getResource("/AddVoc.fxml"));
-
-        Scene scene = new Scene(root, 400,400);
-        addStage.setScene(scene);
-        addStage.show();
-
+            Scene scene = new Scene(root, 400, 400);
+            addStage.setScene(scene);
+            addStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     /**
      * When called, starts searching for the String entered in SearchBarTextField (Wahrscheinlich) obsolet!
@@ -229,15 +235,16 @@ public class ControllerVocList extends AnchorPane implements Initializable {
      * delete vocabulary
      */
     public void deleteSelected (){
-        ObservableList<VocabList> vocabListsRemove = FXCollections.observableArrayList();
+        /*ObservableList<Vocab> vocabListsRemove = FXCollections.observableArrayList();
 
-        for(VocabList voc : list) {
-            if (voc.getSelect()==true) {
+        for(Vocab voc : list) {
+            if (voc.isSelect()==true) {
                 vocabListsRemove.add(voc);
             }
         }
         list.removeAll(vocabListsRemove);
         //TODO API CALL über postToVoc
+       */
         }
 
 
@@ -248,22 +255,7 @@ public class ControllerVocList extends AnchorPane implements Initializable {
         //TODO implement
     }
 
-    /**
-     *Changes the language when changes are applied at Settings menu
-     *    public VBox VBoxMain, VBoxMenu, VBoxMenuFrameLeft, VBoxMenuFrameRight, VBoxList;
-     *     @FXML
-     *     public HBox HBoxMenuFrame;
-     *     @FXML
-     *     public TextField SearchBarTextField;
-     *     @FXML
-     *     public Button  SearchButton,AddButton,DeleteButton;
-     *     @FXML
-     *     public ToggleButton EditSwitch;
-     *     @FXML
-     *     public ButtonBar ButtonBar;
-     *     @FXML
-     *     public TableView<VocabList> VocTableList;
-     */
+
     public void setLang(){
         SearchBarTextField.setText(LocalizationManager.get("searchField"));
         SearchButton.setText(LocalizationManager.get("search"));
@@ -274,12 +266,24 @@ public class ControllerVocList extends AnchorPane implements Initializable {
     }
 
     //Temp data for testing
-    private  ObservableList<VocabList> getVocList () {
-        VocabList voc0 = new VocabList(0, "Folter", "torture", 0,true);
-        VocabList voc1 = new VocabList(1, "Schmerz", "pain", 0);
-        VocabList voc2 = new VocabList(2, "Kuh", "cow", 0);
+    private  ObservableList<Vocab> getVocList () {
+        Vocab voc0 = new Vocab(0, "Folter", "torture","Deutsch", 0,true);
+        Vocab voc1 = new Vocab(1, "Schmerz", "pain","Deutsch", 0);
+        Vocab voc2 = new Vocab(2, "Kuh", "cow","Deutsch", 0);
 
-        ObservableList<VocabList> vocList = FXCollections.observableArrayList(voc0,voc1, voc2);
+        ObservableList<Vocab> vocList = FXCollections.observableArrayList(voc0,voc1, voc2);
         return vocList;
+    }
+
+    private void getData(){
+        for(Vocab v : Variables.getUsersVocab()){
+
+           // list.add(new VocabList(v.getId(),v.getAnswer(),v.getQuestion(),v.getLanguage(),v.getPhase()));
+            list.add(new Vocab(0, "Folter", "torture","Deutsch", 0,true));
+            list.add(new Vocab(1, "Schmerz", "pain","Deutsch", 0));
+            list.add(new Vocab(2, "Kuh", "cow","Deutsch", 0));
+
+        }
+        list = FXCollections.observableList(list);
     }
 }
