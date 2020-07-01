@@ -48,10 +48,13 @@ public class ControllerVocList extends AnchorPane implements Initializable {
     @FXML
     public TableView<VocabList> VocTableList;
 
+    private final ControllerLogin controllerLogin;
 
     private ObservableList<VocabList> list;
 
-    public ControllerVocList() {
+    public ControllerVocList(ControllerLogin controllerLogin) {        //Changed to call startLearning
+        this.controllerLogin = controllerLogin;
+
         FXMLLoader goList = new FXMLLoader(getClass().getResource("/VocList.fxml"));
         goList.setRoot(this);
         goList.setController(this);
@@ -108,7 +111,6 @@ public class ControllerVocList extends AnchorPane implements Initializable {
         VocTableList.getColumns().addAll(numberColumn, language1Column, language2Column, phaseColumn, selectColumn);
         VocTableList.setEditable(true);  //ENABLED FOR TESTING
 
-        //
 
         //Doppelklick zum editieren 0.1
         VocTableList.setRowFactory( tv -> {
@@ -123,38 +125,8 @@ public class ControllerVocList extends AnchorPane implements Initializable {
         });
 
         //Listener for Search (should work but doesn't)
-/*
-        FilteredList<VocabList> filteredVocList = new FilteredList<>(list, fl -> true);
-
-        SearchBarTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            SearchBarTextField.setPredicate (VocabList-> {
-                if (newValue == null || newValue.isEmpty()){
-                    return true;
-                }
-
-                String lowerCaseFilter = newValue.toLowerCase();
-
-                for (VocabList voc : list) {
-                    int i = 0;
-
-                    if (voc.getLanguage1().toLowerCase().contains(lowerCaseFilter)) {
-                        return true;
-                    } else if (lowerCaseFilter.valueOf(VocabList.getLanguage2()).toLowerCase().contains(lowerCaseFilter)) {
-                        return true;
-                    }
-                    i++;
-                }
-                return false;
-                    });
 
 
-                });
-
-        SortedList<VocabList> sortedVocList = new SortedList<>(filteredVocList);
-        sortedVocList.comparatorProperty().bind(VocTableList.comparatorProperty());
-        VocTableList.setItems(sortedVocList);
-        //TODO clear Field when clicked at
-*/
 
         //Old Code
         /*
@@ -190,13 +162,31 @@ public class ControllerVocList extends AnchorPane implements Initializable {
         });
 
     }
+    public void textEntered(String input) {
+        list = getVocList();
+        if (input == null || input.isEmpty()) {
+            return;
+        }
+        String lowerCaseFilter = input.toLowerCase();
+        ObservableList<VocabList> tmp = FXCollections.observableArrayList();
+
+        for (VocabList voc : list) {
+
+            if (voc.getLanguage1().toLowerCase().contains(lowerCaseFilter)) {
+                tmp.add(voc);
+
+            }
+
+        }
+    }
+
 
     /**
      * When called, opens a new window an asks for new Vocabulary
      */
     public void addButtonPressed(Stage addStage) throws Exception{
 
-        Parent root = FXMLLoader.load(getClass().getResource("AddVoc.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/AddVoc.fxml"));
 
         Scene scene = new Scene(root, 400,400);
         addStage.setScene(scene);
@@ -216,7 +206,7 @@ public class ControllerVocList extends AnchorPane implements Initializable {
      */
 
     public void editSwitchPressed (ActionEvent event){
-        /*
+/*
         //Toggle Edit (does not work, what so ever)
         final ToggleGroup editGroup = new ToggleGroup();
         editGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
@@ -228,11 +218,10 @@ public class ControllerVocList extends AnchorPane implements Initializable {
                 }
                 else {
                     //selectColumn.setEditable(false); //Makes selectColumn not editable
-                    setColumn.setVisible(false); //Makes selectColumn invisible
+                    selectColumn.setVisible(false); //Makes selectColumn invisible
                 }
             }
         });
-
 */
     }
 

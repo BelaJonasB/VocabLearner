@@ -29,7 +29,7 @@
                   </VBox>
                   <VBox prefHeight="100.0" prefWidth="195.0">
                      <children>
-                        <TextField onAction="#PhaseTextField" promptText="Phase eingeben" />
+                        <TextField fx:id="#PhaseTextField" promptText="Phase eingeben" />
                         <Label text="Label" />
                      </children>
                   </VBox>

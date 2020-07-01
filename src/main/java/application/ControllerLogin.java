@@ -60,7 +60,7 @@ public class ControllerLogin extends Main implements Initializable {
 		logout.setTooltip(new Tooltip("Logout"));
 
 		//SetDefaultmainContent
-		ControllerVocList VocListCont = new ControllerVocList();
+		ControllerVocList VocListCont = new ControllerVocList(this);
 		mainContent.setCenter(VocListCont);
 
 		//Sizes of Elements and their values/bindings:
@@ -124,7 +124,7 @@ public class ControllerLogin extends Main implements Initializable {
 	 * Switch main content to VocList
 	 */
 	public void gotoVocList() {
-		ControllerVocList VocListCont = new ControllerVocList();
+		ControllerVocList VocListCont = new ControllerVocList(this);
 		mainContent.setCenter(VocListCont);
 		page.setText(vocab.getText());
 		vocab.setStyle("-fx-background-color: #ffec00; -fx-border-width: 0 0 0 5; -fx-border-color: white");
