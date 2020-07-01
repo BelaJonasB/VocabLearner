@@ -22,12 +22,12 @@
                   <children>
                      <TextField fx:id="SearchBarTextField" prefHeight="37.0" prefWidth="393.0" promptText="Suche eingeben" />
                      <Separator prefHeight="23.0" prefWidth="426.0" />
-                     <ToggleButton fx:id="EditSwitch" mnemonicParsing="false" text="Vokabeln bearbeiten" />
+                     <ToggleButton fx:id="EditSwitch" onAction="#editSwitchPressed" mnemonicParsing="false" text="Vokabeln bearbeiten" />
                   </children>
                </VBox>
                <ButtonBar fx:id="ButtonBar" prefHeight="40.0" prefWidth="200.0">
                  <buttons>
-                   <Button fx:id="DeleteButton" mnemonicParsing="false" text="Löschen" />
+                   <Button fx:id="DeleteButton" onAction="#deleteSelected" mnemonicParsing="false" text="Löschen" />
                      <Button fx:id="AddButton" mnemonicParsing="false" text="Hinzufügen" />
                  </buttons>
                </ButtonBar>

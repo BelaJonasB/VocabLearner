@@ -6,6 +6,10 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * gets the Vocabulary from the server and creates VocabList objects
+ * @author Lukas Radermacher
+ */
 public class VocabList {
     int number;
     String language1;
@@ -13,9 +17,18 @@ public class VocabList {
     int phase;
     private boolean select;
 
-    public VocabList(){
-
+    /**
+     * Creates a new VocabList object
+     *
+     * @param number Vocab number
+     * @param language1 first language
+     * @param language2 second language
+     * @param phase phase of the vocabulary
+     * @param select state of checkbox
+     */
+    public VocabList() {
     }
+
     public VocabList (int number, String language1, String language2, int phase, boolean select){
         this.number = number;
         this.language1 = language1;
