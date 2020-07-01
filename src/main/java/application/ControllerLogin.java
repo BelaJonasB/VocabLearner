@@ -143,12 +143,11 @@ public class ControllerLogin extends Main implements Initializable {
 	}
 
 	/**
-	 * if you want to start learning (via Goals)
-	 * @param vocabList to learn that specific List
+	 * if you want to start learning
 	 */
 	public void gotoLearn(List<Vocab> vocabList) {
 		Variables.setSelectedVocab(vocabList);
-		ControllerLearning learnCont = new ControllerLearning();
+		ControllerLearning learnCont = new ControllerLearning(this);
 		mainContent.setCenter(learnCont);
 		page.setText(learn.getText());
 		learn.setStyle("-fx-background-color: #ffec00; -fx-border-width: 0 0 0 5; -fx-border-color: white");

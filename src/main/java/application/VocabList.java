@@ -14,6 +14,7 @@ public class VocabList {
     int number;
     String language1;
     String language2;
+    String userTranslation;
     int phase;
     private boolean select;
 
@@ -44,6 +45,23 @@ public class VocabList {
         this.phase = phase;
     }
 
+    /**
+     * Only for ControllerLearning
+     * used in showAllVocables()
+     * @param number
+     * @param language1
+     * @param language2
+     * @param userTranslation
+     * @param phase
+     */
+    public VocabList (int number, String language1, String language2, String userTranslation, int phase){
+        this.number = number;
+        this.language1 = language1;
+        this.language2 = language2;
+        this.userTranslation = userTranslation;
+        this.phase = phase;
+    }
+
     //Get data
     public int getNumber() {
         return number;
@@ -59,6 +77,10 @@ public class VocabList {
 
     public String getLanguage2() {
         return language2;
+    }
+
+    public String getUserTranslation(){
+        return userTranslation;
     }
 
     public boolean getSelect(){ return select;}

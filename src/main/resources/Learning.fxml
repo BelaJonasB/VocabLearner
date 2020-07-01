@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TableView?>
 <fx:root xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" prefHeight="400.0" prefWidth="600.0" styleClass="mainLearn" stylesheets="@application.css" type="AnchorPane">
 
     <HBox fx:id="learningButtons" layoutY="353.0" spacing="15">
@@ -30,8 +31,6 @@
         <VBox spacing="10">
             <Label fx:id="Answer" styleClass="logins" text="Answer" />
             <TextField disable="true" fx:id="selectedVocableTranslation" styleClass="logins"/>
-            <Label fx:id="Score" styleClass="logins" text="Score" />
-            <TextField disable="true" fx:id="userScore" styleClass="logins"/>
         </VBox>
     </HBox>
 
@@ -57,7 +56,20 @@
     </HBox>
 
     <HBox fx:id="resultButtons" layoutY="353.0" spacing="15">
-        <Button fx:id="returnButton" mnemonicParsing="false" onAction="#returnToXYZ" prefHeight="25.0" prefWidth="258.0" text="Return to xyz"/>
         <Button fx:id="showAllVocablesButton" mnemonicParsing="false" onAction="#showAllVocables" prefHeight="25.0" prefWidth="258.0" text="Show All Vocables"/>
+        <Button fx:id="restartLearningButton" mnemonicParsing="false" onAction="#restartLearning" prefHeight="25.0" prefWidth="258.0" text="Start learning again"/>
     </HBox>
+
+    <HBox AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
+        <Label fx:id="Score" styleClass="logins" text="Score" />
+        <Label fx:id="userScore" styleClass="logins"/>
+    </HBox>
+
+    <TableView fx:id="allVocables" layoutX="50.0" layoutY="75.0" prefHeight="200.0" prefWidth="630.0">
+    </TableView>
+
+    <HBox fx:id="resultButtons2" layoutY="353.0" spacing="15">
+        <Button fx:id="hideAllVocablesButton" mnemonicParsing="false" onAction="#hideAllVocables" prefHeight="25.0" prefWidth="258.0" text="Hide All Vocables"/>
+    </HBox>
+
 </fx:root>
