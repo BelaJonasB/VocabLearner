@@ -1,105 +1,112 @@
 package application;
 
+import javafx.scene.control.CheckBox;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * gets the Vocabulary from the server and creates VocabList objects
  * @author Lukas Radermacher
  */
 public class VocabList {
-    int id;
-    String question;
-    String answer;
-    String language;
+    int number;
+    String language1;
+    String language2;
+    String userTranslation;
     int phase;
     private boolean select;
 
     /**
      * Creates a new VocabList object
      *
-     * @param id Vocabulary id
-     * @param answer
-     * @param question
-     * @param language
+     * @param number Vocab number
+     * @param language1 first language
+     * @param language2 second language
      * @param phase phase of the vocabulary
      * @param select state of checkbox
      */
     public VocabList() {
     }
 
-    public VocabList(int id, String answer, String question, String language, int phase, boolean select){
-        this.id = id;
-        this.answer = answer;
-        this.question = question;
-        this.language = language;
+    public VocabList (int number, String language1, String language2, int phase, boolean select){
+        this.number = number;
+        this.language1 = language1;
+        this.language2 = language2;
         this.phase = phase;
         this.select = select;
     }
 
-    public VocabList(int id, String answer, String question, String language, int phase){
-        this.id = id;
-        this.answer = answer;
-        this.question = question;
-        this.language = language;
+    public VocabList (int number, String language1, String language2, int phase){
+        this.number = number;
+        this.language1 = language1;
+        this.language2 = language2;
         this.phase = phase;
     }
-    public VocabList(String answer, String question, String language, int phase){
-        this.answer = answer;
-        this.question = question;
-        this.language = language;
+
+    /**
+     * Only for ControllerLearning
+     * used in showAllVocables()
+     * @param number
+     * @param language1
+     * @param language2
+     * @param userTranslation
+     * @param phase
+     */
+    public VocabList (int number, String language1, String language2, String userTranslation, int phase){
+        this.number = number;
+        this.language1 = language1;
+        this.language2 = language2;
+        this.userTranslation = userTranslation;
         this.phase = phase;
     }
+
     //Get data
-
-    public int getId() {
-        return id;
-    }
-
-    public String getQuestion() {
-        return question;
-    }
-
-    public String getAnswer() {
-        return answer;
-    }
-
-    public String getLanguage() {
-        return language;
+    public int getNumber() {
+        return number;
     }
 
     public int getPhase() {
         return phase;
     }
 
-    public boolean isSelect() {
-        return select;
+    public String getLanguage1() {
+        return language1;
     }
+
+    public String getLanguage2() {
+        return language2;
+    }
+
+    public String getUserTranslation(){
+        return userTranslation;
+    }
+
+    public boolean getSelect(){ return select;}
 
     //Set data
-
-
-    public void setId(int id) {
-        this.id = id;
+    public void setLanguage1(String language1) {
+        this.language1 = language1;
     }
 
-    public void setQuestion(String question) {
-        this.question = question;
+    public void setLanguage2(String language2) {
+        this.language2 = language2;
     }
 
-    public void setAnswer(String answer) {
-        this.answer = answer;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
+    public void setNumber(int number) {
+        this.number = number;
     }
 
     public void setPhase(int phase) {
         this.phase = phase;
     }
 
-    public void setSelect(boolean select) {
+    public void setSelect (boolean select){
         this.select = select;
     }
+    // Liste
+    public static ArrayList<VocabList> list = new ArrayList<VocabList>();
+
 
 }
