@@ -27,13 +27,13 @@
                </VBox>
                <ButtonBar fx:id="ButtonBar" prefHeight="40.0" prefWidth="200.0">
                  <buttons>
-                   <Button fx:id="DeleteButton" mnemonicParsing="false" onAction="#deleteSelected" text="Löschen" />
+                   <Button fx:id="DeleteButton" mnemonicParsing="false" onAction="#deleteSelectedVoc" text="Löschen" />
                      <Button fx:id="AddButton" mnemonicParsing="false" onAction="#addButtonPressed" text="Hinzufügen" />
                  </buttons>
                </ButtonBar>
             </VBox>
             <VBox fx:id="VBoxMenuFrameRight" prefHeight="100.0" prefWidth="174.0">
-               <Button fx:id="SearchButton" mnemonicParsing="false" text="Suche" />
+               <Button fx:id="SearchButton" onAction="#searchButtonPressed" mnemonicParsing="false" text="Suche" />
                <Separator prefHeight="16.0" prefWidth="162.0" />
                <SplitMenuButton fx:id="FilterButton" mnemonicParsing="false" text="Filter">
                  <items>

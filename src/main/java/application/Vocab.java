@@ -63,44 +63,55 @@ public class Vocab {
         this.language = language;
         this.phase = phase;
     }
-    public int getId() {
-        return id;
-    }
 
+    //Setter methods
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getAnswer() {
-        return answer;
     }
 
     public void setAnswer(String answer) {
         this.answer = answer;
     }
 
-    public String getQuestion() {
-        return question;
-    }
-
     public void setQuestion(String question) {
         this.question = question;
-    }
-
-    public String getLanguage() {
-        return language;
     }
 
     public void setLanguage(String language) {
         this.language = language;
     }
 
+    public void setPhase(int phase) {
+        this.phase = phase;
+    }
+
+    public void setSelect(boolean select) {
+        this.select = select;
+    }
+
+    //Getter methods
+    public int getId() {
+        return id;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public String getQuestion() {
+        return question;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
     public int getPhase() {
         return phase;
     }
 
-    public void setPhase(int phase) {
-        this.phase = phase;
+    public boolean isSelect() {
+        return select;
     }
 
     /**

@@ -44,24 +44,26 @@ public class LocalizationManager extends ControllerLogin{
         english.put("add","Add");
         english.put("delete","Delete");
         english.put("switch","Edit");
+        english.put("select","Select");
+
         //English text for VocAdd
         english.put("answerAdd","Enter Answer here");
         english.put("questionAdd","Enter Question here");
         english.put("languageAdd","Enter Language here");
         english.put("confirm","Confirm");
         english.put("cancel","Cancel");
-
+        english.put("addVoc","Add Vocabulary");
 
         // Goals
         english.put("filterLang", "Filter Language");
         english.put("selectAll", "Select All");
         english.put("startLearning", "Start Lerning");
         english.put("startLearningRand", "Start Learning in Random Order");
-        english.put("answer", "answer");
-        english.put("question", "question");
-        english.put("phase", "phase");
+        english.put("answer", "Answer");
+        english.put("question", "Question");
+        english.put("phase", "Phase");
         english.put("id", "ID");
-        english.put("language", "language");
+        english.put("language", "Language");
         english.put("selectToLearn", "Learn");
         english.put("allLangLabel", "All");
 
@@ -85,13 +87,14 @@ public class LocalizationManager extends ControllerLogin{
         german.put("add","Hinzuf\u00FCgen");
         german.put("delete","L\u00F6schen");
         german.put("switch","Bearbeiten");
-
-        //German text for VocList
+        german.put("select","Ausw\u00E4hlen");
+        //German text for VocAdd
         german.put("answerAdd","Antwort hier eingeben");
         german.put("questionAdd","Frage hier eingeben");
         german.put("languageAdd","Sprache hier eingeben");
         german.put("confirm","Best\u00E4tigen");
         german.put("cancel","Abbrechen");
+        german.put("addVoc","Vokabel hinzuf\u00FCgen");
 
         // Goals
         german.put("filterLang", "Nach Sprache Filtern");

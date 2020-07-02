@@ -24,6 +24,8 @@ public class ControllerVocabAdd extends AnchorPane implements Initializable {
         //execute language selection
         LocalizationManager.Init();
         setLang();
+
+
     }
 
     /**
@@ -32,11 +34,14 @@ public class ControllerVocabAdd extends AnchorPane implements Initializable {
     public void parseNewVoc (){
         if (AnswerTextField.getText() != null && QuestionTextField.getText() != null && LanguageTextField.getText() != null){
             int phase = 0;
-           // APICalls.postToVoc(new Vocab(AnswerTextField.getText(),QuestionTextField.getText(),LanguageTextField.getText(), phase));
-            System.out.println(new Vocab(AnswerTextField.getText(),QuestionTextField.getText(),LanguageTextField.getText(), phase));
+            Vocab newVoc = new Vocab(AnswerTextField.getText(),QuestionTextField.getText(),LanguageTextField.getText(),phase);
+            //APICalls.postToVoc(newVoc);
+            System.out.println(newVoc);
 
         }
-
+        AnswerTextField.clear();
+        QuestionTextField.clear();
+        LanguageTextField.clear();
     }
     /**
      * Closes the AddVoc stage -> returns to Vocab5 without changing
@@ -50,9 +55,9 @@ public class ControllerVocabAdd extends AnchorPane implements Initializable {
      * Method for setting the language
      */
     public void setLang(){
-        AnswerTextField.setText(LocalizationManager.get("answerAdd"));
-        QuestionTextField.setText(LocalizationManager.get("questionAdd"));
-        LanguageTextField.setText(LocalizationManager.get("languageAdd"));
+        AnswerTextField.setPromptText(LocalizationManager.get("answerAdd"));
+        QuestionTextField.setPromptText(LocalizationManager.get("questionAdd"));
+        LanguageTextField.setPromptText(LocalizationManager.get("languageAdd"));
         ConfirmButton.setText(LocalizationManager.get("confirm"));
         CancelButton.setText(LocalizationManager.get("cancel"));
 
