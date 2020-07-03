@@ -19,36 +19,35 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
-import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 
 
 /**
- * Generates the Vocabulary list and implements the functions search,edit,delete and filter
+ * Generates the Vocabulary list and implements the functions search, edit, delete and add
  * @author Lukas Radermacher
  */
 public class ControllerVocList extends AnchorPane implements Initializable {
-    public VBox VBoxMain, VBoxMenu, VBoxMenuFrameLeft, VBoxMenuFrameRight, VBoxList;
+    public VBox VBoxMain, VBoxMenu;
     @FXML
-    public HBox HBoxMenuFrame;
+    public HBox HBoxMenuFrame, HBoxButtonBar;
     @FXML
     public TextField SearchBarTextField;
     @FXML
-    public Button  SearchButton,AddButton,DeleteButton;
+    public Button  AddButton,DeleteButton,SearchButton,ResetButton;
     @FXML
-    public ToggleButton EditSwitch;
-    @FXML
-    public ButtonBar ButtonBar;
+    public ToggleButton EditEnableToggle;
     @FXML
     public TableView<Vocab> VocTableList;
 
     public ObservableList<Vocab> list;
+
+    APICalls api = new APICalls();
 
     private final ControllerLogin controllerLogin;
 
@@ -75,6 +74,7 @@ public class ControllerVocList extends AnchorPane implements Initializable {
         //execute language selection
         LocalizationManager.Init();
         setLang();
+        //TODO set name for edit at launch
 
         //ID-Column stuff
         TableColumn <Vocab, Integer> idColumn = new TableColumn(LocalizationManager.get("id"));
@@ -93,9 +93,13 @@ public class ControllerVocList extends AnchorPane implements Initializable {
                 (str.getTableView().getItems().get(
                         str.getTablePosition().getRow())
                 ).setAnswer(str.getNewValue());
+               // Vocab voc = str.getTableView().getItems().get();
+                //System.out.println(voc);
+                //api.editVoc(voc);
             }
-
+            //TODO Save to API when edited!
         });
+
 
 
         //Question-Column stuff
@@ -111,7 +115,7 @@ public class ControllerVocList extends AnchorPane implements Initializable {
                         str.getTablePosition().getRow())
                 ).setQuestion(str.getNewValue());
             }
-
+            //TODO Save to API when edited!
         });
 
         //Language-Column stuff
@@ -127,60 +131,84 @@ public class ControllerVocList extends AnchorPane implements Initializable {
                         str.getTablePosition().getRow())
                 ).setLanguage(str.getNewValue());
             }
-
+            //TODO Save to API when edited!
         });
-
 
         //Phase-Column stuff
         TableColumn <Vocab, Integer> phaseColumn = new TableColumn(LocalizationManager.get("phase"));
         phaseColumn.setMinWidth(40);
         phaseColumn.setCellValueFactory(new PropertyValueFactory<>("phase"));
 
-
         //Select-Column stuff
         TableColumn <Vocab, Boolean> selectColumn = new TableColumn(LocalizationManager.get("select"));
+
         selectColumn.setCellValueFactory(new PropertyValueFactory<>("select"));
         selectColumn.setCellFactory(CheckBoxTableCell.forTableColumn(selectColumn));
-        //selectColumn.setEditable(false); //Makes selectColumn not editable
+
+        selectColumn.setEditable(false); //Makes selectColumn not editable
         //selectColumn.setVisible(false); //Makes selectColumn invisible by default
 
 
 
-        //Get Data from list
-        list = getVocList();
-
         //Set Data to list and add Columns
         VocTableList.getColumns().addAll(idColumn, answerColumn, questionColumn,languageColumn, phaseColumn, selectColumn);
         VocTableList.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
+        System.out.println("1"+list);
         getData();
-
+        System.out.println("2"+list);
         VocTableList.setItems(list);
 
-        VocTableList.setEditable(true);  //ENABLED FOR TESTING
+        //Some default settings
+        boolean testing = false;  //set all True FOR TESTING
+        VocTableList.setEditable(testing);
+        idColumn.setVisible(testing);
+        selectColumn.setVisible(testing);
+        AddButton.setVisible(testing);
+        DeleteButton.setVisible(testing);
 
-       /*
-        //Toggle Edit (does not work, what so ever)
+
+        /**
+         * Toggle-function for enable and disable the edit-function
+         */
+
         final ToggleGroup editGroup = new ToggleGroup();
+
+        EditEnableToggle.setToggleGroup(editGroup);
+        EditEnableToggle.setSelected(false);
+
+
         editGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
             @Override
             public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
-                if (newValue.isSelected()==true){
-                    //selectColumn.setEditable(false); //Makes selectColumn not editable
-                    selectColumn.setVisible(true); //Makes selectColumn visible
-                }
-                else {
-                    //selectColumn.setEditable(false); //Makes selectColumn not editable
+                if (newValue == null) {
+                    VocTableList.setEditable(false);
+                    selectColumn.setEditable(false); //Makes selectColumn not editable
                     selectColumn.setVisible(false); //Makes selectColumn invisible
+                    DeleteButton.setVisible(false);
+                    AddButton.setVisible(false);
+                    //System.out.println("IF");
+                    EditEnableToggle.setText(LocalizationManager.get("enable"));
+
+                } else {
+                    VocTableList.setEditable(true);
+                    selectColumn.setEditable(true); //Makes selectColumn editable
+                    selectColumn.setVisible(true); //Makes selectColumn visible
+                    DeleteButton.setVisible(true);
+                    AddButton.setVisible(true);
+                    //System.out.println("ELse");
+                    EditEnableToggle.setText(LocalizationManager.get("disable"));
                 }
             }
         });
-*/
+
     }
+
+    /**
+     * When text is entered, the list is searched for valid hits and the result is set to list
+     */
 
     public void textEntered() {
         String input = SearchBarTextField.getText();
-        list = getVocList();
         if (input == null || input.isEmpty()) {
             VocTableList.setItems(list);
             return;
@@ -192,24 +220,29 @@ public class ControllerVocList extends AnchorPane implements Initializable {
 
             if (voc.getAnswer().toLowerCase().contains(lowerCaseFilter)) {
                 tmp.add(voc);
-                System.out.println("test"+tmp.toString() );
+                //System.out.println("test"+tmp.toString() );
             }
             else if (voc.getQuestion().toLowerCase().contains(lowerCaseFilter)) {
                 tmp.add(voc);
-                System.out.println("test2"+tmp.toString() );
+                //System.out.println("test2"+tmp.toString() );
+            }
+            else if (voc.getLanguage().toLowerCase().contains(lowerCaseFilter)){
+                tmp.add(voc);
+                //System.out.println("test3"+tmp.toString() );
             }
         }
         list = tmp;
         System.out.println("erg"+ list);
         VocTableList.setItems(list);
     }
-//TODO empty search field when clicked at
+
     /**
-     * When called, starts searching for the String entered in SearchBarTextField (Wahrscheinlich) obsolet!
+     * When called, resets the table to it's unfiltered Stage
      */
-
-    public void searchButtonPressed(){
-
+    public void resetSearchPressed(){
+        getData();
+        VocTableList.setItems(list);
+        SearchBarTextField.clear();
     }
 
     /**
@@ -217,10 +250,11 @@ public class ControllerVocList extends AnchorPane implements Initializable {
      */
     public void addButtonPressed() {
         try {
+            Variables.setC(this);
             Stage addStage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("/AddVoc.fxml"));
 
-            Scene scene = new Scene(root, 600, 400);
+            Scene scene = new Scene(root, 400, 300);
             addStage.setTitle(LocalizationManager.get("addVoc"));
             addStage.setResizable(false);
             addStage.centerOnScreen();
@@ -232,63 +266,53 @@ public class ControllerVocList extends AnchorPane implements Initializable {
         }
     }
 
-    /**
-     * Enables/ disables edit
-     */
 
-    public void editSwitchPressed (){
-
-/*
-        //Toggle Edit (does not work, what so ever)
-        final ToggleGroup editGroup = new ToggleGroup();
-        editGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
-            @Override
-            public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
-                if (newValue.isSelected()){
-                    //selectColumn.setEditable(false); //Makes selectColumn not editable
-                    selectColumn.setVisible(true); //Makes selectColumn visible
-                }
-                else {
-                    //selectColumn.setEditable(false); //Makes selectColumn not editable
-                    selectColumn.setVisible(false); //Makes selectColumn invisible
-                }
-            }
-        });
-*/
-    }
 
     /**
      * delete vocabulary
      */
 
     public void deleteSelectedVoc (){
-        for (Vocab voc : VocTableList.getItems()){
-            if (voc.isSelect()){
+        //TODO API CALL über deleteVoc
+        System.out.println("Delete");
+        for(Vocab voc : VocTableList.getItems()){
+            System.out.println("Delete1");
+            if(voc.isSelect()){
+                System.out.println("Delete2");
                 VocTableList.getItems().remove(voc);
+                getData();
+                VocTableList.setItems(list);
             }
-            //TODO API CALL über postToVoc
         }
-    }
+       }
 
     /**
-     * Filters after some arguments
+     * Methode called when the language is changed.
+     * Set's all Variables to the current selected language
      */
-    public void filterButtonPressed() {
-        //TODO implement
-    }
-
-
     public void setLang(){
         SearchBarTextField.setPromptText(LocalizationManager.get("searchField"));
         SearchButton.setText(LocalizationManager.get("search"));
         AddButton.setText(LocalizationManager.get("add"));
         DeleteButton.setText(LocalizationManager.get("delete"));
-        EditSwitch.setText(LocalizationManager.get("switch"));
+       // EditEnableToggle.setText(LocalizationManager.get("enable"));
+        //EditEnableToggle.setText(LocalizationManager.get("disable"));
 
 
     }
+    public void setVocList (ObservableList list){
+        this.list = list;
+    }
 
+     public ObservableList getVocList(){
+        return list;
+     }
+
+     public void addVocList(ObservableList list){
+        this.list.add((Vocab) list);
+     }
     //Temp data for testing
+   /*
     private  ObservableList<Vocab> getVocList () {
         Vocab voc0 = new Vocab(0, "Folter", "torture","Deutsch", 0,true);
         Vocab voc1 = new Vocab(1, "Schmerz", "pain","Deutsch", 0);
@@ -297,16 +321,13 @@ public class ControllerVocList extends AnchorPane implements Initializable {
         ObservableList<Vocab> vocList = FXCollections.observableArrayList(voc0,voc1, voc2);
         return vocList;
     }
+*/
 
-    private void getData(){
+    public void getData(){
+        ArrayList<Vocab> tmp = new ArrayList<>();
         for(Vocab v : Variables.getUsersVocab()){
-
-            list.add(new Vocab(v.getId(),v.getAnswer(),v.getQuestion(),v.getLanguage(),v.getPhase()));
-            //list.add(new Vocab(0, "Folter", "torture","Deutsch", 0,true));
-            //list.add(new Vocab(1, "Schmerz", "pain","Deutsch", 0));
-            //list.add(new Vocab(2, "Kuh", "cow","Deutsch", 0));
-
+            tmp.add(new Vocab(v.getId(),v.getAnswer(),v.getQuestion(),v.getLanguage(),v.getPhase()));
         }
-        //list = FXCollections.observableList(list);
+        list = FXCollections.observableList(tmp);
     }
 }

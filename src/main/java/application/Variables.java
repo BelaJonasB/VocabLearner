@@ -10,6 +10,7 @@ public class Variables {
 	private static String mail, server;
 	private static List<Vocab> usersVocab, selectedVocab;
 	private static double x,y;
+	private static ControllerVocList c;
 
 	public static String getServer() { return server; }
 	public static void setServer(String server) {
@@ -38,4 +39,12 @@ public class Variables {
 
 	public static double getY() { return y; }
 	public static void setY(double y) { Variables.y = y; }
+
+	public static ControllerVocList getC() {
+		return c;
+	}
+
+	public static void setC(ControllerVocList c) {
+		Variables.c = c;
+	}
 }

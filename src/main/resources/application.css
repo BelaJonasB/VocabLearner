@@ -228,7 +228,30 @@
 .mainVocList {
 	-fx-background-color: white;
 }
-
+.space {
+  -fx-spacing: 15;
+  -fx-border-width: 0;
+  -fx-padding: 1 2 1 2;   /* Top Right Bottom Left */
+}
+/* AddVoc */
+.mainAddVoc{
+    -fx-background-color: white
+}
+.bars {
+	-fx-pref-width: 100;
+	-fx-background-radius: 15px;
+	-fx-padding: 6 5 6 15;
+}
+.search {
+	-fx-pref-width: 360;
+	-fx-background-radius: 15px;
+	-fx-padding: 6 5 6 15;
+}
+.largeSpace {
+  -fx-spacing: 50;
+  -fx-border-width: 0;
+  -fx-padding: 1 2 1 2;   /* Top Right Bottom Left */
+}
 /* Goals */
 .mainGoals {
 	-fx-background-color: white;

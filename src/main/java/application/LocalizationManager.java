@@ -38,14 +38,17 @@ public class LocalizationManager extends ControllerLogin{
         english.put("listSetts1", "Language:");
         english.put("apply", "Apply");
         english.put("setting", "Settings");
+
         //English text for VocList
+        //TODO Check translations
         english.put("searchField","Enter search");
         english.put("search","Search");
         english.put("add","Add");
         english.put("delete","Delete");
-        english.put("switch","Edit");
+        english.put("switch","Enable");
+        english.put("enable","Enable Edit-Mode");
+        english.put("disable","Disable Edit-Mode");
         english.put("select","Select");
-
         //English text for VocAdd
         english.put("answerAdd","Enter Answer here");
         english.put("questionAdd","Enter Question here");
@@ -81,12 +84,16 @@ public class LocalizationManager extends ControllerLogin{
         german.put("listSetts1", "Sprache:");
         german.put("apply", "Anwenden");
         german.put("setting", "Einstellungen");
+
         //German text for VocList
+        //TODO Check translations
         german.put("searchField","Suche hier ein eingeben");
         german.put("search","Suchen");
         german.put("add","Hinzuf\u00FCgen");
         german.put("delete","L\u00F6schen");
-        german.put("switch","Bearbeiten");
+        german.put("switch","Ein");
+        german.put("enable","Aktiviere Bearbeitungs-Modus");
+        german.put("disable","Deaktiviere Bearbeitungs-Modus");
         german.put("select","Ausw\u00E4hlen");
         //German text for VocAdd
         german.put("answerAdd","Antwort hier eingeben");
