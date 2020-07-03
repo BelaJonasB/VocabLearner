@@ -204,15 +204,24 @@ public class ControllerLearning extends AnchorPane implements Initializable {
      * compares the translation from the user with the answer of the asked vocable
      *  increases the counters for the result screen
      *  saves the result for the vocable
+     *  changes the Phase
      */
     public void compareAnswer(){
         String translation = userTranslation.getText();
         int scored = 0;
+        int newPhase = 0;
 
+        /*
+         * compares the translation from the user with the answer of the asked vocable
+         */
         int errors = calculate(translation,currentVocable.answer);
 
+        /*
+         *  increases the counters for the result screen
+         */
         if(errors == 0) {
             scored = 3;
+            newPhase = +1;
             completelyCorrect++;
         }
         else {
@@ -220,17 +229,28 @@ public class ControllerLearning extends AnchorPane implements Initializable {
                 scored = 1;
                 partlyCorrect++;
             } else {
+                newPhase = -1;
                 completelyWrong++;
             }
         }
         testedAmount++;
         score +=  scored;
 
+        /*
+         *  saves the result for the vocable
+         */
         listTestedVocables.add(new VocabList( testedAmount,  currentVocable.question, currentVocable.answer, translation, errors));
 
         userErrors.setText(" " + errors);
         userScored.setText(" " + scored);
         userScore.setText(" " + score);
+
+        /*
+         *  saves the result for the vocable
+         */
+        APICalls api = new APICalls();
+        Vocab phaseOfcurrentVocable = new Vocab(currentVocable.id, currentVocable.answer, currentVocable.question, currentVocable.language, currentVocable.phase + newPhase);
+        api.editVoc(phaseOfcurrentVocable);
     }
 
     /**

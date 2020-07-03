@@ -52,7 +52,7 @@ public class VocabList {
      * @param language1
      * @param language2
      * @param userTranslation
-     * @param phase
+     * @param phase (In "showAllVocables": shows how many Errors you had in your given Answer and not the phase)
      */
     public VocabList (int number, String language1, String language2, String userTranslation, int phase){
         this.number = number;
