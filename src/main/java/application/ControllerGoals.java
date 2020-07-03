@@ -135,6 +135,15 @@ public class ControllerGoals extends AnchorPane implements Initializable {
     }
 
     /**
+     * enables the user to deselect all vocabs
+     */
+    public void deselectAllButtonClicked(){
+        for(VocabSelection v : shownVocabList){
+            v.getSelectVocab().setSelected(false);
+        }
+    }
+
+    /**
      * inits labels depending on set language
      */
     private void setLang() {
