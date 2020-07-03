@@ -162,6 +162,8 @@ public class APICalls{
      * @return
      */
     public int deleteVoc(Integer id) {
+
+        System.out.println("stringdelete" + id);
         Request req = new Request.Builder()
                 .header("email", user)
                 .header("password", pw)

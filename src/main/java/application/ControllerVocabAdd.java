@@ -51,9 +51,6 @@ public class ControllerVocabAdd extends AnchorPane implements Initializable {
                 e.printStackTrace();
             }
             System.out.println(newVoc);
-
-        } else {
-            //System.out.println("Fehler");
         }
         AnswerTextField.clear();
         QuestionTextField.clear();

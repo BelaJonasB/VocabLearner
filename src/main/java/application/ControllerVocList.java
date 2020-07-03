@@ -1,6 +1,5 @@
 package application;
-
-import javafx.application.Platform;
+;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -12,7 +11,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
@@ -22,8 +20,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import javafx.util.Callback;
-
 
 import java.io.IOException;
 import java.net.URL;
@@ -46,20 +42,20 @@ public class ControllerVocList extends AnchorPane implements Initializable {
     @FXML
     public TextField SearchBarTextField;
     @FXML
-    public Button  AddButton,DeleteButton,SearchButton,ResetButton;
+    public Button AddButton, DeleteButton, SearchButton, ResetButton;
     @FXML
     public ToggleButton EditEnableToggle;
     @FXML
-    public TableView<Vocab> VocTableList;
+    public TableView<VocabSelection> VocTableList;
 
-    public ObservableList<Vocab> list;
+    public ObservableList<VocabSelection> list;
 
     APICalls api = new APICalls();
     Timer timer = new Timer();
 
     private final ControllerLogin controllerLogin;
 
-    public ControllerVocList(ControllerLogin controllerLogin) {        //
+    public ControllerVocList(ControllerLogin controllerLogin) {
         this.controllerLogin = controllerLogin;
 
         FXMLLoader goList = new FXMLLoader(getClass().getResource("/VocList.fxml"));
@@ -75,35 +71,35 @@ public class ControllerVocList extends AnchorPane implements Initializable {
     /**
      * Initializes the controller class.
      * This method is automatically called after the login is finished(the corresponding fxml file: VocList.fxml is loaded)
-     *
+     * and the pane as well as its features are loaded
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //execute language selection
         LocalizationManager.Init();
         setLang();
-        //TODO set name for edit at launch
 
         //ID-Column stuff
-        TableColumn <Vocab, Integer> idColumn = new TableColumn(LocalizationManager.get("id"));
+        TableColumn<VocabSelection, Integer> idColumn = new TableColumn(LocalizationManager.get("id"));
         idColumn.setMinWidth(40);
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
 
         //Answer-Column stuff
-        TableColumn <Vocab, String> answerColumn  = new TableColumn(LocalizationManager.get("answer"));
+        TableColumn<VocabSelection, String> answerColumn = new TableColumn(LocalizationManager.get("answer"));
         answerColumn.setMinWidth(80);
         answerColumn.setCellValueFactory(
                 new PropertyValueFactory<>("answer"));
         answerColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-        answerColumn.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Vocab, String>>() {
+        answerColumn.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<VocabSelection, String>>() {
             @Override
-            public void handle(TableColumn.CellEditEvent<Vocab, String> event) {
+            public void handle(TableColumn.CellEditEvent<VocabSelection, String> event) {
                 (event.getTableView().getItems().get(
                         event.getTablePosition().getRow())
                 ).setAnswer(event.getNewValue());
                 //System.out.println(event.getNewValue()+event.getRowValue());
-                Vocab voc = event.getRowValue();
-                new Thread(new Runnable() {
+                Vocab tmp = (Vocab) event.getRowValue();
+                Vocab voc = new Vocab(tmp.getId(), tmp.getAnswer(), tmp.getQuestion(), tmp.getLanguage(), tmp.getPhase());
+                Thread t1 = new Thread(new Runnable() {
                     @Override
                     public void run() {
                         api.editVoc(voc);
@@ -116,27 +112,26 @@ public class ControllerVocList extends AnchorPane implements Initializable {
                         getData();
                         VocTableList.setItems(list);
                     }
-                }).start();
-
+                });
+                t1.start();
             }
         });
 
-
-
-        //Question-Column stuff
-        TableColumn <Vocab, String> questionColumn = new TableColumn(LocalizationManager.get("question"));
+        //Question-Column initialization
+        TableColumn<VocabSelection, String> questionColumn = new TableColumn(LocalizationManager.get("question"));
         questionColumn.setMinWidth(80);
         questionColumn.setCellValueFactory(
                 new PropertyValueFactory<>("question"));
         questionColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-        questionColumn.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Vocab, String>>() {
+        questionColumn.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<VocabSelection, String>>() {
             @Override
-            public void handle(TableColumn.CellEditEvent<Vocab, String> event) {
+            public void handle(TableColumn.CellEditEvent<VocabSelection, String> event) {
                 (event.getTableView().getItems().get(
                         event.getTablePosition().getRow())
                 ).setQuestion(event.getNewValue());
-                Vocab voc = event.getRowValue();
-                new Thread(new Runnable() {
+                Vocab tmp = (Vocab) event.getRowValue();
+                Vocab voc = new Vocab(tmp.getId(), tmp.getAnswer(), tmp.getQuestion(), tmp.getLanguage(), tmp.getPhase());
+                Thread t2 = new Thread(new Runnable() {
                     @Override
                     public void run() {
                         api.editVoc(voc);
@@ -149,25 +144,26 @@ public class ControllerVocList extends AnchorPane implements Initializable {
                         getData();
                         VocTableList.setItems(list);
                     }
-                }).start();
-
+                });
+                t2.start();
             }
         });
 
-        //Language-Column stuff
-        TableColumn <Vocab, String> languageColumn = new TableColumn<>(LocalizationManager.get("language"));
+        //Language-Column initialization
+        TableColumn<VocabSelection, String> languageColumn = new TableColumn<>(LocalizationManager.get("language"));
         languageColumn.setMinWidth(80);
         languageColumn.setCellValueFactory(
                 new PropertyValueFactory<>("language"));
         languageColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-        languageColumn.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Vocab, String>>() {
+        languageColumn.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<VocabSelection, String>>() {
             @Override
-            public void handle(TableColumn.CellEditEvent<Vocab, String> event) {
+            public void handle(TableColumn.CellEditEvent<VocabSelection, String> event) {
                 (event.getTableView().getItems().get(
                         event.getTablePosition().getRow())
                 ).setLanguage(event.getNewValue());
-                Vocab voc = event.getRowValue();
-                new Thread(new Runnable() {
+                Vocab tmp = event.getRowValue();
+                Vocab voc = new Vocab(tmp.getId(), tmp.getAnswer(), tmp.getQuestion(), tmp.getLanguage(), tmp.getPhase());
+                Thread t3 = new Thread(new Runnable() {
                     @Override
                     public void run() {
                         api.editVoc(voc);
@@ -180,37 +176,26 @@ public class ControllerVocList extends AnchorPane implements Initializable {
                         getData();
                         VocTableList.setItems(list);
                     }
-                }).start();
-                primarStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                    @Override
-                    public void handle(WindowEvent event) {
-                      //  thread3.stop();
-                    }
                 });
+                t3.start();
             }
         });
 
-        //Phase-Column stuff
-        TableColumn <Vocab, Integer> phaseColumn = new TableColumn(LocalizationManager.get("phase"));
-        phaseColumn.setMinWidth(40);
+        //Phase-Column initialization
+        TableColumn<VocabSelection, Integer> phaseColumn = new TableColumn(LocalizationManager.get("phase"));
+        phaseColumn.setMinWidth(20);
         phaseColumn.setCellValueFactory(new PropertyValueFactory<>("phase"));
 
-        //Select-Column stuff
-        TableColumn <Vocab, Boolean> selectColumn = new TableColumn(LocalizationManager.get("select"));
-        selectColumn.setCellValueFactory(new PropertyValueFactory<>("select"));
-
-
-        selectColumn.setCellFactory(CheckBoxTableCell.forTableColumn(selectColumn));
-
-
-
+        //Select-Column initialization
+        TableColumn<VocabSelection, CheckBox> selectColumn = new TableColumn(LocalizationManager.get("select"));
+        selectColumn.setCellValueFactory(new PropertyValueFactory<>("selectVocab"));
 
         //Set Data to list and add Columns
-        VocTableList.getColumns().addAll(idColumn, answerColumn, questionColumn,languageColumn, phaseColumn, selectColumn);
+        VocTableList.getColumns().addAll(idColumn, answerColumn, questionColumn, languageColumn, phaseColumn, selectColumn);
         VocTableList.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        System.out.println("1"+list);
+        //System.out.println("1" + list);
         getData();
-        System.out.println("2"+list);
+        //System.out.println("2" + list);
         VocTableList.setItems(list);
 
         //Some default settings
@@ -231,7 +216,6 @@ public class ControllerVocList extends AnchorPane implements Initializable {
 
         EditEnableToggle.setToggleGroup(editGroup);
         EditEnableToggle.setSelected(false);
-
 
         editGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
             @Override
@@ -257,14 +241,17 @@ public class ControllerVocList extends AnchorPane implements Initializable {
             }
         });
 
-        //Timer for automatic refresh after two minutes and at launch
-        timer.scheduleAtFixedRate(new TimerTask(){
+        /**
+         * Timer for automatic refresh after two minutes and at launch
+         */
+        timer.scheduleAtFixedRate(new TimerTask() {
             @Override
 
             public void run() {
                 getData();
                 VocTableList.setItems(list);
-                System.out.println("Refresh");
+                //System.out.println("Refresh");
+
                 //Cancel timer when application is closed
                 primarStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
                     @Override
@@ -272,8 +259,10 @@ public class ControllerVocList extends AnchorPane implements Initializable {
                         timer.cancel();
                     }
                 });
-            };
-        },0,120000);
+            }
+
+            ;
+        }, 0, 120000);
     }
 
     /**
@@ -287,32 +276,30 @@ public class ControllerVocList extends AnchorPane implements Initializable {
             return;
         }
         String lowerCaseFilter = input.toLowerCase();
-        ObservableList<Vocab> tmp = FXCollections.observableArrayList();
+        ObservableList<VocabSelection> tmp = FXCollections.observableArrayList();
 
-        for (Vocab voc : list) {
+        for (VocabSelection voc : list) {
 
             if (voc.getAnswer().toLowerCase().contains(lowerCaseFilter)) {
                 tmp.add(voc);
                 //System.out.println("test"+tmp.toString() );
-            }
-            else if (voc.getQuestion().toLowerCase().contains(lowerCaseFilter)) {
+            } else if (voc.getQuestion().toLowerCase().contains(lowerCaseFilter)) {
                 tmp.add(voc);
                 //System.out.println("test2"+tmp.toString() );
-            }
-            else if (voc.getLanguage().toLowerCase().contains(lowerCaseFilter)){
+            } else if (voc.getLanguage().toLowerCase().contains(lowerCaseFilter)) {
                 tmp.add(voc);
                 //System.out.println("test3"+tmp.toString() );
             }
         }
         list = tmp;
-        System.out.println("erg"+ list);
+        //System.out.println("erg" + list);
         VocTableList.setItems(list);
     }
 
     /**
      * When called, resets the table to it's unfiltered Stage
      */
-    public void resetSearchPressed(){
+    public void resetSearchPressed() {
         getData();
         VocTableList.setItems(list);
         SearchBarTextField.clear();
@@ -339,68 +326,59 @@ public class ControllerVocList extends AnchorPane implements Initializable {
         }
     }
 
-
-
     /**
-     * delete vocabulary
+     * Deletes the vocabulary which is checked in the displayed Checkbox
      */
-    public void deleteSelectedVoc()
-    {
-        ObservableList<Vocab> mealsSelected = VocTableList.getSelectionModel().;
-        ObservableList<Vocab> allMeals = VocTableList.getItems();
 
-        if (mealsSelected != null) {
-            ArrayList<Vocab> rows = new ArrayList<>(mealsSelected);
-            rows.forEach(row -> VocTableList.getItems().remove(row));
+    public void deleteSelectedVoc() {
+        ArrayList<VocabSelection> tmpArray = new ArrayList();
+        for (VocabSelection voc : list) {
+            if (voc.getSelectVocab().isSelected()) {
+                handleDeletion(voc);
+            }
         }
     }
 
-    public void deleteSelectedVoce (){
-
-        for(Vocab voc : VocTableList.getItems()){
-            System.out.println("Delete1");
-            VocTableList.getItems().removeIf(Vocab::isSelect);
-
-            System.out.println("Delete2");
-            //TODO API CALL über deleteVoc
-            //getData();
-           // VocTableList.setItems(list);
-
-        }
-       }
+    /**
+     * Deletes the handed vocabulary from the API and refreshes the TableView
+     * @param voc vocabulary that is supposed to be deleted
+     */
+    public void handleDeletion(VocabSelection voc) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                api.deleteVoc(voc.getId());
+                try {
+                    api.getUsersVocab();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                getData();
+                VocTableList.setItems(list);
+            }
+        }).start();
+    }
 
     /**
      * Method called when the language is changed.
      * Set's all Variables to the current selected language
      */
-    public void setLang(){
+    public void setLang() {
         SearchBarTextField.setPromptText(LocalizationManager.get("searchField"));
         SearchButton.setText(LocalizationManager.get("search"));
         AddButton.setText(LocalizationManager.get("add"));
         DeleteButton.setText(LocalizationManager.get("delete"));
         EditEnableToggle.setText(LocalizationManager.get("enable"));
-
-
-
-    }
-    public void setVocList (ObservableList list){
-        this.list = list;
     }
 
-     public ObservableList getVocList(){
-        return list;
-     }
-
-     public void addVocList(ObservableList list){
-        this.list.add((Vocab) list);
-     }
-
-    public void getData(){
-        ArrayList<Vocab> tmp = new ArrayList<>();
-        for(Vocab v : Variables.getUsersVocab()){
-            tmp.add(new Vocab(v.getId(),v.getAnswer(),v.getQuestion(),v.getLanguage(),v.getPhase()));
+    /**
+     * Gets the userdata from the variables class and adds it to the list displayed at the TableView
+     */
+    public void getData() {
+        ArrayList<VocabSelection> tmp = new ArrayList<>();
+        for (Vocab v : Variables.getUsersVocab()) {
+            tmp.add(new VocabSelection(v, false));
         }
         list = FXCollections.observableList(tmp);
     }
-
 }

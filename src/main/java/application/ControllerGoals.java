@@ -162,7 +162,6 @@ public class ControllerGoals extends AnchorPane implements Initializable {
         for(VocabSelection v : shownVocabList){
             if(v.getSelectVocab().isSelected()){
                 list.add(v);
-                System.out.println(v);
             }
         }
         return list;
