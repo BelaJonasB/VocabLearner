@@ -20,7 +20,7 @@
                </HBox>
                <HBox fx:id="HBoxButtonBar" prefHeight="30.0" prefWidth="445.0" styleClass="space">
                   <children>
-                     <ToggleButton fx:id="EditEnableToggle" mnemonicParsing="false" prefHeight="30.0" prefWidth="259.0" styleClass="classicButton" text="Edit//TODO" />
+                     <ToggleButton fx:id="EditEnableToggle" mnemonicParsing="false" prefHeight="30.0" prefWidth="259.0" styleClass="classicButton" text="Edit" />
                     <Button fx:id="DeleteButton" mnemonicParsing="false" onAction="#deleteSelectedVoc" prefHeight="30.0" prefWidth="110.0" styleClass="classicButton" text="Löschen" />
                      <Button fx:id="AddButton" mnemonicParsing="false" onAction="#addButtonPressed" prefHeight="30.0" prefWidth="110.0" styleClass="classicButton" text="Hinzufügen" />
                   </children>

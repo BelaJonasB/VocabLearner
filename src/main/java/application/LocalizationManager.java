@@ -56,6 +56,7 @@ public class LocalizationManager extends ControllerLogin{
         english.put("confirm","Confirm");
         english.put("cancel","Cancel");
         english.put("addVoc","Add Vocabulary");
+        english.put("addLabel","Add Vocabulary");
 
         // Goals
         english.put("filterLang", "Filter Language");
@@ -102,6 +103,7 @@ public class LocalizationManager extends ControllerLogin{
         german.put("confirm","Best\u00E4tigen");
         german.put("cancel","Abbrechen");
         german.put("addVoc","Vokabel hinzuf\u00FCgen");
+        german.put("addLabel","Vokabeln hinzuf\u00FCgen");
 
         // Goals
         german.put("filterLang", "Nach Sprache Filtern");

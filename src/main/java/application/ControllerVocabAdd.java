@@ -67,7 +67,6 @@ public class ControllerVocabAdd extends AnchorPane implements Initializable {
     public void closeAddStage (){
         Stage Stage = (Stage) CancelButton.getScene().getWindow();
         Stage.close();
-
     }
 
     /**
@@ -79,7 +78,7 @@ public class ControllerVocabAdd extends AnchorPane implements Initializable {
         LanguageTextField.setPromptText(LocalizationManager.get("languageAdd"));
         ConfirmButton.setText(LocalizationManager.get("confirm"));
         CancelButton.setText(LocalizationManager.get("cancel"));
-
+        TopLabel.setText(LocalizationManager.get("addLabel"));
     }
 
 }

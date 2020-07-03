@@ -9,27 +9,23 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="277.0" prefWidth="400.0" styleClass="mainVocList" stylesheets="@application.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ControllerVocabAdd">
    <children>
-      <VBox prefHeight="277.0" prefWidth="400.0">
+      <VBox prefHeight="42.0" prefWidth="400.0" AnchorPane.leftAnchor="20.0">
          <children>
-            <VBox prefHeight="42.0" prefWidth="400.0">
-               <children>
-                  <Label fx:id="TopLabel" prefHeight="45.0" prefWidth="400.0" text="Vokabeln hinzufügen" />
-               </children>
-            </VBox>
-            <VBox prefHeight="205.0" prefWidth="400.0" styleClass="space">
-               <children>
-                  <TextField fx:id="AnswerTextField" prefHeight="30.0" maxWidth="250.0"  promptText="1. Sprache eingeben" styleClass="bars" />
-                  <TextField fx:id="QuestionTextField" prefHeight="30.0" maxWidth="250.0" promptText="2. Sprache eingeben" styleClass="bars" />
-                  <TextField fx:id="LanguageTextField" prefHeight="30.0" maxWidth="250.0" promptText="Sprache eingeben" styleClass="bars" />
-               </children>
-            </VBox>
-            <HBox prefHeight="30.0" prefWidth="400.0" styleClass="largeSpace">
-               <children>
-                  <Button fx:id="ConfirmButton" mnemonicParsing="false" onAction="#parseNewVoc" prefHeight="25.0" prefWidth="200.0" styleClass="classicButton" text="Bestätigen" />
-                  <Button fx:id="CancelButton" mnemonicParsing="false" onAction="#closeAddStage" prefHeight="25.0" prefWidth="200.0" styleClass="classicButton" text="Abbrechen" />
-               </children>
-            </HBox>
+            <Label fx:id="TopLabel" prefHeight="45.0" prefWidth="400.0" text="Vokabeln hinzufügen" styleClass="page" />
          </children>
       </VBox>
+      <VBox prefHeight="205.0" prefWidth="400.0" styleClass="space" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="50.0">
+         <children>
+            <TextField fx:id="AnswerTextField" maxWidth="250.0" prefHeight="30.0" promptText=" Enter Answer" styleClass="bars" />
+            <TextField fx:id="QuestionTextField" maxWidth="250.0" prefHeight="30.0" promptText="Enter Question" styleClass="bars" />
+            <TextField fx:id="LanguageTextField" maxWidth="250.0" prefHeight="30.0" promptText="Enter Language" styleClass="bars" />
+         </children>
+      </VBox>
+      <HBox prefHeight="30.0" prefWidth="400.0" styleClass="space" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+         <children>
+            <Button fx:id="ConfirmButton" mnemonicParsing="false" onAction="#parseNewVoc" prefHeight="25.0" prefWidth="130.0" styleClass="classicButton" text="Bestätigen" />
+            <Button fx:id="CancelButton" mnemonicParsing="false" onAction="#closeAddStage" prefHeight="25.0" prefWidth="130.0" styleClass="classicButton" text="Abbrechen" />
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

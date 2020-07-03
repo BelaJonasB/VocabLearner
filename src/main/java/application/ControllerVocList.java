@@ -1,5 +1,6 @@
 package application;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -20,12 +21,18 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import javafx.util.Callback;
 
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import static application.Main.primarStage;
 
 
 /**
@@ -48,6 +55,7 @@ public class ControllerVocList extends AnchorPane implements Initializable {
     public ObservableList<Vocab> list;
 
     APICalls api = new APICalls();
+    Timer timer = new Timer();
 
     private final ControllerLogin controllerLogin;
 
@@ -89,15 +97,28 @@ public class ControllerVocList extends AnchorPane implements Initializable {
         answerColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         answerColumn.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Vocab, String>>() {
             @Override
-            public void handle(TableColumn.CellEditEvent<Vocab, String> str) {
-                (str.getTableView().getItems().get(
-                        str.getTablePosition().getRow())
-                ).setAnswer(str.getNewValue());
-               // Vocab voc = str.getTableView().getItems().get();
-                //System.out.println(voc);
-                //api.editVoc(voc);
+            public void handle(TableColumn.CellEditEvent<Vocab, String> event) {
+                (event.getTableView().getItems().get(
+                        event.getTablePosition().getRow())
+                ).setAnswer(event.getNewValue());
+                //System.out.println(event.getNewValue()+event.getRowValue());
+                Vocab voc = event.getRowValue();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        api.editVoc(voc);
+
+                        try {
+                            api.getUsersVocab();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        getData();
+                        VocTableList.setItems(list);
+                    }
+                }).start();
+
             }
-            //TODO Save to API when edited!
         });
 
 
@@ -110,12 +131,27 @@ public class ControllerVocList extends AnchorPane implements Initializable {
         questionColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         questionColumn.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Vocab, String>>() {
             @Override
-            public void handle(TableColumn.CellEditEvent<Vocab, String> str) {
-                (str.getTableView().getItems().get(
-                        str.getTablePosition().getRow())
-                ).setQuestion(str.getNewValue());
+            public void handle(TableColumn.CellEditEvent<Vocab, String> event) {
+                (event.getTableView().getItems().get(
+                        event.getTablePosition().getRow())
+                ).setQuestion(event.getNewValue());
+                Vocab voc = event.getRowValue();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        api.editVoc(voc);
+
+                        try {
+                            api.getUsersVocab();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        getData();
+                        VocTableList.setItems(list);
+                    }
+                }).start();
+
             }
-            //TODO Save to API when edited!
         });
 
         //Language-Column stuff
@@ -126,12 +162,32 @@ public class ControllerVocList extends AnchorPane implements Initializable {
         languageColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         languageColumn.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Vocab, String>>() {
             @Override
-            public void handle(TableColumn.CellEditEvent<Vocab, String> str) {
-                (str.getTableView().getItems().get(
-                        str.getTablePosition().getRow())
-                ).setLanguage(str.getNewValue());
+            public void handle(TableColumn.CellEditEvent<Vocab, String> event) {
+                (event.getTableView().getItems().get(
+                        event.getTablePosition().getRow())
+                ).setLanguage(event.getNewValue());
+                Vocab voc = event.getRowValue();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        api.editVoc(voc);
+
+                        try {
+                            api.getUsersVocab();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        getData();
+                        VocTableList.setItems(list);
+                    }
+                }).start();
+                primarStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                    @Override
+                    public void handle(WindowEvent event) {
+                      //  thread3.stop();
+                    }
+                });
             }
-            //TODO Save to API when edited!
         });
 
         //Phase-Column stuff
@@ -141,12 +197,11 @@ public class ControllerVocList extends AnchorPane implements Initializable {
 
         //Select-Column stuff
         TableColumn <Vocab, Boolean> selectColumn = new TableColumn(LocalizationManager.get("select"));
-
         selectColumn.setCellValueFactory(new PropertyValueFactory<>("select"));
+
+
         selectColumn.setCellFactory(CheckBoxTableCell.forTableColumn(selectColumn));
 
-        selectColumn.setEditable(false); //Makes selectColumn not editable
-        //selectColumn.setVisible(false); //Makes selectColumn invisible by default
 
 
 
@@ -162,10 +217,11 @@ public class ControllerVocList extends AnchorPane implements Initializable {
         boolean testing = false;  //set all True FOR TESTING
         VocTableList.setEditable(testing);
         idColumn.setVisible(testing);
+        selectColumn.setEditable(testing);
         selectColumn.setVisible(testing);
         AddButton.setVisible(testing);
         DeleteButton.setVisible(testing);
-
+        EditEnableToggle.setText(LocalizationManager.get("enable"));
 
         /**
          * Toggle-function for enable and disable the edit-function
@@ -201,6 +257,23 @@ public class ControllerVocList extends AnchorPane implements Initializable {
             }
         });
 
+        //Timer for automatic refresh after two minutes and at launch
+        timer.scheduleAtFixedRate(new TimerTask(){
+            @Override
+
+            public void run() {
+                getData();
+                VocTableList.setItems(list);
+                System.out.println("Refresh");
+                //Cancel timer when application is closed
+                primarStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                    @Override
+                    public void handle(WindowEvent event) {
+                        timer.cancel();
+                    }
+                });
+            };
+        },0,120000);
     }
 
     /**
@@ -254,7 +327,7 @@ public class ControllerVocList extends AnchorPane implements Initializable {
             Stage addStage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("/AddVoc.fxml"));
 
-            Scene scene = new Scene(root, 400, 300);
+            Scene scene = new Scene(root, 300, 300);
             addStage.setTitle(LocalizationManager.get("addVoc"));
             addStage.setResizable(false);
             addStage.centerOnScreen();
@@ -271,23 +344,33 @@ public class ControllerVocList extends AnchorPane implements Initializable {
     /**
      * delete vocabulary
      */
+    public void deleteSelectedVoc()
+    {
+        ObservableList<Vocab> mealsSelected = VocTableList.getSelectionModel().;
+        ObservableList<Vocab> allMeals = VocTableList.getItems();
 
-    public void deleteSelectedVoc (){
-        //TODO API CALL über deleteVoc
-        System.out.println("Delete");
+        if (mealsSelected != null) {
+            ArrayList<Vocab> rows = new ArrayList<>(mealsSelected);
+            rows.forEach(row -> VocTableList.getItems().remove(row));
+        }
+    }
+
+    public void deleteSelectedVoce (){
+
         for(Vocab voc : VocTableList.getItems()){
             System.out.println("Delete1");
-            if(voc.isSelect()){
-                System.out.println("Delete2");
-                VocTableList.getItems().remove(voc);
-                getData();
-                VocTableList.setItems(list);
-            }
+            VocTableList.getItems().removeIf(Vocab::isSelect);
+
+            System.out.println("Delete2");
+            //TODO API CALL über deleteVoc
+            //getData();
+           // VocTableList.setItems(list);
+
         }
        }
 
     /**
-     * Methode called when the language is changed.
+     * Method called when the language is changed.
      * Set's all Variables to the current selected language
      */
     public void setLang(){
@@ -295,8 +378,8 @@ public class ControllerVocList extends AnchorPane implements Initializable {
         SearchButton.setText(LocalizationManager.get("search"));
         AddButton.setText(LocalizationManager.get("add"));
         DeleteButton.setText(LocalizationManager.get("delete"));
-       // EditEnableToggle.setText(LocalizationManager.get("enable"));
-        //EditEnableToggle.setText(LocalizationManager.get("disable"));
+        EditEnableToggle.setText(LocalizationManager.get("enable"));
+
 
 
     }
@@ -311,17 +394,6 @@ public class ControllerVocList extends AnchorPane implements Initializable {
      public void addVocList(ObservableList list){
         this.list.add((Vocab) list);
      }
-    //Temp data for testing
-   /*
-    private  ObservableList<Vocab> getVocList () {
-        Vocab voc0 = new Vocab(0, "Folter", "torture","Deutsch", 0,true);
-        Vocab voc1 = new Vocab(1, "Schmerz", "pain","Deutsch", 0);
-        Vocab voc2 = new Vocab(2, "Kuh", "cow","Deutsch", 0);
-
-        ObservableList<Vocab> vocList = FXCollections.observableArrayList(voc0,voc1, voc2);
-        return vocList;
-    }
-*/
 
     public void getData(){
         ArrayList<Vocab> tmp = new ArrayList<>();
@@ -330,4 +402,5 @@ public class ControllerVocList extends AnchorPane implements Initializable {
         }
         list = FXCollections.observableList(tmp);
     }
+
 }

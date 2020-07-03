@@ -308,7 +308,7 @@
 .table-view .column-header#select .label {
 	-fx-alignment: center;
 }
-.table-view .cell#select > .check-box > .box{
+.table-view .cell > .check-box > .box{
 	-fx-background-color: #ffe600;
 }
 .table-view .cell{

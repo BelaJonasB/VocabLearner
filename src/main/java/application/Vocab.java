@@ -2,6 +2,7 @@ package application;
 
 import com.google.gson.annotations.Expose;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class Vocab {
     String language;
     int phase;
     boolean select;
+
     /**
      * Creates new Vocab entry
      */
@@ -57,6 +59,7 @@ public class Vocab {
         this.phase = phase;
         this.select = select;
     }
+
     public Vocab (String answer, String question,String language, int phase){
         this.answer = answer;
         this.question = question;
@@ -111,6 +114,10 @@ public class Vocab {
     }
 
     public boolean isSelect() {
+        return select;
+    }
+
+    public boolean isSelected() {
         return select;
     }
 
