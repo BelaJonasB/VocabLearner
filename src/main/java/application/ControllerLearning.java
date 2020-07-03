@@ -27,11 +27,11 @@ public class ControllerLearning extends AnchorPane implements Initializable {
     @FXML
     private Label userScore;
     @FXML
-    private HBox mainLearning, learningButtons, results, resultButtons, resultButtons2;
+    private HBox mainLearning, learningButtons, results, resultButtons, resultButtons2, errorNoVocables, errorButtons;
     @FXML
-    private Button solveButton, nextButton, returnButton, showAllVocablesButton, hideAllVocablesButton, restartLearningButton;
+    private Button solveButton, nextButton, showAllVocablesButton, hideAllVocablesButton, restartLearningButton;
     @FXML
-    private TextField selectedVocable, selectedVocableTranslation, userTranslation, userScored,  userErrors, testedVocables, correctVocables, wrongVocables, partCorrectVocables, scoreFinal;
+    private TextField selectedVocable, selectedVocableTranslation, userTranslation, userScored,  userErrors, testedVocables, correctVocables, wrongVocables, partCorrectVocables, scoreFinal, averageScored;
     @FXML
     private TableView<VocabList> allVocables;
 
@@ -41,7 +41,7 @@ public class ControllerLearning extends AnchorPane implements Initializable {
     private int currentVocIndex = -1;
     private Vocab currentVocable;
 
-    private int score = 0;
+    private double score = 0;
     private int completelyCorrect = 0;
     private int partlyCorrect = 0;
     private int completelyWrong = 0;
@@ -66,11 +66,12 @@ public class ControllerLearning extends AnchorPane implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if(Variables.getSelectedVocab().isEmpty()) {
-            //TODO error screen
+            changeLearningScene(false, false, false, false, false, false,true,true);
+            return;
         } else {
             list = Variables.getSelectedVocab();
         }
-        changeLearningScene(true,true,false,false,false, false);
+        changeLearningScene(true,true,false,false,false, false,false,false);
 
         userTranslation.textProperty().addListener((observable, oldValue, newValue) -> {
             solveButton.setDisable(newValue.isEmpty());
@@ -86,41 +87,26 @@ public class ControllerLearning extends AnchorPane implements Initializable {
      * @param pResultButtons
      * @param pAllVocables
      */
-    public void changeLearningScene(boolean pMainLearning, boolean pLearningButtons, boolean pResults, boolean pResultButtons, boolean pAllVocables, boolean pResultButtons2){
+    public void changeLearningScene(boolean pMainLearning, boolean pLearningButtons, boolean pResults, boolean pResultButtons, boolean pAllVocables, boolean pResultButtons2, boolean pErrorButtons, boolean pErrorNoVocables){
         mainLearning.setVisible(pMainLearning);
         learningButtons.setVisible(pLearningButtons);
         results.setVisible(pResults);
         resultButtons.setVisible(pResultButtons);
         allVocables.setVisible(pAllVocables);
         resultButtons2.setVisible(pResultButtons2);
+        errorNoVocables.setVisible(pErrorNoVocables);
+        errorButtons.setVisible(pErrorButtons);
     }
 
     /**
     * switches to the result screen
      */
     public void openResults(){
-        changeLearningScene(false,false,true,true,false, false);
+        changeLearningScene(false,false,true,true,false, false,false,false);
 
-        testedVocables.setText("" + testedAmount);
-        correctVocables.setText("" + completelyCorrect);
-        partCorrectVocables.setText("" + partlyCorrect);
-        wrongVocables.setText("" + completelyWrong);
-        scoreFinal.setText("" + score);
-    }
-
-    /**
-    * start learning again, with the same vocables
-     */
-    public void restartLearning(){
-        List<Vocab> vocabToLearn = Variables.getSelectedVocab();
-        Collections.shuffle(vocabToLearn);
-        controllerLogin.gotoLearn(vocabToLearn);
-    }
-
-    /**
-     *  switches from the results overall to stats for every single vocable
-     */
-    public void showAllVocables(){
+        /*
+          *  creates the Table to list all tested Vocables and their results in detail
+         */
         TableColumn<VocabList, Integer> numberColumn = new TableColumn("Nummer");
         TableColumn<VocabList, String> questionColumn  = new TableColumn("Deutsch");
         TableColumn<VocabList, String> userTranslationColumn = new TableColumn("Antwort");
@@ -138,11 +124,50 @@ public class ControllerLearning extends AnchorPane implements Initializable {
         allVocables.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         allVocables.setEditable(false);
 
-        changeLearningScene(false,false,false,false,true, true);
+
+        /*
+         *  fills the textfields on the overall resultscreen with numbers and values
+         */
+        testedVocables.setText("" + testedAmount);
+        correctVocables.setText("" + completelyCorrect);
+        partCorrectVocables.setText("" + partlyCorrect);
+        wrongVocables.setText("" + completelyWrong);
+        scoreFinal.setText("" + score);
+        averageScored.setText("+" +score/testedAmount);
+    }
+
+    /**
+     *  from the Errorscreen switch to Vocabulary
+     */
+    public void gotoVocabList(){
+        controllerLogin.gotoVocList();
+    }
+
+    /**
+     *  from the Errorscreen switch to Goals
+     */
+    public void gotoGoals(){
+        controllerLogin.gotoGoals();
+    }
+
+    /**
+    * start learning again, with the same vocables
+     */
+    public void restartLearning(){
+        List<Vocab> vocabToLearn = Variables.getSelectedVocab();
+        Collections.shuffle(vocabToLearn);
+        controllerLogin.gotoLearn(vocabToLearn);
+    }
+
+    /**
+     *  switches from the results overall to stats for every single vocable
+     */
+    public void showAllVocables(){
+        changeLearningScene(false,false,false,false,true, true,false,false);
     }
 
     public void hideAllVocables(){
-        changeLearningScene(false,false,true,true,false, false);
+        changeLearningScene(false,false,true,true,false, false,false,false);
     }
 
     /**
@@ -232,11 +257,25 @@ public class ControllerLearning extends AnchorPane implements Initializable {
         return min(substitution, insertion, deletion);
     }
 
-    public static int costOfSubstitution(char a, char b) {
+    /**
+     *Algorithmus nr.2 for Levenshtein distance
+     * calculates, how many letters you have to change between two words, inorder for them to match exactly
+     * @param a = char at "position" of translation (from User)
+     * @param b = char at "position" of  answer of the current Vocable
+     * @return if chars at "position" are equal or not
+     */
+    public static int costOfSubstitution(char a, char b)
+    {
         return a == b ? 0 : 1;
     }
 
-    public static int min(int... numbers) {
+    /**
+     *Algorithmus nr.3 for Levenshtein distance
+     * calculates, how many letters you have to change between two words, inorder for them to match exactly
+     * @param numbers ( int Array )
+     * @return  the minimum of the listed numbers
+     */
+     public static int min(int... numbers) {
         return Arrays.stream(numbers)
                 .min().orElse(Integer.MAX_VALUE);
     }
