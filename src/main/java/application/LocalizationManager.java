@@ -38,23 +38,36 @@ public class LocalizationManager extends ControllerLogin{
         english.put("listSetts1", "Language:");
         english.put("apply", "Apply");
         english.put("setting", "Settings");
+
         //English text for VocList
+        //TODO Check translations
         english.put("searchField","Enter search");
         english.put("search","Search");
         english.put("add","Add");
         english.put("delete","Delete");
-        english.put("switch","Edit");
+        english.put("switch","Enable");
+        english.put("enable","Enable Edit-Mode");
+        english.put("disable","Disable Edit-Mode");
+        english.put("select","Select");
+        //English text for VocAdd
+        english.put("answerAdd","Enter Answer here");
+        english.put("questionAdd","Enter Question here");
+        english.put("languageAdd","Enter Language here");
+        english.put("confirm","Confirm");
+        english.put("cancel","Cancel");
+        english.put("addVoc","Add Vocabulary");
+        english.put("addLabel","Add Vocabulary");
 
         // Goals
         english.put("filterLang", "Filter Language");
         english.put("selectAll", "Select All");
         english.put("startLearning", "Start Lerning");
         english.put("startLearningRand", "Start Learning in Random Order");
-        english.put("answer", "answer");
-        english.put("question", "question");
-        english.put("phase", "phase");
+        english.put("answer", "Answer");
+        english.put("question", "Question");
+        english.put("phase", "Phase");
         english.put("id", "ID");
-        english.put("language", "language");
+        english.put("language", "Language");
         english.put("selectToLearn", "Learn");
         english.put("allLangLabel", "All");
 
@@ -72,13 +85,25 @@ public class LocalizationManager extends ControllerLogin{
         german.put("listSetts1", "Sprache:");
         german.put("apply", "Anwenden");
         german.put("setting", "Einstellungen");
+
         //German text for VocList
+        //TODO Check translations
         german.put("searchField","Suche hier ein eingeben");
         german.put("search","Suchen");
         german.put("add","Hinzuf\u00FCgen");
         german.put("delete","L\u00F6schen");
-        german.put("switch","Bearbeiten");
-
+        german.put("switch","Ein");
+        german.put("enable","Aktiviere Bearbeitungs-Modus");
+        german.put("disable","Deaktiviere Bearbeitungs-Modus");
+        german.put("select","Ausw\u00E4hlen");
+        //German text for VocAdd
+        german.put("answerAdd","Antwort hier eingeben");
+        german.put("questionAdd","Frage hier eingeben");
+        german.put("languageAdd","Sprache hier eingeben");
+        german.put("confirm","Best\u00E4tigen");
+        german.put("cancel","Abbrechen");
+        german.put("addVoc","Vokabel hinzuf\u00FCgen");
+        german.put("addLabel","Vokabeln hinzuf\u00FCgen");
 
         // Goals
         german.put("filterLang", "Nach Sprache Filtern");

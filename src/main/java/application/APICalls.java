@@ -64,6 +64,7 @@ public class APICalls{
         Variables.setServer(serverIn);
     }
 
+
     /**
      * Method to Login
      * @return Response
@@ -160,11 +161,11 @@ public class APICalls{
      * @param v the id which gets deleted
      * @return
      */
-    public int deleteVoc(String id) {
+    public int deleteVoc(Integer id) {
         Request req = new Request.Builder()
                 .header("email", user)
                 .header("password", pw)
-                .url(server+"voc/"+id)
+                .url(server+"voc/"+id.toString())
                 .delete()
                 .build();
         try {
