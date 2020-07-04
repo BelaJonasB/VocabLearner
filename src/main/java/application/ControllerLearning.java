@@ -221,7 +221,9 @@ public class ControllerLearning extends AnchorPane implements Initializable {
          */
         if(errors == 0) {
             scored = 3;
-            newPhase = +1;
+            if(currentVocable.getPhase() < 5){
+                newPhase = +1;
+            }
             completelyCorrect++;
         }
         else {
@@ -229,7 +231,9 @@ public class ControllerLearning extends AnchorPane implements Initializable {
                 scored = 1;
                 partlyCorrect++;
             } else {
-                newPhase = -1;
+                if(currentVocable.getPhase() > 1){
+                    newPhase = -1;
+                }
                 completelyWrong++;
             }
         }
@@ -245,12 +249,11 @@ public class ControllerLearning extends AnchorPane implements Initializable {
         userScored.setText(" " + scored);
         userScore.setText(" " + score);
 
-        /*
-         *  saves the result for the vocable
-         */
-        APICalls api = new APICalls();
-        Vocab phaseOfcurrentVocable = new Vocab(currentVocable.id, currentVocable.answer, currentVocable.question, currentVocable.language, currentVocable.phase + newPhase);
-        api.editVoc(phaseOfcurrentVocable);
+        if(newPhase != currentVocable.getPhase()){ // update Vocabe only if the phase changes
+            APICalls api = new APICalls();
+            Vocab phaseOfcurrentVocable = new Vocab(currentVocable.id, currentVocable.answer, currentVocable.question, currentVocable.language, currentVocable.phase + newPhase);
+            api.editVoc(phaseOfcurrentVocable);
+        }
     }
 
     /**
