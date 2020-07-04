@@ -91,9 +91,10 @@ public class ControllerGoals extends AnchorPane implements Initializable {
         languageFilterComboBox.setItems(FXCollections.observableList(s));
 
         if(selectAllButton.getText().equals("Alle Ausw\u00E4hlen")){
-            selectAllButton.setStyle("-fx-pref-width: 160px");
-            AnchorPane.setLeftAnchor(selectAllButton, 540.0);
+            selectAllButton.setStyle("-fx-pref-width: 150px");
+            AnchorPane.setLeftAnchor(selectAllButton, 510.0);
             AnchorPane.setLeftAnchor(deselectAllButton, 350.0);
+            deselectAllButton.setStyle("-fx-pref-width: 150px");
         }
         if(languageFilterComboBox.getPromptText().equals("Nach Sprache Filtern")) {
             languageFilterComboBox.setStyle("-fx-pref-width: 200px");

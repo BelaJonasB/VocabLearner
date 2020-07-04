@@ -27,13 +27,13 @@ import java.util.*;
 public class ControllerLearning extends AnchorPane implements Initializable {
 
     @FXML
-    private Label userScore, selectedVocableTranslation, selectedVocable, userScored,  userErrors, testedVocables, correctVocables, wrongVocables, partCorrectVocables, scoreFinal, averageScored;
+    private Label userScore, phase, errorCorrection, Scored, Errors, selectedVocableTranslation, selectedVocable, userScored,  userErrors, testedVocables, correctVocables, wrongVocables, partCorrectVocables, scoreFinal, averageScored;
     @FXML
     private HBox mainLearning, learningButtons, errorCorrectionBox, results, resultButtons, resultButtons2, errorNoVocables, errorButtons;
     @FXML
     private Button solveButton, nextButton, manualCorrectionButton, manualCorrectButton, manualPartlyCorrectButton, manualWrongButton, submitErrorsButton, showAllVocablesButton, hideAllVocablesButton, restartLearningButton;
     @FXML
-    private TextField userTranslation, phase, errorCorrection;
+    private TextField userTranslation;
     @FXML
     private TableView<VocabList> allVocables;
 
@@ -78,6 +78,9 @@ public class ControllerLearning extends AnchorPane implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        Errors.setVisible(false);
+        Scored.setVisible(false);
+
         if(Variables.getSelectedVocab().isEmpty()) {
             changeLearningScene(false, false, false, false, false, false,true,true);
             return;
@@ -216,6 +219,9 @@ public class ControllerLearning extends AnchorPane implements Initializable {
      * changes the scene to displays the next vocable
      */
     public void changeToNextVocable(){
+        Errors.setVisible(false);
+        Scored.setVisible(false);
+
         nextButton.setVisible(false);
         manualCorrectionButton.setVisible(false);
         userTranslation.setDisable(false);
@@ -239,6 +245,9 @@ public class ControllerLearning extends AnchorPane implements Initializable {
      * shows the answer and result for the current vocable
      */
     public void solveVocable(){
+        Errors.setVisible(true);
+        Scored.setVisible(true);
+
         nextButton.setVisible(true);
         manualCorrectionButton.setVisible(true);
         //solveButton.setDisable(true);
