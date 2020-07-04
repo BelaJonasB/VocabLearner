@@ -209,8 +209,10 @@ public class ControllerLearning extends AnchorPane implements Initializable {
     public void compareAnswer(){
         String translation = userTranslation.getText();
         int scored = 0;
-        int newPhase = 0;
+        int newPhase = currentVocable.getPhase();
 
+        System.out.println("Called for word: " + currentVocable);
+        System.out.println("newPhase before: " + newPhase);
         /*
          * compares the translation from the user with the answer of the asked vocable
          */
@@ -222,36 +224,40 @@ public class ControllerLearning extends AnchorPane implements Initializable {
         if(errors == 0) {
             scored = 3;
             if(currentVocable.getPhase() < 4){
-                newPhase = +1;
+                newPhase++;
             }
             completelyCorrect++;
         }
-        else {
-            if (errors == 1) {
+        else if (errors == 1) {
                 scored = 1;
                 partlyCorrect++;
-            } else {
+        } else {
                 if(currentVocable.getPhase() > 0){
-                    newPhase = -1;
+                    newPhase--;
                 }
                 completelyWrong++;
-            }
+
         }
+        System.out.println("newPhase after: " + newPhase);
         testedAmount++;
         score +=  scored;
 
         /*
          *  saves the result for the vocable
          */
-        listTestedVocables.add(new VocabList( testedAmount,  currentVocable.question, currentVocable.answer, translation, errors));
+        listTestedVocables.add(new VocabList( testedAmount,  currentVocable.question, currentVocable.answer,
+                translation, errors));
 
         userErrors.setText(" " + errors);
         userScored.setText(" " + scored);
         userScore.setText(" " + score);
 
-        if(newPhase != currentVocable.getPhase()){ // update Vocabe only if the phase changes
+        System.out.println("Change voc: " + currentVocable + " phase to " + newPhase);
+        if(newPhase != currentVocable.getPhase()){ // update Vocab only if the phase changes
+            System.out.println("really doing it!");
             APICalls api = new APICalls();
-            Vocab phaseOfcurrentVocable = new Vocab(currentVocable.id, currentVocable.answer, currentVocable.question, currentVocable.language, currentVocable.phase + newPhase);
+            Vocab phaseOfcurrentVocable = new Vocab(currentVocable.id, currentVocable.answer, currentVocable.question,
+                    currentVocable.language, newPhase);
             api.editVoc(phaseOfcurrentVocable);
         }
     }
