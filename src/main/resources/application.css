@@ -4,6 +4,11 @@
 	-fx-background-radius: 15px;
 	-fx-padding: 6 5 6 15;
 }
+.loginsTrans {
+	-fx-pref-width: 150;
+	-fx-background-radius: 15px;
+	-fx-padding: 6 5 6 15;
+}
 .warning {
 	-fx-text-fill: #ffe600;
 	-fx-font-weight: bold;
@@ -223,10 +228,21 @@
 .mainLearn {
 	-fx-background-color: white;
 }
+.allesRein {
+
+}
+.answer {
+	-fx-pref-height: 40;
+	-fx-padding: 7 0 0 0;
+}
 .learning {
 	-fx-font-weight: bold;
 	-fx-font-size: 15;
 	-fx-text-fill: #555555;
+}
+.learningC {
+	-fx-text-fill: #767676;
+	-fx-font-size: 14;
 }
 
 /* VocList */

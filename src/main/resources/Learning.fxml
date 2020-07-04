@@ -9,53 +9,55 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TableView?>
 <fx:root xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" prefHeight="400.0" prefWidth="600.0" styleClass="mainLearn" stylesheets="@application.css" type="AnchorPane">
-
+    <AnchorPane styleClass="allesRein" AnchorPane.topAnchor="50.0" AnchorPane.leftAnchor="70.0">
     <HBox fx:id="learningButtons" layoutY="353.0" spacing="15">
         <Button fx:id="solveButton" mnemonicParsing="false" disable="true" onAction="#solveVocable" prefHeight="25.0" prefWidth="258.0" text="Solve" styleClass="classicButton"/>
         <Button fx:id="nextButton" mnemonicParsing="false" onAction="#nextVocable" prefHeight="25.0" prefWidth="258.0" text="Next" styleClass="classicButton"/>
     </HBox>
 
-    <HBox fx:id="mainLearning" spacing="15">
-        <VBox spacing="10">
+    <HBox fx:id="mainLearning" spacing="80">
+        <VBox spacing="15">
             <Label fx:id="Vocable" styleClass="learning" text="Vocable" />
-            <TextField disable="true" fx:id="selectedVocable" styleClass="logins"/>
+            <Label fx:id="selectedVocable" styleClass="learningC" prefHeight="40"/>
             <Label fx:id="Errors" styleClass="learning" text="Errors" />
-            <TextField disable="true" fx:id="userErrors" styleClass="logins"/>
+            <Label fx:id="userErrors" styleClass="learningC"/>
         </VBox>
-        <VBox spacing="10">
+        <VBox spacing="15" prefWidth="150">
             <Label fx:id="Translation" styleClass="learning" text="Translation?" />
-            <TextField editable="true" fx:id="userTranslation" styleClass="logins"/>
+            <HBox styleClass="answer">
+                <TextField fx:id="userTranslation" styleClass="loginsTrans"/>
+            </HBox>
             <Label fx:id="Scored" styleClass="learning" text="+Score" />
-            <TextField disable="true" fx:id="userScored" styleClass="logins"/>
+            <Label fx:id="userScored" styleClass="learningC"/>
         </VBox>
-        <VBox spacing="10">
+        <VBox spacing="15">
             <Label fx:id="Answer" styleClass="learning" text="Answer" />
-            <TextField disable="true" fx:id="selectedVocableTranslation" styleClass="logins"/>
+            <Label fx:id="selectedVocableTranslation" styleClass="learningC"/>
         </VBox>
-        <VBox spacing="10">
+        <VBox spacing="15">
             <Label fx:id="Score" styleClass="learning" text="Score" />
-            <Label fx:id="userScore" styleClass="learning"/>
+            <Label fx:id="userScore" styleClass="learningC"/>
         </VBox>
     </HBox>
 
-    <HBox fx:id="results" spacing="15" disable="true">
-        <VBox spacing="10">
+    <HBox fx:id="results" spacing="50">
+        <VBox spacing="15">
             <Label fx:id="TestedVocables" styleClass="learning" text="Vocable tested:" />
-            <TextField editable="false" fx:id="testedVocables" styleClass="logins"/>
+            <Label fx:id="testedVocables" styleClass="learningC"/>
             <Label fx:id="CorrectVocables" styleClass="learning" text="completely correct:" />
-            <TextField editable="false" fx:id="correctVocables" styleClass="logins"/>
+            <Label fx:id="correctVocables" styleClass="learningC"/>
         </VBox>
-        <VBox spacing="10">
+        <VBox spacing="15">
             <Label fx:id="AverageScored" text="Average Points Scored:" styleClass="learning"/>
-            <TextField editable="false" fx:id="averageScored" styleClass="logins"/>
+            <Label fx:id="averageScored" styleClass="learningC"/>
             <Label fx:id="WrongVocables" styleClass="learning" text="completely wrong:" />
-            <TextField editable="false" fx:id="wrongVocables" styleClass="logins"/>
+            <Label fx:id="wrongVocables" styleClass="learningC"/>
         </VBox>
-        <VBox spacing="10">
+        <VBox spacing="15">
             <Label fx:id="ScoreFinal"  text="Score:" styleClass="learning"/>
-            <TextField editable="false" fx:id="scoreFinal" styleClass="logins"/>
-            <Label fx:id="PartCorrectVocables" styleClass="logins" text="partly correct" />
-            <TextField editable="false" fx:id="partCorrectVocables" styleClass="logins"/>
+            <Label fx:id="scoreFinal" styleClass="learningC"/>
+            <Label fx:id="PartCorrectVocables" styleClass="learning" text="partly correct" />
+            <Label fx:id="partCorrectVocables" styleClass="learningC"/>
         </VBox>
     </HBox>
 
@@ -64,10 +66,10 @@
         <Button fx:id="restartLearningButton" mnemonicParsing="false" onAction="#restartLearning" prefHeight="25.0" prefWidth="258.0" text="Start learning again" styleClass="classicButton"/>
     </HBox>
 
-    <TableView fx:id="allVocables" layoutX="50.0" layoutY="75.0" prefHeight="200.0" prefWidth="630.0">
+    <TableView fx:id="allVocables" prefHeight="410.0" prefWidth="700.0">
     </TableView>
 
-    <HBox fx:id="resultButtons2" layoutY="353.0" spacing="15">
+    <HBox fx:id="resultButtons2" layoutY="433.0" spacing="15">
         <Button fx:id="hideAllVocablesButton" mnemonicParsing="false" onAction="#hideAllVocables" prefHeight="25.0" prefWidth="258.0" text="Hide All Vocables" styleClass="classicButton"/>
     </HBox>
 
@@ -79,5 +81,5 @@
         <Button fx:id="changeToVocabulary" mnemonicParsing="false" onAction="#gotoVocabList" prefHeight="25.0" prefWidth="258.0" text="Go to Vocabulary" styleClass="classicButton"/>
         <Button fx:id="changeToGoals" mnemonicParsing="false" onAction="#gotoGoals" prefHeight="25.0" prefWidth="258.0" text="Go to Goals" styleClass="classicButton"/>
     </HBox>
-
+    </AnchorPane>
 </fx:root>

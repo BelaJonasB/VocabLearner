@@ -25,13 +25,13 @@ import java.util.*;
 public class ControllerLearning extends AnchorPane implements Initializable {
 
     @FXML
-    private Label userScore;
+    private Label userScore, selectedVocableTranslation, selectedVocable, userScored,  userErrors, testedVocables, correctVocables, wrongVocables, partCorrectVocables, scoreFinal, averageScored;
     @FXML
     private HBox mainLearning, learningButtons, results, resultButtons, resultButtons2, errorNoVocables, errorButtons;
     @FXML
     private Button solveButton, nextButton, showAllVocablesButton, hideAllVocablesButton, restartLearningButton;
     @FXML
-    private TextField selectedVocable, selectedVocableTranslation, userTranslation, userScored,  userErrors, testedVocables, correctVocables, wrongVocables, partCorrectVocables, scoreFinal, averageScored;
+    private TextField userTranslation;
     @FXML
     private TableView<VocabList> allVocables;
 
@@ -128,12 +128,12 @@ public class ControllerLearning extends AnchorPane implements Initializable {
         /*
          *  fills the textfields on the overall resultscreen with numbers and values
          */
-        testedVocables.setText("" + testedAmount);
-        correctVocables.setText("" + completelyCorrect);
-        partCorrectVocables.setText("" + partlyCorrect);
-        wrongVocables.setText("" + completelyWrong);
-        scoreFinal.setText("" + score);
-        averageScored.setText("+" +score/testedAmount);
+        testedVocables.setText(String.valueOf(testedAmount));
+        correctVocables.setText(String.valueOf(completelyCorrect));
+        partCorrectVocables.setText(String.valueOf(partlyCorrect));
+        wrongVocables.setText(String.valueOf(completelyWrong));
+        scoreFinal.setText(String.valueOf(score));
+        averageScored.setText(String.valueOf(score/testedAmount));
     }
 
     /**
