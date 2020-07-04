@@ -137,7 +137,6 @@ public class APICalls{
 
         //User data to Object
         String s = g.toJson(vocab);
-        System.out.println(s);
 
         //For Media Type in request body
         final MediaType JSON = MediaType.parse("application/json; charset=utf-8");

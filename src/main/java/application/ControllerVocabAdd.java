@@ -25,6 +25,8 @@ public class ControllerVocabAdd extends AnchorPane implements Initializable {
     @FXML
     private Button ConfirmButton, CancelButton;
 
+    static final int START_PHASE = 0; // is currently ignored anyway. According to the APi 0, acc. to requirements 1
+
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //execute language selection
         LocalizationManager.Init();
@@ -36,21 +38,22 @@ public class ControllerVocabAdd extends AnchorPane implements Initializable {
      */
     public void parseNewVoc () {
         if (AnswerTextField.getText() != null && QuestionTextField.getText() != null && LanguageTextField.getText() != null) {
-            int phase = 0;
-            Vocab newVoc = new Vocab(AnswerTextField.getText(), QuestionTextField.getText(), LanguageTextField.getText(), phase);
-            ObservableList<Vocab> tmpList = null;
+            Vocab newVoc = new Vocab(AnswerTextField.getText(), QuestionTextField.getText(), LanguageTextField.getText(), START_PHASE);
             ControllerVocList call = Variables.getC();
-
-            try {
-                APICalls api = new APICalls();
-                api.postToVoc(newVoc);
-                api.getUsersVocab();
-                call.getData();
-                call.VocTableList.setItems(call.list);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            System.out.println(newVoc);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        APICalls api = new APICalls();
+                        api.postToVoc(newVoc);
+                        api.getUsersVocab();
+                        call.getData();
+                        call.VocTableList.setItems(call.list);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
         }
         AnswerTextField.clear();
         QuestionTextField.clear();
