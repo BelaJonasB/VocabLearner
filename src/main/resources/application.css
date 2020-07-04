@@ -223,6 +223,11 @@
 .mainLearn {
 	-fx-background-color: white;
 }
+.learning {
+	-fx-font-weight: bold;
+	-fx-font-size: 15;
+	-fx-text-fill: #555555;
+}
 
 /* VocList */
 .mainVocList {
@@ -271,8 +276,8 @@
 	-fx-font-weight: bold;
 }
 .table {
-	-fx-pref-width: 561.0;
-	-fx-pref-height: 257.0 ;
+	-fx-pref-width: 700.0;
+	-fx-pref-height: 410.0 ;
 }
 .table-view *.scroll-bar:horizontal *.increment-button,
 .table-view *.scroll-bar:horizontal *.decrement-button {

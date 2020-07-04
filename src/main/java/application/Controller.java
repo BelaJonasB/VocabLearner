@@ -250,7 +250,7 @@ public class Controller extends Main implements Initializable {
 				FileWriter file = new FileWriter("src/main/resources/logInfo.json");
 				file.write(s);
 				file.close();
-				changeScene("MainScene.fxml", 1080, 620, true, false, x, y);
+				changeScene("MainScene.fxml", 1080, 720, true, false, x, y);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
