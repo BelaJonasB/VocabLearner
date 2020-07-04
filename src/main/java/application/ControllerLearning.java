@@ -221,7 +221,7 @@ public class ControllerLearning extends AnchorPane implements Initializable {
          */
         if(errors == 0) {
             scored = 3;
-            if(currentVocable.getPhase() < 5){
+            if(currentVocable.getPhase() < 4){
                 newPhase = +1;
             }
             completelyCorrect++;
@@ -231,7 +231,7 @@ public class ControllerLearning extends AnchorPane implements Initializable {
                 scored = 1;
                 partlyCorrect++;
             } else {
-                if(currentVocable.getPhase() > 1){
+                if(currentVocable.getPhase() > 0){
                     newPhase = -1;
                 }
                 completelyWrong++;

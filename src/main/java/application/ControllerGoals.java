@@ -169,13 +169,12 @@ public class ControllerGoals extends AnchorPane implements Initializable {
 
     /**
      * Access pulled list of vocab from the API and inits the list of shown vocabs.
-     * Only shows Vocab of phase 1-4
+     * Only shows Vocab of phase 0-3
      */
     private void getData(){
-
         ArrayList<VocabSelection> tmp = new ArrayList<>();
         for(Vocab v : Variables.getUsersVocab()){
-            if(v.getPhase() < 5){
+            if(v.getPhase() < 4){
                 tmp.add(new VocabSelection(v, true));
             }
         }
