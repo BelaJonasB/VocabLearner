@@ -15,6 +15,7 @@ public class VocabList {
     String language1;
     String language2;
     String userTranslation;
+    int errors;
     int phase;
     private boolean select;
 
@@ -52,13 +53,14 @@ public class VocabList {
      * @param language1
      * @param language2
      * @param userTranslation
-     * @param phase (In "showAllVocables": shows how many Errors you had in your given Answer and not the phase)
+     * @param phase
      */
-    public VocabList (int number, String language1, String language2, String userTranslation, int phase){
+    public VocabList (int number, String language1, String language2, String userTranslation, int errors, int phase){
         this.number = number;
         this.language1 = language1;
         this.language2 = language2;
         this.userTranslation = userTranslation;
+        this.errors = errors;
         this.phase = phase;
     }
 
@@ -81,6 +83,10 @@ public class VocabList {
 
     public String getUserTranslation(){
         return userTranslation;
+    }
+
+    public int getErrors() {
+        return errors;
     }
 
     public boolean getSelect(){ return select;}

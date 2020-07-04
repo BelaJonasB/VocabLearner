@@ -1,7 +1,9 @@
 package application;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableListValue;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -27,18 +29,18 @@ public class ControllerLearning extends AnchorPane implements Initializable {
     @FXML
     private Label userScore, selectedVocableTranslation, selectedVocable, userScored,  userErrors, testedVocables, correctVocables, wrongVocables, partCorrectVocables, scoreFinal, averageScored;
     @FXML
-    private HBox mainLearning, learningButtons, results, resultButtons, resultButtons2, errorNoVocables, errorButtons;
+    private HBox mainLearning, learningButtons, errorCorrectionBox, results, resultButtons, resultButtons2, errorNoVocables, errorButtons;
     @FXML
-    private Button solveButton, nextButton, showAllVocablesButton, hideAllVocablesButton, restartLearningButton;
+    private Button solveButton, nextButton, manualCorrectionButton, manualCorrectButton, manualPartlyCorrectButton, manualWrongButton, submitErrorsButton, showAllVocablesButton, hideAllVocablesButton, restartLearningButton;
     @FXML
-    private TextField userTranslation;
+    private TextField userTranslation, phase, errorCorrection;
     @FXML
     private TableView<VocabList> allVocables;
 
 
     private List<Vocab> list;
     private List<VocabList> listTestedVocables = new ArrayList<>();
-    private int currentVocIndex = -1;
+    private int currentVocIndex = 0;
     private Vocab currentVocable;
 
     private double score = 0;
@@ -46,6 +48,11 @@ public class ControllerLearning extends AnchorPane implements Initializable {
     private int partlyCorrect = 0;
     private int completelyWrong = 0;
     private int testedAmount = 0;
+    private int scored;
+    private int newPhase;
+    private int errors;
+
+    private boolean manualCorrectionVisibility = false;
 
 
     private final ControllerLogin controllerLogin; //restartLearning
@@ -63,6 +70,12 @@ public class ControllerLearning extends AnchorPane implements Initializable {
         }
     }
 
+    /**
+     * adds a few listeners for textfields, inorder to enable some buttons
+     * setup for the scenes and learning-scene
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if(Variables.getSelectedVocab().isEmpty()) {
@@ -73,10 +86,23 @@ public class ControllerLearning extends AnchorPane implements Initializable {
         }
         changeLearningScene(true,true,false,false,false, false,false,false);
 
+
         userTranslation.textProperty().addListener((observable, oldValue, newValue) -> {
             solveButton.setDisable(newValue.isEmpty());
         });
-        nextVocable();
+        errorCorrection.textProperty().addListener((observable, oldValue, newValue) -> {
+            submitErrorsButton.setDisable(newValue.isEmpty());
+        });
+        errorCorrection.textProperty().addListener(new ChangeListener<String>() {
+                                                       @Override
+                                                       public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                                                           if (!newValue.matches("\\d*")) {
+                                                               errorCorrection.setText(newValue.replaceAll("[^\\d]", ""));
+                                                           }
+                                                       }
+                                                   }
+        );
+        changeToNextVocable();
     }
 
     /**
@@ -107,20 +133,22 @@ public class ControllerLearning extends AnchorPane implements Initializable {
         /*
           *  creates the Table to list all tested Vocables and their results in detail
          */
-        TableColumn<VocabList, Integer> numberColumn = new TableColumn("Nummer");
-        TableColumn<VocabList, String> questionColumn  = new TableColumn("Deutsch");
-        TableColumn<VocabList, String> userTranslationColumn = new TableColumn("Antwort");
-        TableColumn<VocabList, String> answerColumn = new TableColumn("Englisch");
-        TableColumn<VocabList, Integer> errorColumn = new TableColumn("Fehler");
+        TableColumn<VocabList, Integer> numberColumn = new TableColumn("No.");
+        TableColumn<VocabList, String> questionColumn  = new TableColumn("1. Language");
+        TableColumn<VocabList, String> answerColumn = new TableColumn("2. Language");
+        TableColumn<VocabList, String> userTranslationColumn = new TableColumn("Your Answer");
+        TableColumn<VocabList, Integer> errorColumn = new TableColumn("Mistakes");
+        TableColumn<VocabList, Integer> newPhaseColumn = new TableColumn("new Phase");
 
         numberColumn.setCellValueFactory(new PropertyValueFactory<>("number"));
         questionColumn.setCellValueFactory(new PropertyValueFactory<>("language1"));
-        userTranslationColumn.setCellValueFactory(new PropertyValueFactory<>("language2"));
-        answerColumn.setCellValueFactory(new PropertyValueFactory<>("userTranslation"));
-        errorColumn.setCellValueFactory(new PropertyValueFactory<>("phase"));
+        answerColumn.setCellValueFactory(new PropertyValueFactory<>("language2"));
+        userTranslationColumn.setCellValueFactory(new PropertyValueFactory<>("userTranslation"));
+        errorColumn.setCellValueFactory(new PropertyValueFactory<>("errors"));
+        newPhaseColumn.setCellValueFactory(new PropertyValueFactory<>("phase"));
 
         allVocables.setItems(FXCollections.observableList(listTestedVocables));
-        allVocables.getColumns().addAll(numberColumn, questionColumn, userTranslationColumn, answerColumn, errorColumn);
+        allVocables.getColumns().addAll(numberColumn, questionColumn, answerColumn, userTranslationColumn, errorColumn, newPhaseColumn);
         allVocables.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         allVocables.setEditable(false);
 
@@ -174,19 +202,37 @@ public class ControllerLearning extends AnchorPane implements Initializable {
      * shows the a new vocable that shall be translated
      */
     public void nextVocable(){
+        saveCurrentResults();
+
         currentVocIndex++;
         if (currentVocIndex == list.size()) {
             openResults();
             return;
         }
+        changeToNextVocable();
+    }
 
+    /**
+     * changes the scene to displays the next vocable
+     */
+    public void changeToNextVocable(){
         nextButton.setVisible(false);
+        manualCorrectionButton.setVisible(false);
         userTranslation.setDisable(false);
 
         currentVocable = list.get(currentVocIndex);
         selectedVocable.setText(currentVocable.question);
         userTranslation.setText("");
-        selectedVocableTranslation.setText(" ");
+        userErrors.setText("");
+        userScored.setText("");
+        phase.setText("");
+        selectedVocableTranslation.setText("");
+
+        manualCorrectionButton.setVisible(false);
+        manualCorrectButton.setVisible(false);
+        manualPartlyCorrectButton.setVisible(false);
+        manualWrongButton.setVisible(false);
+        errorCorrectionBox.setVisible(false);
     }
 
     /**
@@ -194,76 +240,154 @@ public class ControllerLearning extends AnchorPane implements Initializable {
      */
     public void solveVocable(){
         nextButton.setVisible(true);
-        solveButton.setDisable(true);
+        manualCorrectionButton.setVisible(true);
+        //solveButton.setDisable(true);
         userTranslation.setDisable(true);
+
         selectedVocableTranslation.setText((currentVocable.answer));
         compareAnswer();
     }
 
     /**
      * compares the translation from the user with the answer of the asked vocable
-     *  increases the counters for the result screen
-     *  saves the result for the vocable
      *  changes the Phase
      */
     public void compareAnswer(){
-        String translation = userTranslation.getText();
-        int scored = 0;
-        int newPhase = currentVocable.getPhase();
-
-        System.out.println("Called for word: " + currentVocable);
-        System.out.println("newPhase before: " + newPhase);
         /*
          * compares the translation from the user with the answer of the asked vocable
+         * uses the Levenshtein algorithm
          */
-        int errors = calculate(translation,currentVocable.answer);
+        errors = calculate(userTranslation.getText(),currentVocable.answer);
 
         /*
-         *  increases the counters for the result screen
+         *  checks if the Vocable is either correct, partly correct or wrong
          */
         if(errors == 0) {
-            scored = 3;
-            if(currentVocable.getPhase() < 4){
-                newPhase++;
+            correctAnswer();
+        }
+        else {
+            if (errors == 1) {
+                partlyCorrectAnswer();
             }
-            completelyCorrect++;
+            else {
+                wrongAnswerGiven();
+            }
         }
-        else if (errors == 1) {
-                scored = 1;
-                partlyCorrect++;
-        } else {
-                if(currentVocable.getPhase() > 0){
-                    newPhase--;
-                }
-                completelyWrong++;
+    }
 
+    public void wrongAnswerGiven(){
+        if(currentVocable.phase != 0) {
+            newPhase = currentVocable.phase - 1;
         }
-        System.out.println("newPhase after: " + newPhase);
-        testedAmount++;
-        score +=  scored;
+        else{
+            newPhase = 0;
+        }
+        scored = 0;
+        showCurrentResults();
+    }
 
-        /*
-         *  saves the result for the vocable
-         */
-        listTestedVocables.add(new VocabList( testedAmount,  currentVocable.question, currentVocable.answer,
-                translation, errors));
+    /**
+     *sets the results for a completely correct answer
+     */
+    public void correctAnswer(){
+        manualCorrectionVisibility = false;
+        showManualCorrectionButtons();
 
+        if(currentVocable.phase != 4) {
+            newPhase = currentVocable.phase + 1;
+        }
+        scored = 3;
+        errors = 0;
+        showCurrentResults();
+    }
+
+    /**
+     *sets the results for a partly correct answer
+     */
+    public void partlyCorrectAnswer(){
+        manualCorrectionVisibility = false;
+        showManualCorrectionButtons();
+
+        newPhase = currentVocable.phase;
+        scored = 1;
+        errors = 1;
+        showCurrentResults();
+    }
+
+    /**
+     * sets the results for a wrong answer
+     */
+    public void wrongAnswer(){
+        if(manualCorrectionVisibility) {
+            errorCorrectionBox.setVisible(true);
+            errorCorrection.setText("");
+        }
+    }
+
+    public void submitErrors(){
+        manualCorrectionVisibility = false;
+        showManualCorrectionButtons();
+
+        errors = Integer.parseInt(errorCorrection.getText());
+        wrongAnswerGiven();
+    }
+
+    public void manualCorrection(){
+        manualCorrectionVisibility ^= true;
+        showManualCorrectionButtons();
+    }
+
+    public void showManualCorrectionButtons(){
+        manualCorrectButton.setVisible(manualCorrectionVisibility);
+        manualPartlyCorrectButton.setVisible(manualCorrectionVisibility);
+        manualWrongButton.setVisible(manualCorrectionVisibility);
+        manualCorrectButton.setDisable(false);
+        manualPartlyCorrectButton.setDisable(false);
+        manualWrongButton.setDisable(false);
+        errorCorrectionBox.setVisible(false);
+    }
+
+    /**
+     * shows results of the current vocable
+     */
+    public void showCurrentResults(){
         userErrors.setText(" " + errors);
         userScored.setText(" " + scored);
-        userScore.setText(" " + score);
+        userScore.setText(" " + (score + scored) );
+        phase.setText(" " + (newPhase + 1) );
+    }
 
-        System.out.println("Change voc: " + currentVocable + " phase to " + newPhase);
-        if(newPhase != currentVocable.getPhase()){ // update Vocab only if the phase changes
-            System.out.println("really doing it!");
+    /**
+     * saves results of the current vocable
+     * increases counters for the result screen
+     */
+    public void saveCurrentResults(){
+        if(errors == 0) {
+            completelyCorrect++;
+        }
+        else {
+            if (errors == 1) {
+                partlyCorrect++;
+            }
+            else {
+                completelyWrong++;
+            }
+        }
+        testedAmount++;
+
+        score +=  scored;
+
+        listTestedVocables.add(new VocabList( testedAmount,  currentVocable.question, currentVocable.answer, userTranslation.getText(), errors, newPhase+1));
+
+        if(newPhase != currentVocable.getPhase()) { // update Vocable only if the phase changes
             APICalls api = new APICalls();
-            Vocab phaseOfcurrentVocable = new Vocab(currentVocable.id, currentVocable.answer, currentVocable.question,
-                    currentVocable.language, newPhase);
+            Vocab phaseOfcurrentVocable = new Vocab(currentVocable.id, currentVocable.answer, currentVocable.question, currentVocable.language, newPhase);
             api.editVoc(phaseOfcurrentVocable);
         }
     }
 
     /**
-     * Algorithmus for Levenshtein distance
+     * Algorithm for Levenshtein distance
      * calculates, how many letters you have to change between two words, inorder for them to match exactly
      * @param x = translation (from User)
      * @param y = answer of the current Vocable
@@ -287,7 +411,7 @@ public class ControllerLearning extends AnchorPane implements Initializable {
     }
 
     /**
-     *Algorithmus nr.2 for Levenshtein distance
+     * Algorithm no.2 for Levenshtein distance
      * calculates, how many letters you have to change between two words, inorder for them to match exactly
      * @param a = char at "position" of translation (from User)
      * @param b = char at "position" of  answer of the current Vocable
@@ -299,7 +423,7 @@ public class ControllerLearning extends AnchorPane implements Initializable {
     }
 
     /**
-     *Algorithmus nr.3 for Levenshtein distance
+     * Algorithm no.3 for Levenshtein distance
      * calculates, how many letters you have to change between two words, inorder for them to match exactly
      * @param numbers ( int Array )
      * @return  the minimum of the listed numbers
@@ -307,15 +431,6 @@ public class ControllerLearning extends AnchorPane implements Initializable {
      public static int min(int... numbers) {
         return Arrays.stream(numbers)
                 .min().orElse(Integer.MAX_VALUE);
-    }
-
-
-    /**
-     * Method to start Learning. Called when "start Learning" in Goal Scene is pressed. Starts Learning Scene
-     * @param vocabToLearn list of Vocabs selected in screen in randomized order if wanted.
-     */
-    public void startLearning(List<Vocab> vocabToLearn) {
-        list = vocabToLearn;
     }
 
     public TableView<VocabList> getVocTableList(){
