@@ -58,6 +58,42 @@ public class LocalizationManager extends ControllerLogin{
         english.put("addVoc","Add Vocabulary");
         english.put("addLabel","Add Vocabulary");
 
+        //English: Learning
+        english.put("SelectedVocable", "Vocable");
+        english.put("UserErrors", "Mistakes");
+        english.put("UserTranslation", "Translation?");
+        english.put("UserScored", "+Score");
+        english.put("SelectedVocableTranslation", "Answer");
+        english.put("Phase", "New phase");
+        english.put("UserScore", "Score");
+        english.put("manualCorrectionButton", "Manual correction");
+        english.put("manualCorrectButton", "Given answer is correct");
+        english.put("manualPartlyCorrectButton", "Given answer is partly correct");
+        english.put("manualWrongButton", "Given answer is wrong");
+        english.put("ErrorCorrection", "Mistakes");
+        english.put("submitErrorsButton", "Submit");
+        english.put("solveButton", "Solve");
+        english.put("nextButton", "Next");
+        english.put("TestedVocables", "Vocable tested:");
+        english.put("CorrectVocables", "completely correct:");
+        english.put("AverageScored", "Average Points Scored:");
+        english.put("WrongVocables", "completely wrong:");
+        english.put("ScoreFinal", "Score:");
+        english.put("PartCorrectVocables", "partly correct");
+        english.put("showAllVocablesButton", "Show All Vocables");
+        english.put("restartLearningButton", "Start learning again");
+        english.put("hideAllVocablesButton", "Hide All Vocables");
+        english.put("ErrorNoVocables", "No Vocables Selected");
+        english.put("changeToVocabulary", "Go to Vocabulary");
+        english.put("changeToGoals", "Go to Goals");
+        english.put("numberColumn", "No");
+        english.put("questionColumn", "1. Language");
+        english.put("answerColumn", "2. Language");
+        english.put("userTranslationColumn", "Your Answer");
+        english.put("errorColumn", "Mistakes");
+        english.put("newPhaseColumn", "new Phase");
+
+
         // Goals
         english.put("filterLang", "Filter Language");
         english.put("selectAll", "Select All");
@@ -119,6 +155,43 @@ public class LocalizationManager extends ControllerLogin{
         german.put("selectToLearn", "Lernen");
         german.put("allLangLabel", "Alle");
         german.put("deselectAll", "Keine Ausw\u00E4hlen");
+
+        //German: Learning
+        german.put("SelectedVocable", "Vokabel");
+        german.put("UserErrors", "Fehler");
+        german.put("UserTranslation", "\u00dcbersetzung?");
+        german.put("UserScored", "+Punkte");
+        german.put("SelectedVocableTranslation", "L\u00f6sung");
+        german.put("Phase", "Neue Phase");
+        german.put("UserScore", "Punkte");
+        german.put("manualCorrectionButton", "Manuelle Korrektur");
+        german.put("manualCorrectButton", "Die Antwort ist korrekt");
+        german.put("manualPartlyCorrectButton", "Die Antwort ist teilweise korrekt");
+        german.put("manualWrongButton", "Die Antwort ist falsch");
+        german.put("ErrorCorrection", "Fehler");
+        german.put("submitErrorsButton", "Best\u00E4tigen");
+        german.put("solveButton", "Aufl\u00f6sen");
+        german.put("nextButton", "Weiter");
+        german.put("TestedVocables", "Vokabeln getestet");
+        german.put("CorrectVocables", "Korrekte Antworten:");
+        german.put("AverageScored", "Durschnittliche Punkte:");
+        german.put("WrongVocables", "Falsche Antworten:");
+        german.put("ScoreFinal", "Punkte:");
+        german.put("PartCorrectVocables", "Zum Teil richtige Antworten:");
+        german.put("showAllVocablesButton", "Alle Vokabeln anzeigen");
+        german.put("restartLearningButton", "Nochmal lernen");
+        german.put("hideAllVocablesButton", "Alle Vokablen verstecken");
+        german.put("ErrorNoVocables", "Keine Vokabeln ausgew\u00E4hlt");
+        german.put("changeToVocabulary", "Gehe zu Vokabeln");
+        german.put("changeToGoals", "Gehe zu Ziele");
+        german.put("numberColumn", "Nr.");
+        german.put("questionColumn", "1. Sprache");
+        german.put("answerColumn", "2. Sprache");
+        german.put("userTranslationColumn", "Antworten");
+        german.put("errorColumn", "Fehler");
+        german.put("newPhaseColumn", "neue Phase");
+
+
 
 
         translations.put(SupportedLanguage.ENGLISH, english);

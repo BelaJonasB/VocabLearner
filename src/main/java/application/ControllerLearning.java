@@ -19,6 +19,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.net.URL;
+import java.sql.SQLOutput;
 import java.util.*;
 
 /**
@@ -27,13 +28,15 @@ import java.util.*;
 public class ControllerLearning extends AnchorPane implements Initializable {
 
     @FXML
-    private Label userScore, phase, errorCorrection, Scored, Errors, selectedVocableTranslation, selectedVocable, userScored,  userErrors, testedVocables, correctVocables, wrongVocables, partCorrectVocables, scoreFinal, averageScored;
+    private Label SelectedVocable, selectedVocable, UserErrors, userErrors, UserTranslation, UserScored, userScored, SelectedVocableTranslation, selectedVocableTranslation, Phase, phase,  UserScore, userScore, ErrorCorrection, TestedVocables, testedVocables, CorrectVocables, correctVocables, AverageScored, averageScored, WrongVocables, wrongVocables, ScoreFinal, scoreFinal, PartCorrectVocables, partCorrectVocables, ErrorNoVocables;
     @FXML
-    private HBox mainLearning, learningButtons, errorCorrectionBox, results, resultButtons, resultButtons2, errorNoVocables, errorButtons;
+    private HBox learningButtons, errorCorrectionBox, results, resultButtons, resultButtons2, errorNoVocables, errorButtons;
     @FXML
-    private Button solveButton, nextButton, manualCorrectionButton, manualCorrectButton, manualPartlyCorrectButton, manualWrongButton, submitErrorsButton, showAllVocablesButton, hideAllVocablesButton, restartLearningButton;
+    private VBox mainLearning;
     @FXML
-    private TextField userTranslation;
+    private Button solveButton, nextButton, manualCorrectionButton, manualCorrectButton, manualPartlyCorrectButton, manualWrongButton, submitErrorsButton, showAllVocablesButton, hideAllVocablesButton, restartLearningButton, changeToVocabulary, changeToGoals;
+    @FXML
+    private TextField userTranslation, errorCorrection;
     @FXML
     private TableView<VocabList> allVocables;
 
@@ -55,8 +58,12 @@ public class ControllerLearning extends AnchorPane implements Initializable {
     private boolean manualCorrectionVisibility = false;
 
 
-    private final ControllerLogin controllerLogin; //restartLearning
+    private final ControllerLogin controllerLogin; // for restartLearning and to get the vocables, that are selected for learning
 
+    /**
+     * constructor
+     * @param controllerLogin  mainController, where all other controllers and the vocables, that are selected for learning are referenced
+     */
     public ControllerLearning(ControllerLogin controllerLogin)
     {
         this.controllerLogin = controllerLogin;
@@ -78,9 +85,7 @@ public class ControllerLearning extends AnchorPane implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Errors.setVisible(false);
-        Scored.setVisible(false);
-
+        setLang();
         if(Variables.getSelectedVocab().isEmpty()) {
             changeLearningScene(false, false, false, false, false, false,true,true);
             return;
@@ -106,6 +111,39 @@ public class ControllerLearning extends AnchorPane implements Initializable {
                                                    }
         );
         changeToNextVocable();
+    }
+
+    /**
+     * sets the texts of the selected language for all UI elements
+     */
+    public void setLang(){
+        SelectedVocable.setText(LocalizationManager.get("SelectedVocable"));
+        UserErrors.setText(LocalizationManager.get("UserErrors"));
+        UserTranslation.setText(LocalizationManager.get("UserTranslation"));
+        UserScored.setText(LocalizationManager.get("UserScored"));
+        SelectedVocableTranslation.setText(LocalizationManager.get("SelectedVocableTranslation"));
+        Phase.setText(LocalizationManager.get("Phase"));
+        UserScore.setText(LocalizationManager.get("UserScore"));
+        manualCorrectionButton.setText(LocalizationManager.get("manualCorrectionButton"));
+        manualCorrectButton.setText(LocalizationManager.get("manualCorrectButton"));
+        manualPartlyCorrectButton.setText(LocalizationManager.get("manualPartlyCorrectButton"));
+        manualWrongButton.setText(LocalizationManager.get("manualWrongButton"));
+        ErrorCorrection.setText(LocalizationManager.get("ErrorCorrection"));
+        submitErrorsButton.setText(LocalizationManager.get("submitErrorsButton"));
+        solveButton.setText(LocalizationManager.get("solveButton"));
+        nextButton.setText(LocalizationManager.get("nextButton"));
+        TestedVocables.setText(LocalizationManager.get("TestedVocables"));
+        CorrectVocables.setText(LocalizationManager.get("CorrectVocables"));
+        AverageScored.setText(LocalizationManager.get("AverageScored"));
+        WrongVocables.setText(LocalizationManager.get("WrongVocables"));
+        ScoreFinal.setText(LocalizationManager.get("ScoreFinal"));
+        PartCorrectVocables.setText(LocalizationManager.get("PartCorrectVocables"));
+        showAllVocablesButton.setText(LocalizationManager.get("showAllVocablesButton"));
+        restartLearningButton.setText(LocalizationManager.get("restartLearningButton"));
+        hideAllVocablesButton.setText(LocalizationManager.get("hideAllVocablesButton"));
+        ErrorNoVocables.setText(LocalizationManager.get("ErrorNoVocables"));
+        changeToVocabulary.setText(LocalizationManager.get("changeToVocabulary"));
+        changeToGoals.setText(LocalizationManager.get("changeToGoals"));
     }
 
     /**
@@ -136,12 +174,12 @@ public class ControllerLearning extends AnchorPane implements Initializable {
         /*
           *  creates the Table to list all tested Vocables and their results in detail
          */
-        TableColumn<VocabList, Integer> numberColumn = new TableColumn("No.");
-        TableColumn<VocabList, String> questionColumn  = new TableColumn("1. Language");
-        TableColumn<VocabList, String> answerColumn = new TableColumn("2. Language");
-        TableColumn<VocabList, String> userTranslationColumn = new TableColumn("Your Answer");
-        TableColumn<VocabList, Integer> errorColumn = new TableColumn("Mistakes");
-        TableColumn<VocabList, Integer> newPhaseColumn = new TableColumn("new Phase");
+        TableColumn<VocabList, Integer> numberColumn = new TableColumn<>(LocalizationManager.get("numberColumn"));
+        TableColumn<VocabList, String> questionColumn  = new TableColumn<>(LocalizationManager.get("questionColumn"));
+        TableColumn<VocabList, String> answerColumn = new TableColumn<>(LocalizationManager.get("answerColumn"));
+        TableColumn<VocabList, String> userTranslationColumn = new TableColumn<>(LocalizationManager.get("userTranslationColumn"));
+        TableColumn<VocabList, Integer> errorColumn = new TableColumn<>(LocalizationManager.get("errorColumn"));
+        TableColumn<VocabList, Integer> newPhaseColumn = new TableColumn<>(LocalizationManager.get("newPhaseColumn"));
 
         numberColumn.setCellValueFactory(new PropertyValueFactory<>("number"));
         questionColumn.setCellValueFactory(new PropertyValueFactory<>("language1"));
@@ -149,6 +187,12 @@ public class ControllerLearning extends AnchorPane implements Initializable {
         userTranslationColumn.setCellValueFactory(new PropertyValueFactory<>("userTranslation"));
         errorColumn.setCellValueFactory(new PropertyValueFactory<>("errors"));
         newPhaseColumn.setCellValueFactory(new PropertyValueFactory<>("phase"));
+
+        questionColumn.setStyle("-fx-alignment: center");
+        answerColumn.setStyle("-fx-alignment: center");
+        userTranslationColumn.setStyle("-fx-alignment: center");
+        errorColumn.setStyle("-fx-alignment: center");
+        newPhaseColumn.setStyle("-fx-alignment: center");
 
         allVocables.setItems(FXCollections.observableList(listTestedVocables));
         allVocables.getColumns().addAll(numberColumn, questionColumn, answerColumn, userTranslationColumn, errorColumn, newPhaseColumn);
@@ -219,11 +263,10 @@ public class ControllerLearning extends AnchorPane implements Initializable {
      * changes the scene to displays the next vocable
      */
     public void changeToNextVocable(){
-        Errors.setVisible(false);
-        Scored.setVisible(false);
-
         nextButton.setVisible(false);
-        manualCorrectionButton.setVisible(false);
+        UserErrors.setVisible(false);
+        UserScored.setVisible(false);
+        Phase.setVisible(false);
         userTranslation.setDisable(false);
 
         currentVocable = list.get(currentVocIndex);
@@ -245,10 +288,11 @@ public class ControllerLearning extends AnchorPane implements Initializable {
      * shows the answer and result for the current vocable
      */
     public void solveVocable(){
-        Errors.setVisible(true);
-        Scored.setVisible(true);
-
         nextButton.setVisible(true);
+        UserErrors.setVisible(true);
+        UserScored.setVisible(true);
+        Phase.setVisible(true);
+
         manualCorrectionButton.setVisible(true);
         //solveButton.setDisable(true);
         userTranslation.setDisable(true);
@@ -284,6 +328,9 @@ public class ControllerLearning extends AnchorPane implements Initializable {
         }
     }
 
+    /**
+    *  sets the results for a wrong answer
+     */
     public void wrongAnswerGiven(){
         if(currentVocable.phase != 0) {
             newPhase = currentVocable.phase - 1;
@@ -296,7 +343,7 @@ public class ControllerLearning extends AnchorPane implements Initializable {
     }
 
     /**
-     *sets the results for a completely correct answer
+     * sets the results for a completely correct answer
      */
     public void correctAnswer(){
         manualCorrectionVisibility = false;
@@ -324,7 +371,7 @@ public class ControllerLearning extends AnchorPane implements Initializable {
     }
 
     /**
-     * sets the results for a wrong answer
+     * sets the results for a wrong answer manually
      */
     public void wrongAnswer(){
         if(manualCorrectionVisibility) {
@@ -333,6 +380,9 @@ public class ControllerLearning extends AnchorPane implements Initializable {
         }
     }
 
+    /**
+     * sets the ammount of for a errors in an answer manually
+     */
     public void submitErrors(){
         manualCorrectionVisibility = false;
         showManualCorrectionButtons();
@@ -341,11 +391,17 @@ public class ControllerLearning extends AnchorPane implements Initializable {
         wrongAnswerGiven();
     }
 
+    /**
+     * toggles the buttons for the manual correction
+     */
     public void manualCorrection(){
         manualCorrectionVisibility ^= true;
         showManualCorrectionButtons();
     }
 
+    /**
+     * sets the visibility of the buttons for the manual correction
+     */
     public void showManualCorrectionButtons(){
         manualCorrectButton.setVisible(manualCorrectionVisibility);
         manualPartlyCorrectButton.setVisible(manualCorrectionVisibility);
@@ -440,9 +496,5 @@ public class ControllerLearning extends AnchorPane implements Initializable {
      public static int min(int... numbers) {
         return Arrays.stream(numbers)
                 .min().orElse(Integer.MAX_VALUE);
-    }
-
-    public TableView<VocabList> getVocTableList(){
-        return allVocables;
     }
 }
