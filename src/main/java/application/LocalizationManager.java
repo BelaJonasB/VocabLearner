@@ -70,6 +70,7 @@ public class LocalizationManager extends ControllerLogin{
         english.put("language", "Language");
         english.put("selectToLearn", "Learn");
         english.put("allLangLabel", "All");
+        english.put("deselectAll", "Deselect All");
 
         german.put("vocab", "Vokabeln");
         german.put("learn", "Lernen");
@@ -117,6 +118,7 @@ public class LocalizationManager extends ControllerLogin{
         german.put("id", "ID");
         german.put("selectToLearn", "Lernen");
         german.put("allLangLabel", "Alle");
+        german.put("deselectAll", "Keine Ausw\u00E4hlen");
 
 
         translations.put(SupportedLanguage.ENGLISH, english);

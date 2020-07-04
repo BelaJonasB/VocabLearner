@@ -29,7 +29,7 @@ public class ControllerGoals extends AnchorPane implements Initializable {
     @FXML
     private Button startLearningButton, startLearningRandom;
     @FXML
-    private Button selectAllButton, selectAllButton1;
+    private Button selectAllButton, deselectAllButton;
     @FXML
     private TableView<VocabSelection> vocabTableView;
     @FXML
@@ -75,7 +75,7 @@ public class ControllerGoals extends AnchorPane implements Initializable {
         vocabTableView.getColumns().addAll(answerColumn, questionColumn, langColumn, phaseColumn, selectCol);
         vocabTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        getData();
+        getDataAndSynchronize();
 
         answerColumn.setCellValueFactory(new PropertyValueFactory<>("answer"));
         questionColumn.setCellValueFactory(new PropertyValueFactory<>("question"));
@@ -91,9 +91,9 @@ public class ControllerGoals extends AnchorPane implements Initializable {
         languageFilterComboBox.setItems(FXCollections.observableList(s));
 
         if(selectAllButton.getText().equals("Alle Ausw\u00E4hlen")){
-            selectAllButton.setStyle("-fx-pref-width: 140px");
+            selectAllButton.setStyle("-fx-pref-width: 160px");
             AnchorPane.setLeftAnchor(selectAllButton, 540.0);
-            AnchorPane.setLeftAnchor(selectAllButton1, 400.0);
+            AnchorPane.setLeftAnchor(deselectAllButton, 350.0);
         }
         if(languageFilterComboBox.getPromptText().equals("Nach Sprache Filtern")) {
             languageFilterComboBox.setStyle("-fx-pref-width: 200px");
@@ -152,6 +152,7 @@ public class ControllerGoals extends AnchorPane implements Initializable {
         startLearningButton.setText(LocalizationManager.get("startLearning"));
         startLearningRandom.setText(LocalizationManager.get("startLearningRand"));
         selectAllButton.setText(LocalizationManager.get("selectAll"));
+        deselectAllButton.setText(LocalizationManager.get("deselectAll"));
         languageFilterComboBox.setPromptText(LocalizationManager.get("filterLang"));
     }
 
@@ -187,6 +188,8 @@ public class ControllerGoals extends AnchorPane implements Initializable {
      * gets the data locally for an instant response and also triggers a server request to update the shown data.
      */
     private void getDataAndSynchronize(){
+        getData(); // load local
+
         // server req
         new Thread(new Runnable() {
             @Override
@@ -195,12 +198,12 @@ public class ControllerGoals extends AnchorPane implements Initializable {
                     APICalls api = new APICalls();
                     api.getUsersVocab();
                     getData();
+                    vocabTableView.setItems(shownVocabList);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         }).start();
-        getData();
     }
 
     /**
