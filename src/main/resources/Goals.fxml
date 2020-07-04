@@ -12,6 +12,6 @@
         <TableView fx:id="vocabTableView" layoutX="-16.0" layoutY="46.0" styleClass="table" />
         <Button fx:id="startLearningButton" layoutY="318.0" mnemonicParsing="false" onAction="#startLearningPressed" prefHeight="25.0" prefWidth="265.0" styleClass="b" text="Start Learning" AnchorPane.leftAnchor="0.0" />
         <Button fx:id="startLearningRandom" layoutX="305.0" layoutY="318.0" mnemonicParsing="false" onAction="#startLearningRandomPressed" prefHeight="25.0" prefWidth="273.0" styleClass="b" text="Start Learning in Random Order" AnchorPane.leftAnchor="415.0" />
-      <Button fx:id="selectAllButton1" layoutX="443.0" mnemonicParsing="false" onAction="#deselectAllButtonClicked" prefHeight="26.0" prefWidth="121.0" styleClass="classicButton" text="Deselect All" />
+      <Button fx:id="selectAllButton1" AnchorPane.leftAnchor="443" mnemonicParsing="false" onAction="#deselectAllButtonClicked" prefHeight="26.0" prefWidth="121.0" styleClass="classicButton" text="Deselect All" />
     </AnchorPane>
 </fx:root>

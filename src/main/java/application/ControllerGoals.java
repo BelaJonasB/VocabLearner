@@ -29,7 +29,7 @@ public class ControllerGoals extends AnchorPane implements Initializable {
     @FXML
     private Button startLearningButton, startLearningRandom;
     @FXML
-    private Button selectAllButton;
+    private Button selectAllButton, selectAllButton1;
     @FXML
     private TableView<VocabSelection> vocabTableView;
     @FXML
@@ -92,7 +92,8 @@ public class ControllerGoals extends AnchorPane implements Initializable {
 
         if(selectAllButton.getText().equals("Alle Ausw\u00E4hlen")){
             selectAllButton.setStyle("-fx-pref-width: 140px");
-            AnchorPane.setLeftAnchor(selectAllButton, 421.0);
+            AnchorPane.setLeftAnchor(selectAllButton, 540.0);
+            AnchorPane.setLeftAnchor(selectAllButton1, 400.0);
         }
         if(languageFilterComboBox.getPromptText().equals("Nach Sprache Filtern")) {
             languageFilterComboBox.setStyle("-fx-pref-width: 200px");
