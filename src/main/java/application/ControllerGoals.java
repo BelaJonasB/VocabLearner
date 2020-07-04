@@ -168,10 +168,11 @@ public class ControllerGoals extends AnchorPane implements Initializable {
     }
 
     /**
-     * Access pulled list of vocab from the API and inits the list of shown vocabs.
-     * Only shows Vocab of phase 0-3
+     * Access pulled list of vocab locally and inits/updates the list of shown vocabs.
+     * Only show Vocab of phase 0-3
      */
     private void getData(){
+        // get data local for instant response
         ArrayList<VocabSelection> tmp = new ArrayList<>();
         for(Vocab v : Variables.getUsersVocab()){
             if(v.getPhase() < 4){
@@ -179,6 +180,26 @@ public class ControllerGoals extends AnchorPane implements Initializable {
             }
         }
         shownVocabList = FXCollections.observableList(tmp);
+    }
+
+    /**
+     * gets the data locally for an instant response and also triggers a server request to update the shown data.
+     */
+    private void getDataAndSynchronize(){
+        // server req
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    APICalls api = new APICalls();
+                    api.getUsersVocab();
+                    getData();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+        getData();
     }
 
     /**
