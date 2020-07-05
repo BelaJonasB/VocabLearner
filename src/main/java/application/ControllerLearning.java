@@ -119,20 +119,13 @@ public class ControllerLearning extends AnchorPane implements Initializable {
         base.prefHeightProperty().bind(Main.primarStage.heightProperty().subtract(255));
         inBase.prefHeightProperty().bind(base.prefHeightProperty());
 
-        userTranslation.textProperty().addListener((observable, oldValue, newValue) -> {
-            solveButton.setDisable(newValue.isEmpty());
-        });
+        userTranslation.textProperty().addListener((observable, oldValue, newValue) -> solveButton.setDisable(newValue.isEmpty()));
+        errorCorrection.textProperty().addListener((observable, oldValue, newValue) -> submitErrorsButton.setDisable(newValue.isEmpty()));
         errorCorrection.textProperty().addListener((observable, oldValue, newValue) -> {
-            submitErrorsButton.setDisable(newValue.isEmpty());
-        });
-        errorCorrection.textProperty().addListener(new ChangeListener<String>() {
-                                                       @Override
-                                                       public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                                                           if (!newValue.matches("\\d*")) {
-                                                               errorCorrection.setText(newValue.replaceAll("[^\\d]", ""));
-                                                           }
-                                                       }
-                                                   }
+            if (!newValue.matches("\\d*")) {
+                errorCorrection.setText(newValue.replaceAll("[^\\d]", ""));
+            }
+        }
         );
         changeToNextVocable();
 

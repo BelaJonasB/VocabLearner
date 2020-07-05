@@ -147,15 +147,15 @@ public class ControllerMainScene extends Main implements Initializable {
 	 * if you want to get back to the learning Tab via the Selection-Bar	on the left Side.
 	 */
 	public void gotoLearn() {
-		List<Vocab> l = Variables.getUsersVocab();
-		Collections.shuffle(l);
-		gotoLearn(l);
+		List<Vocab> lischt = Variables.getUsersVocab();
+		gotoLearn(lischt);
 	}
 
 	/**
 	 * if you want to start learning
 	 */
 	public void gotoLearn(List<Vocab> vocabList) {
+		Collections.shuffle(vocabList);
 		Variables.setSelectedVocab(vocabList);
 		ControllerLearning learnCont = new ControllerLearning(this);
 		mainContent.setCenter(learnCont);
