@@ -535,9 +535,9 @@ public class ControllerLearning extends AnchorPane implements Initializable {
         listTestedVocables.add(new VocabList( testedAmount,  currentVocable.question, currentVocable.answer, userTranslation.getText(), errors, newPhase));
 
         if(newPhase != currentVocable.getPhase()) { // update Vocable only if the phase changes
+            Vocab phaseOfcurrentVocable = new Vocab(currentVocable.id, currentVocable.answer, currentVocable.question, currentVocable.language, newPhase);
             new Thread(() -> {
                 APICalls api = new APICalls();
-                Vocab phaseOfcurrentVocable = new Vocab(currentVocable.id, currentVocable.answer, currentVocable.question, currentVocable.language, newPhase);
                 api.editVoc(phaseOfcurrentVocable);
                 Platform.runLater(() -> toLoad.setCenter(normalLoad));
             }).start();
