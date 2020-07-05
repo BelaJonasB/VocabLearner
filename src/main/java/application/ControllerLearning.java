@@ -1,5 +1,8 @@
 package application;
 
+import animatefx.animation.Bounce;
+import animatefx.animation.BounceInUp;
+import animatefx.animation.Pulse;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableListValue;
@@ -13,10 +16,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.shape.Circle;
 
 import java.net.URL;
 import java.sql.SQLOutput;
@@ -28,7 +29,7 @@ import java.util.*;
 public class ControllerLearning extends AnchorPane implements Initializable {
 
     @FXML
-    private Label SelectedVocable, selectedVocable, UserErrors, userErrors, UserTranslation, UserScored, userScored, SelectedVocableTranslation, selectedVocableTranslation, Phase, phase,  UserScore, userScore, ErrorCorrection, TestedVocables, testedVocables, CorrectVocables, correctVocables, AverageScored, averageScored, WrongVocables, wrongVocables, ScoreFinal, scoreFinal, PartCorrectVocables, partCorrectVocables, ErrorNoVocables;
+    private Label SelectedVocable, selectedVocable, UserErrors, userErrors, UserTranslation, UserScored, userScored, SelectedVocableTranslation, selectedVocableTranslation, Phase, phase,  UserScore, userScore, TestedVocables, testedVocables, CorrectVocables, correctVocables, AverageScored, averageScored, WrongVocables, wrongVocables, ScoreFinal, scoreFinal, PartCorrectVocables, partCorrectVocables, ErrorNoVocables;
     @FXML
     private HBox learningButtons, errorCorrectionBox, results, resultButtons, resultButtons2, errorNoVocables, errorButtons;
     @FXML
@@ -39,6 +40,10 @@ public class ControllerLearning extends AnchorPane implements Initializable {
     private TextField userTranslation, errorCorrection;
     @FXML
     private TableView<VocabList> allVocables;
+    @FXML
+    private AnchorPane base, inBase;
+    @FXML
+    private StackPane scoreCircle;
 
 
     private List<Vocab> list;
@@ -95,6 +100,9 @@ public class ControllerLearning extends AnchorPane implements Initializable {
         changeLearningScene(true,true,false,false,false, false,false,false);
 
 
+        base.prefHeightProperty().bind(Main.primarStage.heightProperty().subtract(255));
+        inBase.prefHeightProperty().bind(base.prefHeightProperty());
+
         userTranslation.textProperty().addListener((observable, oldValue, newValue) -> {
             solveButton.setDisable(newValue.isEmpty());
         });
@@ -128,7 +136,7 @@ public class ControllerLearning extends AnchorPane implements Initializable {
         manualCorrectButton.setText(LocalizationManager.get("manualCorrectButton"));
         manualPartlyCorrectButton.setText(LocalizationManager.get("manualPartlyCorrectButton"));
         manualWrongButton.setText(LocalizationManager.get("manualWrongButton"));
-        ErrorCorrection.setText(LocalizationManager.get("ErrorCorrection"));
+        errorCorrection.setPromptText(LocalizationManager.get("ErrorCorrection"));
         submitErrorsButton.setText(LocalizationManager.get("submitErrorsButton"));
         solveButton.setText(LocalizationManager.get("solveButton"));
         nextButton.setText(LocalizationManager.get("nextButton"));
@@ -419,6 +427,9 @@ public class ControllerLearning extends AnchorPane implements Initializable {
         userErrors.setText(" " + errors);
         userScored.setText(" " + scored);
         userScore.setText(" " + (score + scored) );
+        if(scored>0) {
+            new Pulse(scoreCircle).setCycleCount(1).play();
+        }
         phase.setText(" " + (newPhase + 1) );
     }
 

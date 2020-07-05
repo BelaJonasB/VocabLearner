@@ -67,9 +67,9 @@ public class LocalizationManager extends ControllerLogin{
         english.put("Phase", "New phase");
         english.put("UserScore", "Score");
         english.put("manualCorrectionButton", "Manual correction");
-        english.put("manualCorrectButton", "Given answer is correct");
-        english.put("manualPartlyCorrectButton", "Given answer is partly correct");
-        english.put("manualWrongButton", "Given answer is wrong");
+        english.put("manualCorrectButton", "Correct");
+        english.put("manualPartlyCorrectButton", "Partly correct");
+        english.put("manualWrongButton", "Wrong");
         english.put("ErrorCorrection", "Mistakes");
         english.put("submitErrorsButton", "Submit");
         english.put("solveButton", "Solve");
@@ -165,9 +165,9 @@ public class LocalizationManager extends ControllerLogin{
         german.put("Phase", "Neue Phase");
         german.put("UserScore", "Punkte");
         german.put("manualCorrectionButton", "Manuelle Korrektur");
-        german.put("manualCorrectButton", "Die Antwort ist korrekt");
-        german.put("manualPartlyCorrectButton", "Die Antwort ist teilweise korrekt");
-        german.put("manualWrongButton", "Die Antwort ist falsch");
+        german.put("manualCorrectButton", "Korrekt");
+        german.put("manualPartlyCorrectButton", "Teilweise korrekt");
+        german.put("manualWrongButton", "Falsch");
         german.put("ErrorCorrection", "Fehler");
         german.put("submitErrorsButton", "Best\u00E4tigen");
         german.put("solveButton", "Aufl\u00f6sen");

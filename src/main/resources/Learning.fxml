@@ -11,8 +11,10 @@
 
 <!-- Titles are marked with an fx:id, that starts with a capital Letter -->
 
-<fx:root xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" prefHeight="400.0" prefWidth="600.0" styleClass="mainLearn" stylesheets="@application.css" type="AnchorPane">
-    <AnchorPane styleClass="allesRein" AnchorPane.topAnchor="50.0" AnchorPane.leftAnchor="70.0">
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.Circle?>
+<fx:root xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:id="base" styleClass="mainLearn" prefWidth="800" stylesheets="@application.css" type="AnchorPane">
+    <AnchorPane styleClass="allesRein" fx:id="inBase" AnchorPane.topAnchor="50.0" AnchorPane.leftAnchor="70.0">
         <VBox fx:id="mainLearning" spacing="50">
             <HBox spacing="110">
                 <VBox spacing="15" prefWidth="150">
@@ -34,33 +36,34 @@
                     <Label fx:id="selectedVocableTranslation" styleClass="learningC"/>
                     <Label fx:id="Phase" styleClass="learning"/>
                     <Label fx:id="phase" minWidth="20.0" styleClass="learningC"/>
-                    <VBox spacing="26" alignment="CENTER_RIGHT">
-                        <Label fx:id="UserScore" styleClass="learning"/>
-                        <Label fx:id="userScore" styleClass="learningC"/>
-                    </VBox>
                 </VBox>
             </HBox>
-
+            <HBox fx:id="learningButtons" spacing="15">
+                <Button fx:id="solveButton" mnemonicParsing="false" disable="true" onAction="#solveVocable" prefHeight="25.0" prefWidth="220.0" styleClass="classicButton"/>
+                <Button fx:id="nextButton" mnemonicParsing="false" onAction="#nextVocable" prefHeight="25.0" prefWidth="220.0" styleClass="classicButton"/>
+            </HBox>
             <HBox spacing="15">
                 <Button fx:id="manualCorrectionButton" mnemonicParsing="false" onAction="#manualCorrection" prefHeight="25.0" prefWidth="220.0" styleClass="classicButton"/>
                 <VBox spacing="10" >
-                    <Button fx:id="manualCorrectButton" mnemonicParsing="false" onAction="#correctAnswer" prefHeight="25.0" prefWidth="250.0" styleClass="classicButton"/>
-                    <Button fx:id="manualPartlyCorrectButton" mnemonicParsing="false" onAction="#partlyCorrectAnswer" prefHeight="25.0" prefWidth="250.0" styleClass="classicButton"/>
-                    <Button fx:id="manualWrongButton" mnemonicParsing="false" onAction="#wrongAnswer" prefHeight="25.0" prefWidth="250.0" styleClass="classicButton"/>
-                    <HBox fx:id="errorCorrectionBox">
-                        <Label fx:id="ErrorCorrection" prefWidth="80" prefHeight="30.0" styleClass="learning"/>
-                        <TextField prefWidth="70" prefHeight="30.0" fx:id="errorCorrection"/>
+                    <Button fx:id="manualCorrectButton" mnemonicParsing="false" onAction="#correctAnswer" prefHeight="25.0" prefWidth="220.0" styleClass="classicButton"/>
+                    <Button fx:id="manualPartlyCorrectButton" mnemonicParsing="false" onAction="#partlyCorrectAnswer" prefHeight="25.0" prefWidth="220.0" styleClass="classicButton"/>
+                    <Button fx:id="manualWrongButton" mnemonicParsing="false" onAction="#wrongAnswer" prefHeight="25.0" prefWidth="220.0" styleClass="classicButton"/>
+                    <HBox fx:id="errorCorrectionBox" spacing="10">
+                        <TextField prefWidth="70" prefHeight="30.0" fx:id="errorCorrection" promptText="Mistakes"/>
                         <Button fx:id="submitErrorsButton" mnemonicParsing="false" disable="true" onAction="#submitErrors" prefHeight="25.0" prefWidth="100" styleClass="classicButton"/>
                     </HBox>
                 </VBox>
             </HBox>
 
-            <HBox fx:id="learningButtons" spacing="15">
-                <Button fx:id="solveButton" mnemonicParsing="false" disable="true" onAction="#solveVocable" prefHeight="25.0" prefWidth="220.0" styleClass="classicButton"/>
-                <Button fx:id="nextButton" mnemonicParsing="false" onAction="#nextVocable" prefHeight="25.0" prefWidth="220.0" styleClass="classicButton"/>
-            </HBox>
-        </VBox>
 
+        </VBox>
+        <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" fx:id="scoreCircle">
+            <Circle fill="#ffe600" radius="60" />
+            <VBox spacing="26" alignment="CENTER">
+                <Label fx:id="UserScore" styleClass="learning"/>
+                <Label fx:id="userScore" styleClass="learningCuser"/>
+            </VBox>
+        </StackPane>
         <HBox fx:id="results" spacing="50">
             <VBox spacing="15">
                 <Label fx:id="TestedVocables" styleClass="learning" />
@@ -87,7 +90,7 @@
             <Button fx:id="restartLearningButton" mnemonicParsing="false" onAction="#restartLearning" prefHeight="25.0" prefWidth="258.0" styleClass="classicButton"/>
         </HBox>
 
-        <TableView fx:id="allVocables" prefHeight="410.0" prefWidth="700.0">
+        <TableView fx:id="allVocables" prefHeight="360.0" prefWidth="700.0">
         </TableView>
 
         <HBox fx:id="resultButtons2" layoutY="433.0" spacing="15">
