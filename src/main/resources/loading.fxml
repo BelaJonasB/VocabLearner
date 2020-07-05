@@ -10,7 +10,7 @@
 <?import javafx.scene.shape.Circle?>
 <fx:root xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml"
-         prefHeight="400.0" prefWidth="600.0" type="AnchorPane" stylesheets="@application.css" styleClass="loading">
+         prefHeight="400.0" prefWidth="600.0" type="AnchorPane" stylesheets="@application.css" styleClass="loading" fx:id="load">
         <AnchorPane fx:id="loading">
                 <HBox fx:id="circles" styleClass="circles">
                         <Circle fx:id="circle1" radius="20" fill="red"/>

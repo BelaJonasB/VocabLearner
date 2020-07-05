@@ -33,7 +33,7 @@ public class ControllerLearning extends AnchorPane implements Initializable {
     @FXML
     private HBox learningButtons, errorCorrectionBox, results, resultButtons, resultButtons2, errorNoVocables, errorButtons;
     @FXML
-    private VBox mainLearning;
+    private VBox mainLearning, normalLoad;
     @FXML
     private Button solveButton, nextButton, manualCorrectionButton, manualCorrectButton, manualPartlyCorrectButton, manualWrongButton, submitErrorsButton, showAllVocablesButton, hideAllVocablesButton, restartLearningButton, changeToVocabulary, changeToGoals;
     @FXML
@@ -44,6 +44,8 @@ public class ControllerLearning extends AnchorPane implements Initializable {
     private AnchorPane base, inBase;
     @FXML
     private StackPane scoreCircle;
+    @FXML
+    private BorderPane toLoad;
 
 
     private List<Vocab> list;
@@ -438,6 +440,10 @@ public class ControllerLearning extends AnchorPane implements Initializable {
      * increases counters for the result screen
      */
     public void saveCurrentResults(){
+        ControllerLoading l = new ControllerLoading();
+        l.changeSize(200,300, 0.0,100.0);
+        toLoad.setCenter(l);
+
         if(errors == 0) {
             completelyCorrect++;
         }
@@ -456,10 +462,16 @@ public class ControllerLearning extends AnchorPane implements Initializable {
         listTestedVocables.add(new VocabList( testedAmount,  currentVocable.question, currentVocable.answer, userTranslation.getText(), errors, newPhase+1));
 
         if(newPhase != currentVocable.getPhase()) { // update Vocable only if the phase changes
-            APICalls api = new APICalls();
-            Vocab phaseOfcurrentVocable = new Vocab(currentVocable.id, currentVocable.answer, currentVocable.question, currentVocable.language, newPhase);
-            api.editVoc(phaseOfcurrentVocable);
+            new Thread(() -> {
+                APICalls api = new APICalls();
+                Vocab phaseOfcurrentVocable = new Vocab(currentVocable.id, currentVocable.answer, currentVocable.question, currentVocable.language, newPhase);
+                api.editVoc(phaseOfcurrentVocable);
+                Platform.runLater(() -> toLoad.setCenter(normalLoad));
+            }).start();
+        } else {
+            toLoad.setCenter(normalLoad);
         }
+
     }
 
     /**

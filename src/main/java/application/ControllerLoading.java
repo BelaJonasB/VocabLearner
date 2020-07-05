@@ -17,6 +17,8 @@ public class ControllerLoading extends AnchorPane implements Initializable {
     HBox circles;
     @FXML
     Circle circle1,circle2,circle3;
+    @FXML
+    AnchorPane load;
 
     public ControllerLoading() {
         FXMLLoader loading = new FXMLLoader(getClass().getResource("/loading.fxml"));
@@ -35,5 +37,11 @@ public class ControllerLoading extends AnchorPane implements Initializable {
         new Bounce(circle1).setCycleCount(100).setSpeed(0.8).setDelay(new Duration(100)).play();
         new Bounce(circle2).setCycleCount(100).setSpeed(0.8).setDelay(new Duration(200)).play();
         new Bounce(circle3).setCycleCount(100).setSpeed(0.8).setDelay(new Duration(300)).play();
+    }
+    public void changeSize(int h, int w, double distTop, double distLeft) {
+        load.prefHeight(h);
+        load.prefWidth(w);
+        AnchorPane.setTopAnchor(circles, distTop);
+        AnchorPane.setLeftAnchor(circles, distLeft);
     }
 }
