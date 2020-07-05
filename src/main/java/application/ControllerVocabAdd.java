@@ -41,7 +41,7 @@ public class ControllerVocabAdd extends AnchorPane implements Initializable {
         if (AnswerTextField.getText() != null && QuestionTextField.getText() != null && LanguageTextField.getText() != null) {
             Vocab newVoc = new Vocab(AnswerTextField.getText(), QuestionTextField.getText(), LanguageTextField.getText(), START_PHASE);
             ControllerLoading l = new ControllerLoading();
-            l.changeSize(410,700,180.0,200.0);
+            l.changeSize(410,700,180.0,250.0);
             Variables.getC().table.setCenter(l);
             ControllerVocList call = Variables.getC();
             new Thread(() -> {

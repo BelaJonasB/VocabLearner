@@ -39,7 +39,7 @@
                     <Label fx:id="phase" minWidth="20.0" styleClass="learningC"/>
                 </VBox>
             </HBox>
-            <BorderPane fx:id="toLoad" prefWidth="470">
+            <BorderPane fx:id="toLoad" maxHeight="280">
                  <center>
                     <VBox prefWidth="470" spacing="50" fx:id="normalLoad">
                         <HBox fx:id="learningButtons" spacing="15">

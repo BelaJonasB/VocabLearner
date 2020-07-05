@@ -226,7 +226,7 @@ public class ControllerVocList extends AnchorPane implements Initializable {
 
     private void editOnAPI(Vocab tmp) {
         ControllerLoading l = new ControllerLoading();
-        l.changeSize(410,700,180.0,200.0);
+        l.changeSize(410,700,180.0,250.0);
         table.setCenter(l);
         Vocab voc = new Vocab(tmp.getId(), tmp.getAnswer(), tmp.getQuestion(), tmp.getLanguage(), tmp.getPhase());
         Thread t3 = new Thread(() -> {
@@ -325,7 +325,7 @@ public class ControllerVocList extends AnchorPane implements Initializable {
      */
     public void handleDeletion(VocabSelection voc) {
         ControllerLoading l = new ControllerLoading();
-        l.changeSize(410,700,180.0,200.0);
+        l.changeSize(410,700,180.0,250.0);
         table.setCenter(l);
         new Thread(() -> {
             api.deleteVoc(voc.getId());

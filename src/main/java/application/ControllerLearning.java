@@ -1,8 +1,6 @@
 package application;
 
-import animatefx.animation.Bounce;
-import animatefx.animation.BounceInUp;
-import animatefx.animation.Pulse;
+import animatefx.animation.*;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableListValue;
@@ -430,7 +428,9 @@ public class ControllerLearning extends AnchorPane implements Initializable {
         userScored.setText(" " + scored);
         userScore.setText(" " + (score + scored) );
         if(scored>0) {
-            new Pulse(scoreCircle).setCycleCount(1).play();
+            new Pulse(scoreCircle).setSpeed(2.0).setCycleCount(2).play();
+        } else {
+            new Shake(scoreCircle).setCycleCount(1).play();
         }
         phase.setText(" " + (newPhase + 1) );
     }
@@ -441,7 +441,7 @@ public class ControllerLearning extends AnchorPane implements Initializable {
      */
     public void saveCurrentResults(){
         ControllerLoading l = new ControllerLoading();
-        l.changeSize(200,300, 0.0,100.0);
+        l.changeSize(0,300, 0.0,100.0);
         toLoad.setCenter(l);
 
         if(errors == 0) {
