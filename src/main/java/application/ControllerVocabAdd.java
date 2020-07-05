@@ -1,5 +1,6 @@
 package application;
 
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -39,19 +40,20 @@ public class ControllerVocabAdd extends AnchorPane implements Initializable {
     public void parseNewVoc () {
         if (AnswerTextField.getText() != null && QuestionTextField.getText() != null && LanguageTextField.getText() != null) {
             Vocab newVoc = new Vocab(AnswerTextField.getText(), QuestionTextField.getText(), LanguageTextField.getText(), START_PHASE);
+            ControllerLoading l = new ControllerLoading();
+            l.changeSize(410,700,180.0,200.0);
+            Variables.getC().table.setCenter(l);
             ControllerVocList call = Variables.getC();
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        APICalls api = new APICalls();
-                        api.postToVoc(newVoc);
-                        api.getUsersVocab();
-                        call.getData();
-                        call.VocTableList.setItems(call.list);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+            new Thread(() -> {
+                try {
+                    APICalls api = new APICalls();
+                    api.postToVoc(newVoc);
+                    api.getUsersVocab();
+                    call.getData();
+                    call.VocTableList.setItems(call.list);
+                    Platform.runLater(() -> Variables.getC().table.setCenter(Variables.getC().VocTableList));
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }).start();
         }

@@ -1,5 +1,6 @@
 package application;
 ;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -15,6 +16,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Button;
@@ -47,6 +49,8 @@ public class ControllerVocList extends AnchorPane implements Initializable {
     public ToggleButton EditEnableToggle;
     @FXML
     public TableView<VocabSelection> VocTableList;
+    @FXML
+    BorderPane table;
 
     public ObservableList<VocabSelection> list;
 
@@ -98,22 +102,7 @@ public class ControllerVocList extends AnchorPane implements Initializable {
                 ).setAnswer(event.getNewValue());
                 //System.out.println(event.getNewValue()+event.getRowValue());
                 Vocab tmp = (Vocab) event.getRowValue();
-                Vocab voc = new Vocab(tmp.getId(), tmp.getAnswer(), tmp.getQuestion(), tmp.getLanguage(), tmp.getPhase());
-                Thread t1 = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        api.editVoc(voc);
-
-                        try {
-                            api.getUsersVocab();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        getData();
-                        VocTableList.setItems(list);
-                    }
-                });
-                t1.start();
+                editOnAPI(tmp);
             }
         });
 
@@ -130,22 +119,7 @@ public class ControllerVocList extends AnchorPane implements Initializable {
                         event.getTablePosition().getRow())
                 ).setQuestion(event.getNewValue());
                 Vocab tmp = (Vocab) event.getRowValue();
-                Vocab voc = new Vocab(tmp.getId(), tmp.getAnswer(), tmp.getQuestion(), tmp.getLanguage(), tmp.getPhase());
-                Thread t2 = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        api.editVoc(voc);
-
-                        try {
-                            api.getUsersVocab();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        getData();
-                        VocTableList.setItems(list);
-                    }
-                });
-                t2.start();
+                editOnAPI(tmp);
             }
         });
 
@@ -162,22 +136,7 @@ public class ControllerVocList extends AnchorPane implements Initializable {
                         event.getTablePosition().getRow())
                 ).setLanguage(event.getNewValue());
                 Vocab tmp = event.getRowValue();
-                Vocab voc = new Vocab(tmp.getId(), tmp.getAnswer(), tmp.getQuestion(), tmp.getLanguage(), tmp.getPhase());
-                Thread t3 = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        api.editVoc(voc);
-
-                        try {
-                            api.getUsersVocab();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        getData();
-                        VocTableList.setItems(list);
-                    }
-                });
-                t3.start();
+                editOnAPI(tmp);
             }
         });
 
@@ -265,6 +224,27 @@ public class ControllerVocList extends AnchorPane implements Initializable {
         }, 0, 120000);
     }
 
+    private void editOnAPI(Vocab tmp) {
+        ControllerLoading l = new ControllerLoading();
+        l.changeSize(410,700,180.0,200.0);
+        table.setCenter(l);
+        Vocab voc = new Vocab(tmp.getId(), tmp.getAnswer(), tmp.getQuestion(), tmp.getLanguage(), tmp.getPhase());
+        Thread t3 = new Thread(() -> {
+            api.editVoc(voc);
+
+            try {
+                api.getUsersVocab();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            getData();
+            VocTableList.setItems(list);
+
+            Platform.runLater(() -> table.setCenter(VocTableList));
+        });
+        t3.start();
+    }
+
     /**
      * When text is entered, the list is searched for valid hits and the result is set to list
      */
@@ -344,18 +324,19 @@ public class ControllerVocList extends AnchorPane implements Initializable {
      * @param voc vocabulary that is supposed to be deleted
      */
     public void handleDeletion(VocabSelection voc) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                api.deleteVoc(voc.getId());
-                try {
-                    api.getUsersVocab();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                getData();
-                VocTableList.setItems(list);
+        ControllerLoading l = new ControllerLoading();
+        l.changeSize(410,700,180.0,200.0);
+        table.setCenter(l);
+        new Thread(() -> {
+            api.deleteVoc(voc.getId());
+            try {
+                api.getUsersVocab();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+            getData();
+            VocTableList.setItems(list);
+            Platform.runLater(() -> table.setCenter(VocTableList));
         }).start();
     }
 
