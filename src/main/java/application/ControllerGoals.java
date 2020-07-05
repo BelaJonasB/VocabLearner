@@ -199,10 +199,6 @@ public class ControllerGoals extends AnchorPane implements Initializable {
      * gets the data locally for an instant response and also triggers a server request to update the shown data.
      */
     private void getDataAndSynchronize(){
-        ControllerLoading l = new ControllerLoading();
-        l.changeSize(100,700,180.0,250.0);
-        toLoad.setCenter(l);
-
         getData(); // load local
 
         // server req
@@ -212,7 +208,6 @@ public class ControllerGoals extends AnchorPane implements Initializable {
                 api.getUsersVocab();
                 getData();
                 vocabTableView.setItems(shownVocabList);
-                Platform.runLater(() -> toLoad.setCenter(vocabTableView));
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -62,7 +62,7 @@ public class LocalizationManager extends ControllerMainScene {
         english.put("SelectedVocable", "Vocable");
         english.put("UserErrors", "Mistakes");
         english.put("UserTranslation", "Translation?");
-        english.put("UserScored", "+Score");
+        english.put("UserScored", "Score");
         english.put("SelectedVocableTranslation", "Answer");
         english.put("Phase", "New phase");
         english.put("UserScore", "Score");
@@ -130,8 +130,8 @@ public class LocalizationManager extends ControllerMainScene {
         german.put("add","Hinzuf\u00FCgen");
         german.put("delete","L\u00F6schen");
         german.put("switch","Ein");
-        german.put("enable","Aktiviere Bearbeitungs-Modus");
-        german.put("disable","Deaktiviere Bearbeitungs-Modus");
+        german.put("enable","Bearbeitungs-Modus Aus");
+        german.put("disable","Bearbeitungs-Modus An");
         german.put("select","Ausw\u00E4hlen");
         //German text for VocAdd
         german.put("answerAdd","Antwort hier eingeben");
@@ -160,7 +160,7 @@ public class LocalizationManager extends ControllerMainScene {
         german.put("SelectedVocable", "Vokabel");
         german.put("UserErrors", "Fehler");
         german.put("UserTranslation", "\u00dcbersetzung?");
-        german.put("UserScored", "+Punkte");
+        german.put("UserScored", "Punkte");
         german.put("SelectedVocableTranslation", "L\u00f6sung");
         german.put("Phase", "Neue Phase");
         german.put("UserScore", "Punkte");

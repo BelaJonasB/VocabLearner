@@ -67,7 +67,7 @@
             <Circle fill="#ffe600" radius="60" />
             <VBox spacing="26" alignment="CENTER">
                 <Label fx:id="UserScore" styleClass="learning"/>
-                <Label fx:id="userScore" styleClass="learningCuser"/>
+                <Label fx:id="userScore" styleClass="learningCuser" text="0.0"/>
             </VBox>
         </StackPane>
         <HBox fx:id="results" spacing="50">

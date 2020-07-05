@@ -442,7 +442,7 @@ public class ControllerLearning extends AnchorPane implements Initializable {
      */
     public void showCurrentResults(){
         userErrors.setText(" " + errors);
-        userScored.setText(" " + scored);
+        userScored.setText(" + " + scored);
         userScore.setText(" " + (score + scored) );
         if(scored>0) {
             new Pulse(scoreCircle).setSpeed(2.0).setCycleCount(2).play();
