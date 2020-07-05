@@ -58,6 +58,10 @@ public class ControllerGoals extends AnchorPane implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        buttonFeedback(startLearningButton);
+        buttonFeedback(startLearningRandom);
+        buttonFeedback(selectAllButton,0);
+        buttonFeedback(deselectAllButton,0);
 
         setLang();
 
@@ -99,6 +103,8 @@ public class ControllerGoals extends AnchorPane implements Initializable {
             AnchorPane.setLeftAnchor(selectAllButton, 510.0);
             AnchorPane.setLeftAnchor(deselectAllButton, 350.0);
             deselectAllButton.setStyle("-fx-pref-width: 150px");
+            buttonFeedback(selectAllButton,1);
+            buttonFeedback(deselectAllButton,1);
         }
         if(languageFilterComboBox.getPromptText().equals("Nach Sprache Filtern")) {
             languageFilterComboBox.setStyle("-fx-pref-width: 200px");
@@ -235,5 +241,33 @@ public class ControllerGoals extends AnchorPane implements Initializable {
             if(vocab.getLanguage().equals(lang)) tmp.add(vocab);
         }
         this.shownVocabList = tmp;
+    }
+    public void buttonFeedback(Button b) {
+        b.hoverProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue) {
+                b.setStyle("-fx-font-size: 15; -fx-padding: 4 0 5 0");
+            } else {
+                b.setStyle("");
+            }
+        });
+    }
+    public void buttonFeedback(Button b, int i) {
+        if(i==1) {
+            b.hoverProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue) {
+                    b.setStyle("-fx-font-size: 15;-fx-pref-width: 150px;-fx-padding: 4 0 5 0");
+                } else {
+                    b.setStyle("-fx-pref-width: 150px");
+                }
+            });
+        } else{
+            b.hoverProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue) {
+                    b.setStyle("-fx-font-size: 15;-fx-pref-width: 100px;-fx-padding: 4 0 5 0");
+                } else {
+                    b.setStyle("-fx-pref-width: 100px");
+                }
+            });
+        }
     }
 }

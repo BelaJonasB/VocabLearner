@@ -5,11 +5,14 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 
 import java.net.URL;
@@ -27,7 +30,8 @@ public class ControllerLearning extends AnchorPane implements Initializable {
     @FXML
     private VBox mainLearning, normalLoad;
     @FXML
-    private Button solveButton, nextButton, manualCorrectionButton, manualCorrectButton, manualPartlyCorrectButton, manualWrongButton, submitErrorsButton, showAllVocablesButton, hideAllVocablesButton, restartLearningButton, changeToVocabulary, changeToGoals;
+    private Button solveButton, nextButton, manualCorrectionButton, manualCorrectButton, manualPartlyCorrectButton,
+            manualWrongButton, submitErrorsButton, showAllVocablesButton, hideAllVocablesButton, restartLearningButton, changeToVocabulary, changeToGoals;
     @FXML
     private TextField userTranslation, errorCorrection;
     @FXML
@@ -38,7 +42,6 @@ public class ControllerLearning extends AnchorPane implements Initializable {
     private StackPane scoreCircle;
     @FXML
     private BorderPane toLoad;
-
 
     private List<Vocab> list;
     private List<VocabList> listTestedVocables = new ArrayList<>();
@@ -93,6 +96,18 @@ public class ControllerLearning extends AnchorPane implements Initializable {
         }
         changeLearningScene(true,true,false,false,false, false,false,false);
 
+        buttonFeedback(solveButton);
+        buttonFeedback(nextButton);
+        buttonFeedback(manualCorrectionButton);
+        buttonFeedback(manualCorrectButton);
+        buttonFeedback(manualPartlyCorrectButton);
+        buttonFeedback(manualWrongButton);
+        buttonFeedback(submitErrorsButton);
+        buttonFeedback(showAllVocablesButton);
+        buttonFeedback(hideAllVocablesButton);
+        buttonFeedback(restartLearningButton);
+        buttonFeedback(changeToVocabulary);
+        buttonFeedback(changeToGoals);
 
         base.prefHeightProperty().bind(Main.primarStage.heightProperty().subtract(255));
         inBase.prefHeightProperty().bind(base.prefHeightProperty());
@@ -113,6 +128,12 @@ public class ControllerLearning extends AnchorPane implements Initializable {
                                                    }
         );
         changeToNextVocable();
+
+        this.setOnKeyPressed(event -> {
+            if(event.getCode()== KeyCode.ENTER&&userTranslation.textProperty().isNotEmpty().get()) {
+                solveVocable();
+            }
+        });
     }
 
     /**
@@ -515,5 +536,14 @@ public class ControllerLearning extends AnchorPane implements Initializable {
      public static int min(int... numbers) {
         return Arrays.stream(numbers)
                 .min().orElse(Integer.MAX_VALUE);
+    }
+    public void buttonFeedback(Button b) {
+        b.hoverProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue) {
+                b.setStyle("-fx-font-size: 15; -fx-padding: 4 0 5 0");
+            } else {
+                b.setStyle("");
+            }
+        });
     }
 }

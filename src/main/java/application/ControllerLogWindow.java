@@ -172,15 +172,6 @@ public class ControllerLogWindow extends Main implements Initializable {
 			try {
 				Response regResp = resp.login();
 				Platform.runLater(() -> logReg(regResp, wrongLogText));
-				//resp.postToVoc(new Vocab("Fungus", "Fuchs", "ENG"));
-				//System.out.println(resp.deleteVoc("628"));
-				/*Vocab v = new Vocab();
-				v.setAnswer("ching");
-				v.setQuestion("chong");
-				v.setId(624);
-				v.setLanguage("Ch");
-				resp.editVoc(v);*/
-
 			} catch (UnknownHostException|IllegalArgumentException i) {
 				Platform.runLater(() -> {
 					mainLogCont.setCenter(loginBox);

@@ -291,6 +291,7 @@
 	-fx-font-weight: bold;
 	-fx-text-fill: #767676;
 	-fx-font-size: 14;
+	-fx-cursor: hand;
 }
 .combo-box#languageFilterComboBox .cell:selected {
 	-fx-text-fill: #767676;
@@ -380,4 +381,16 @@
 .combo-box .list-view .list-cell {
 	-fx-background-color: white;
 	-fx-text-fill: #767676;
+	-fx-cursor: hand;
+	-fx-font-weight: bold;
+}
+.combo-box .list-view .list-cell:focused {
+	-fx-background-color: #fff3ad;
+	-fx-text-fill: #767676;
+	-fx-cursor: hand;
+}
+.combo-box .list-view .list-cell:hover {
+	-fx-background-color: #ffe600;
+	-fx-text-fill: #767676;
+	-fx-cursor: hand;
 }

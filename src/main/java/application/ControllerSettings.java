@@ -54,6 +54,7 @@ public class ControllerSettings extends AnchorPane implements Initializable {
             e.printStackTrace();
         }
 
+        buttonFeedback(apply);
     }
 
     /**
@@ -76,5 +77,14 @@ public class ControllerSettings extends AnchorPane implements Initializable {
     public void setLang() {
         listSetts1.setText(LocalizationManager.get("listSetts1"));
         apply.setText(LocalizationManager.get("apply"));
+    }
+    public void buttonFeedback(Button b) {
+        b.hoverProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue) {
+                b.setStyle("-fx-font-size: 15; -fx-padding: 4 0 4 0");
+            } else {
+                b.setStyle("");
+            }
+        });
     }
 }

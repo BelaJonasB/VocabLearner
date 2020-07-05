@@ -83,6 +83,14 @@ public class ControllerVocList extends AnchorPane implements Initializable {
         LocalizationManager.Init();
         setLang();
 
+        //Button feedback
+        buttonFeedback(AddButton);
+        buttonFeedback(EditEnableToggle);
+        buttonFeedback(DeleteButton);
+        buttonFeedback(SearchButton);
+        buttonFeedback(ResetButton);
+
+
         //ID-Column stuff
         TableColumn<VocabSelection, Integer> idColumn = new TableColumn(LocalizationManager.get("id"));
         idColumn.setMinWidth(40);
@@ -344,5 +352,23 @@ public class ControllerVocList extends AnchorPane implements Initializable {
             tmp.add(new VocabSelection(v, false));
         }
         list = FXCollections.observableList(tmp);
+    }
+    public void buttonFeedback(Button b) {
+        b.hoverProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue) {
+                b.setStyle("-fx-font-size: 15; -fx-padding: 4 0 4 0");
+            } else {
+                b.setStyle("");
+            }
+        });
+    }
+    public void buttonFeedback(ToggleButton b) {
+        b.hoverProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue) {
+                b.setStyle("-fx-font-size: 15; -fx-padding: 4 0 4 0");
+            } else {
+                b.setStyle("");
+            }
+        });
     }
 }

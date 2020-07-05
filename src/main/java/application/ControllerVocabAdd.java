@@ -32,6 +32,9 @@ public class ControllerVocabAdd extends AnchorPane implements Initializable {
         //execute language selection
         LocalizationManager.Init();
         setLang();
+
+        buttonFeedback(ConfirmButton);
+        buttonFeedback(CancelButton);
     }
 
     /**
@@ -81,6 +84,15 @@ public class ControllerVocabAdd extends AnchorPane implements Initializable {
         ConfirmButton.setText(LocalizationManager.get("confirm"));
         CancelButton.setText(LocalizationManager.get("cancel"));
         TopLabel.setText(LocalizationManager.get("addLabel"));
+    }
+    public void buttonFeedback(Button b) {
+        b.hoverProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue) {
+                b.setStyle("-fx-font-size: 15; -fx-padding: 4 0 5 0");
+            } else {
+                b.setStyle("");
+            }
+        });
     }
 
 }
