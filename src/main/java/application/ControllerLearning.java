@@ -9,11 +9,16 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.skin.TextFieldSkin;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
 
 import java.net.URL;
 import java.util.*;
@@ -24,7 +29,7 @@ import java.util.*;
 public class ControllerLearning extends AnchorPane implements Initializable {
 
     @FXML
-    private Label SelectedVocable, selectedVocable, UserErrors, userErrors, UserTranslation, UserScored, userScored, SelectedVocableTranslation, selectedVocableTranslation, Phase, phase,  UserScore, userScore, TestedVocables, testedVocables, CorrectVocables, correctVocables, AverageScored, averageScored, WrongVocables, wrongVocables, ScoreFinal, scoreFinal, PartCorrectVocables, partCorrectVocables, ErrorNoVocables;
+    private Label SelectedVocable, selectedVocable, UserErrors, userErrors, userTranslationFinal, UserTranslation, UserScored, userScored, SelectedVocableTranslation, selectedVocableTranslation, Phase, phase,  UserScore, userScore, TestedVocables, testedVocables, CorrectVocables, correctVocables, AverageScored, averageScored, WrongVocables, wrongVocables, ScoreFinal, scoreFinal, PartCorrectVocables, partCorrectVocables, ErrorNoVocables;
     @FXML
     private HBox learningButtons, errorCorrectionBox, results, resultButtons, resultButtons2, errorNoVocables, errorButtons;
     @FXML
@@ -287,6 +292,8 @@ public class ControllerLearning extends AnchorPane implements Initializable {
      */
     public void changeToNextVocable(){
         nextButton.setVisible(false);
+        //userTranslation.setVisible(true);
+        //userTranslationFinal.setVisible(false);
         UserErrors.setVisible(false);
         UserScored.setVisible(false);
         SelectedVocableTranslation.setVisible(false);
@@ -313,6 +320,8 @@ public class ControllerLearning extends AnchorPane implements Initializable {
      */
     public void solveVocable(){
         nextButton.setVisible(true);
+        //userTranslation.setVisible(false);
+        //userTranslationFinal.setVisible(true);
         UserErrors.setVisible(true);
         UserScored.setVisible(true);
         SelectedVocableTranslation.setVisible(true);
@@ -328,14 +337,50 @@ public class ControllerLearning extends AnchorPane implements Initializable {
 
     /**
      * compares the translation from the user with the answer of the asked vocable
-     *  changes the Phase
+     * highlight the differences between the given answer and solution
+     * changes the Phase
      */
     public void compareAnswer(){
         /*
          * compares the translation from the user with the answer of the asked vocable
-         * uses the Levenshtein algorithm
          */
-        errors = calculate(userTranslation.getText(),currentVocable.answer);
+        StringCompareAlgorithm.Cost cost = StringCompareAlgorithm.calculate(userTranslation.getText(),currentVocable.answer, true);
+        errors = cost.getCost();
+
+        /*
+        * highlight the differences between the given answer and solution
+         */
+
+        /*List<Label> labels = userTranslation.getText()
+                .chars()
+                .map(codePoint -> {
+                    var label = new Label(Character.toString(codePoint));
+
+                    var font = new Font(16);
+                    Font.
+                    label.setFont();
+                })
+
+        for (StringCompareAlgorithm.Modification modification : cost.getModifications()) {
+
+        }
+
+        var green = new Label("green");
+        green.getStyleClass().add("learningC");
+        green.setTextFill(Color.GREEN);
+        var red = new Label("red");
+        red.setFont(Font.font(20));
+        red.setTextFill(Color.RED);
+
+        var hBox = new HBox(
+                0,
+                green,
+                red
+        );
+        hBox.setAlignment(Pos.CENTER_LEFT);
+
+        userTranslationFinal.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+        userTranslationFinal.setGraphic(hBox);*/
 
         /*
          *  checks if the Vocable is either correct, partly correct or wrong
@@ -376,6 +421,8 @@ public class ControllerLearning extends AnchorPane implements Initializable {
 
         if(currentVocable.phase != 4) {
             newPhase = currentVocable.phase + 1;
+        }else{
+            newPhase = 4;
         }
         scored = 3;
         errors = 0;
@@ -449,7 +496,7 @@ public class ControllerLearning extends AnchorPane implements Initializable {
         } else {
             new Shake(scoreCircle).setCycleCount(1).play();
         }
-        phase.setText(" " + (newPhase + 1) );
+        phase.setText(" " + newPhase);
     }
 
     /**
@@ -476,7 +523,7 @@ public class ControllerLearning extends AnchorPane implements Initializable {
 
         score +=  scored;
 
-        listTestedVocables.add(new VocabList( testedAmount,  currentVocable.question, currentVocable.answer, userTranslation.getText(), errors, newPhase+1));
+        listTestedVocables.add(new VocabList( testedAmount,  currentVocable.question, currentVocable.answer, userTranslation.getText(), errors, newPhase));
 
         if(newPhase != currentVocable.getPhase()) { // update Vocable only if the phase changes
             new Thread(() -> {
@@ -488,55 +535,8 @@ public class ControllerLearning extends AnchorPane implements Initializable {
         } else {
             toLoad.setCenter(normalLoad);
         }
-
     }
 
-    /**
-     * Algorithm for Levenshtein distance
-     * calculates, how many letters you have to change between two words, inorder for them to match exactly
-     * @param x = translation (from User)
-     * @param y = answer of the current Vocable
-     * @return
-     */
-    static int calculate(String x, String y) {
-        if (x.isEmpty()) {
-            return y.length();
-        }
-
-        if (y.isEmpty()) {
-            return x.length();
-        }
-
-        int substitution = calculate(x.substring(1), y.substring(1))
-                + costOfSubstitution(x.charAt(0), y.charAt(0));
-        int insertion = calculate(x, y.substring(1)) + 1;
-        int deletion = calculate(x.substring(1), y) + 1;
-
-        return min(substitution, insertion, deletion);
-    }
-
-    /**
-     * Algorithm no.2 for Levenshtein distance
-     * calculates, how many letters you have to change between two words, inorder for them to match exactly
-     * @param a = char at "position" of translation (from User)
-     * @param b = char at "position" of  answer of the current Vocable
-     * @return if chars at "position" are equal or not
-     */
-    public static int costOfSubstitution(char a, char b)
-    {
-        return a == b ? 0 : 1;
-    }
-
-    /**
-     * Algorithm no.3 for Levenshtein distance
-     * calculates, how many letters you have to change between two words, inorder for them to match exactly
-     * @param numbers ( int Array )
-     * @return  the minimum of the listed numbers
-     */
-     public static int min(int... numbers) {
-        return Arrays.stream(numbers)
-                .min().orElse(Integer.MAX_VALUE);
-    }
     public void buttonFeedback(Button b) {
         b.hoverProperty().addListener((observable, oldValue, newValue) -> {
             if(newValue) {
