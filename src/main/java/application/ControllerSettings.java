@@ -64,7 +64,7 @@ public class ControllerSettings extends AnchorPane implements Initializable {
             LocalizationManager.setLanguage(LocalizationManager.SupportedLanguage.valueOf(langDD.getSelectionModel().getSelectedItem().toUpperCase()));
 
             //refresh Main Window
-            new settingsChanger();
+            new SettingsChanger();
         } catch (Exception e) {
             e.printStackTrace();
         }

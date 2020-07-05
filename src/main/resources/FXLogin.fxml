@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
-<AnchorPane styleClass="outer" fx:id="outer" stylesheets="@application.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="application.Controller">
+<AnchorPane styleClass="outer" fx:id="outer" stylesheets="@application.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="application.ControllerLogWindow">
 	<VBox fx:id="visualBox">
 		<ImageView styleClass="visualBox"/>
 	</VBox>

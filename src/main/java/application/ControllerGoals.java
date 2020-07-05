@@ -41,10 +41,10 @@ public class ControllerGoals extends AnchorPane implements Initializable {
     @FXML
     private BorderPane toLoad;
 
-    private final ControllerLogin controllerLogin;          //Changed to call startLearning
+    private final ControllerMainScene controllerMainScene;          //Changed to call startLearning
 
-    public ControllerGoals(ControllerLogin controllerLogin) {        //Changed to call startLearning
-        this.controllerLogin = controllerLogin;                              //Changed to call startLearning
+    public ControllerGoals(ControllerMainScene controllerMainScene) {        //Changed to call startLearning
+        this.controllerMainScene = controllerMainScene;                              //Changed to call startLearning
 
         FXMLLoader goGoals = new FXMLLoader(getClass().getResource("/Goals.fxml"));
         goGoals.setRoot(this);
@@ -110,7 +110,7 @@ public class ControllerGoals extends AnchorPane implements Initializable {
      */
     public void startLearningPressed(){
         List<Vocab> vocabToLearn = getSelectedVocab();
-        controllerLogin.gotoLearn(vocabToLearn);
+        controllerMainScene.gotoLearn(vocabToLearn);
     }
 
     /**
@@ -119,7 +119,7 @@ public class ControllerGoals extends AnchorPane implements Initializable {
     public void startLearningRandomPressed(){
         List<Vocab> vocabToLearn = getSelectedVocab();
         Collections.shuffle(vocabToLearn);
-        controllerLogin.gotoLearn(vocabToLearn);
+        controllerMainScene.gotoLearn(vocabToLearn);
     }
 
     /**

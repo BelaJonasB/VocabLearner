@@ -57,10 +57,10 @@ public class ControllerVocList extends AnchorPane implements Initializable {
     APICalls api = new APICalls();
     Timer timer = new Timer();
 
-    private final ControllerLogin controllerLogin;
+    private final ControllerMainScene controllerMainScene;
 
-    public ControllerVocList(ControllerLogin controllerLogin) {
-        this.controllerLogin = controllerLogin;
+    public ControllerVocList(ControllerMainScene controllerMainScene) {
+        this.controllerMainScene = controllerMainScene;
 
         FXMLLoader goList = new FXMLLoader(getClass().getResource("/VocList.fxml"));
         goList.setRoot(this);

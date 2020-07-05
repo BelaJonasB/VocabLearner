@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * handles internationalization
  */
-public class LocalizationManager extends ControllerLogin{
+public class LocalizationManager extends ControllerMainScene {
     private static SupportedLanguage currentLanguage = SupportedLanguage.ENGLISH;//defaults to english
     private static final Map<SupportedLanguage, Map<String, String>> translations = new HashMap<>();
     private static Settings u;

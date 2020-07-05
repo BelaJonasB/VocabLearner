@@ -20,7 +20,7 @@ import javafx.scene.layout.VBox;
  * Controller for the Main Window where the other sub-Content-Windows are situated
  * Controls Navigation Bar, Window switching, Title Bar and the main Content
  */
-public class ControllerLogin extends Main implements Initializable {
+public class ControllerMainScene extends Main implements Initializable {
 	@FXML
 	private Label loginAs;
 	@FXML

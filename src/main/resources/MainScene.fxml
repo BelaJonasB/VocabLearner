@@ -8,7 +8,7 @@
 <?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
 
-<HBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ControllerLogin" stylesheets="@application.css" styleClass="loginMain">
+<HBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ControllerMainScene" stylesheets="@application.css" styleClass="loginMain">
 	<AnchorPane fx:id="navBox" styleClass="navBox">
 		<VBox styleClass="navBar" fx:id="navBar">
 			<VBox styleClass="imageBox">

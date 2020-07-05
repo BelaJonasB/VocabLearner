@@ -3,22 +3,16 @@ package application;
 import animatefx.animation.*;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableListValue;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.shape.Circle;
 
 import java.net.URL;
-import java.sql.SQLOutput;
 import java.util.*;
 
 /**
@@ -63,15 +57,15 @@ public class ControllerLearning extends AnchorPane implements Initializable {
     private boolean manualCorrectionVisibility = false;
 
 
-    private final ControllerLogin controllerLogin; // for restartLearning and to get the vocables, that are selected for learning
+    private final ControllerMainScene controllerMainScene; // for restartLearning and to get the vocables, that are selected for learning
 
     /**
      * constructor
-     * @param controllerLogin  mainController, where all other controllers and the vocables, that are selected for learning are referenced
+     * @param controllerMainScene  mainController, where all other controllers and the vocables, that are selected for learning are referenced
      */
-    public ControllerLearning(ControllerLogin controllerLogin)
+    public ControllerLearning(ControllerMainScene controllerMainScene)
     {
-        this.controllerLogin = controllerLogin;
+        this.controllerMainScene = controllerMainScene;
         FXMLLoader goLog = new FXMLLoader(getClass().getResource("/Learning.fxml"));
         goLog.setRoot(this);
         goLog.setController(this);
@@ -223,14 +217,14 @@ public class ControllerLearning extends AnchorPane implements Initializable {
      *  from the Errorscreen switch to Vocabulary
      */
     public void gotoVocabList(){
-        controllerLogin.gotoVocList();
+        controllerMainScene.gotoVocList();
     }
 
     /**
      *  from the Errorscreen switch to Goals
      */
     public void gotoGoals(){
-        controllerLogin.gotoGoals();
+        controllerMainScene.gotoGoals();
     }
 
     /**
@@ -239,7 +233,7 @@ public class ControllerLearning extends AnchorPane implements Initializable {
     public void restartLearning(){
         List<Vocab> vocabToLearn = Variables.getSelectedVocab();
         Collections.shuffle(vocabToLearn);
-        controllerLogin.gotoLearn(vocabToLearn);
+        controllerMainScene.gotoLearn(vocabToLearn);
     }
 
     /**

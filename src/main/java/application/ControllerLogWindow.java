@@ -20,7 +20,7 @@ import okhttp3.Response;
 /**
  * Controller for Login-Window
  */
-public class Controller extends Main implements Initializable {
+public class ControllerLogWindow extends Main implements Initializable {
 	public PasswordField pw;
 	@FXML
 	private TextField mail, serverAddress;
