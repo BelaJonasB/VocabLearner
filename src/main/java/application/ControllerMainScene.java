@@ -2,6 +2,7 @@ package application;
 
 import java.io.FileWriter;
 import java.net.URL;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 import com.google.gson.Gson;
@@ -146,7 +147,9 @@ public class ControllerMainScene extends Main implements Initializable {
 	 * if you want to get back to the learning Tab via the Selection-Bar	on the left Side.
 	 */
 	public void gotoLearn() {
-		gotoLearn(Variables.getUsersVocab());
+		List<Vocab> l = Variables.getUsersVocab();
+		Collections.shuffle(l);
+		gotoLearn(l);
 	}
 
 	/**
