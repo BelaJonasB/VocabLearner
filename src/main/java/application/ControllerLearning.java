@@ -19,9 +19,11 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 import java.net.URL;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Maximilian Engelmann
@@ -292,8 +294,8 @@ public class ControllerLearning extends AnchorPane implements Initializable {
      */
     public void changeToNextVocable(){
         nextButton.setVisible(false);
-        //userTranslation.setVisible(true);
-        //userTranslationFinal.setVisible(false);
+        userTranslation.setVisible(true);
+        userTranslationFinal.setVisible(false);
         UserErrors.setVisible(false);
         UserScored.setVisible(false);
         SelectedVocableTranslation.setVisible(false);
@@ -320,8 +322,8 @@ public class ControllerLearning extends AnchorPane implements Initializable {
      */
     public void solveVocable(){
         nextButton.setVisible(true);
-        //userTranslation.setVisible(false);
-        //userTranslationFinal.setVisible(true);
+        userTranslation.setVisible(false);
+        userTranslationFinal.setVisible(true);
         UserErrors.setVisible(true);
         UserScored.setVisible(true);
         SelectedVocableTranslation.setVisible(true);
@@ -351,36 +353,43 @@ public class ControllerLearning extends AnchorPane implements Initializable {
         * highlight the differences between the given answer and solution
          */
 
-        /*List<Label> labels = userTranslation.getText()
+        List<Label> labels = userTranslation.getText()
                 .chars()
-                .map(codePoint -> {
+                .mapToObj(codePoint -> {
                     var label = new Label(Character.toString(codePoint));
-
-                    var font = new Font(16);
-                    Font.
-                    label.setFont();
+                    label.setFont(Font.font(null, FontWeight.BOLD, 16));
+                    label.setTextFill(Paint.valueOf("767676"));
+                    return label;
                 })
+                .collect(Collectors.toCollection(ArrayList::new));
 
+        int additionalOffset = 0;
         for (StringCompareAlgorithm.Modification modification : cost.getModifications()) {
+            int modificationIndex = modification.getPosition() + additionalOffset;
 
+            switch (modification.getType()) {
+                case SUBSTITUTION:
+                    labels.get(modificationIndex).setTextFill(Color.ORANGE);
+                    break;
+                case DELETION:
+                    labels.get(modificationIndex).setTextFill(Color.RED);
+                    break;
+                case INSERTION:
+                    var insertionLabel = new Label("_");
+                    insertionLabel.setFont(Font.font(null, FontWeight.BOLD, 16));
+                    insertionLabel.setTextFill(Color.RED);
+                    labels.add(modificationIndex, insertionLabel);
+
+                    additionalOffset++;
+                    break;
+            }
         }
 
-        var green = new Label("green");
-        green.getStyleClass().add("learningC");
-        green.setTextFill(Color.GREEN);
-        var red = new Label("red");
-        red.setFont(Font.font(20));
-        red.setTextFill(Color.RED);
-
-        var hBox = new HBox(
-                0,
-                green,
-                red
-        );
+        var hBox = new HBox(0, labels.toArray(Label[]::new));
         hBox.setAlignment(Pos.CENTER_LEFT);
 
         userTranslationFinal.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-        userTranslationFinal.setGraphic(hBox);*/
+        userTranslationFinal.setGraphic(hBox);
 
         /*
          *  checks if the Vocable is either correct, partly correct or wrong
