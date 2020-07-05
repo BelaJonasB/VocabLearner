@@ -94,16 +94,13 @@ public class ControllerVocList extends AnchorPane implements Initializable {
         answerColumn.setCellValueFactory(
                 new PropertyValueFactory<>("answer"));
         answerColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-        answerColumn.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<VocabSelection, String>>() {
-            @Override
-            public void handle(TableColumn.CellEditEvent<VocabSelection, String> event) {
-                (event.getTableView().getItems().get(
-                        event.getTablePosition().getRow())
-                ).setAnswer(event.getNewValue());
-                //System.out.println(event.getNewValue()+event.getRowValue());
-                Vocab tmp = (Vocab) event.getRowValue();
-                editOnAPI(tmp);
-            }
+        answerColumn.setOnEditCommit(event -> {
+            (event.getTableView().getItems().get(
+                    event.getTablePosition().getRow())
+            ).setAnswer(event.getNewValue());
+            //System.out.println(event.getNewValue()+event.getRowValue());
+            Vocab tmp = event.getRowValue();
+            editOnAPI(tmp);
         });
 
         //Question-Column initialization
@@ -112,15 +109,12 @@ public class ControllerVocList extends AnchorPane implements Initializable {
         questionColumn.setCellValueFactory(
                 new PropertyValueFactory<>("question"));
         questionColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-        questionColumn.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<VocabSelection, String>>() {
-            @Override
-            public void handle(TableColumn.CellEditEvent<VocabSelection, String> event) {
-                (event.getTableView().getItems().get(
-                        event.getTablePosition().getRow())
-                ).setQuestion(event.getNewValue());
-                Vocab tmp = (Vocab) event.getRowValue();
-                editOnAPI(tmp);
-            }
+        questionColumn.setOnEditCommit(event -> {
+            (event.getTableView().getItems().get(
+                    event.getTablePosition().getRow())
+            ).setQuestion(event.getNewValue());
+            Vocab tmp = event.getRowValue();
+            editOnAPI(tmp);
         });
 
         //Language-Column initialization
@@ -129,15 +123,12 @@ public class ControllerVocList extends AnchorPane implements Initializable {
         languageColumn.setCellValueFactory(
                 new PropertyValueFactory<>("language"));
         languageColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-        languageColumn.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<VocabSelection, String>>() {
-            @Override
-            public void handle(TableColumn.CellEditEvent<VocabSelection, String> event) {
-                (event.getTableView().getItems().get(
-                        event.getTablePosition().getRow())
-                ).setLanguage(event.getNewValue());
-                Vocab tmp = event.getRowValue();
-                editOnAPI(tmp);
-            }
+        languageColumn.setOnEditCommit(event -> {
+            (event.getTableView().getItems().get(
+                    event.getTablePosition().getRow())
+            ).setLanguage(event.getNewValue());
+            Vocab tmp = event.getRowValue();
+            editOnAPI(tmp);
         });
 
         //Phase-Column initialization
@@ -176,27 +167,24 @@ public class ControllerVocList extends AnchorPane implements Initializable {
         EditEnableToggle.setToggleGroup(editGroup);
         EditEnableToggle.setSelected(false);
 
-        editGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
-            @Override
-            public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
-                if (newValue == null) {
-                    VocTableList.setEditable(false);
-                    selectColumn.setEditable(false); //Makes selectColumn not editable
-                    selectColumn.setVisible(false); //Makes selectColumn invisible
-                    DeleteButton.setVisible(false);
-                    AddButton.setVisible(false);
-                    //System.out.println("IF");
-                    EditEnableToggle.setText(LocalizationManager.get("enable"));
+        editGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null) {
+                VocTableList.setEditable(false);
+                selectColumn.setEditable(false); //Makes selectColumn not editable
+                selectColumn.setVisible(false); //Makes selectColumn invisible
+                DeleteButton.setVisible(false);
+                AddButton.setVisible(false);
+                //System.out.println("IF");
+                EditEnableToggle.setText(LocalizationManager.get("enable"));
 
-                } else {
-                    VocTableList.setEditable(true);
-                    selectColumn.setEditable(true); //Makes selectColumn editable
-                    selectColumn.setVisible(true); //Makes selectColumn visible
-                    DeleteButton.setVisible(true);
-                    AddButton.setVisible(true);
-                    //System.out.println("ELse");
-                    EditEnableToggle.setText(LocalizationManager.get("disable"));
-                }
+            } else {
+                VocTableList.setEditable(true);
+                selectColumn.setEditable(true); //Makes selectColumn editable
+                selectColumn.setVisible(true); //Makes selectColumn visible
+                DeleteButton.setVisible(true);
+                AddButton.setVisible(true);
+                //System.out.println("ELse");
+                EditEnableToggle.setText(LocalizationManager.get("disable"));
             }
         });
 
@@ -212,12 +200,7 @@ public class ControllerVocList extends AnchorPane implements Initializable {
                 //System.out.println("Refresh");
 
                 //Cancel timer when application is closed
-                primarStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                    @Override
-                    public void handle(WindowEvent event) {
-                        timer.cancel();
-                    }
-                });
+                primarStage.setOnCloseRequest(event -> timer.cancel());
             }
 
             ;

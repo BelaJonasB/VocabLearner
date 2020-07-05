@@ -268,6 +268,7 @@ public class ControllerLearning extends AnchorPane implements Initializable {
         nextButton.setVisible(false);
         UserErrors.setVisible(false);
         UserScored.setVisible(false);
+        SelectedVocableTranslation.setVisible(false);
         Phase.setVisible(false);
         userTranslation.setDisable(false);
 
@@ -293,6 +294,7 @@ public class ControllerLearning extends AnchorPane implements Initializable {
         nextButton.setVisible(true);
         UserErrors.setVisible(true);
         UserScored.setVisible(true);
+        SelectedVocableTranslation.setVisible(true);
         Phase.setVisible(true);
 
         manualCorrectionButton.setVisible(true);

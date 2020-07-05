@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -60,11 +61,7 @@ public class ControllerMainScene extends Main implements Initializable {
 		logout.setTooltip(new Tooltip("Logout"));
 
 		//SetDefaultmainContent
-		ControllerVocList VocListCont = new ControllerVocList(this);
-		mainContent.setCenter(VocListCont);
-
-		//Sizes of Elements and their values/bindings:
-		page.setText(vocab.getText());
+		listThread();
 		logo.setFitWidth(120);
 		logo.setPreserveRatio(true);
 		userInfo.prefWidthProperty().bind(primarStage.widthProperty());
@@ -124,15 +121,25 @@ public class ControllerMainScene extends Main implements Initializable {
 	 * Switch main content to VocList
 	 */
 	public void gotoVocList() {
-		ControllerVocList VocListCont = new ControllerVocList(this);
-		mainContent.setCenter(VocListCont);
-		page.setText(vocab.getText());
+		listThread();
 		vocab.setStyle("-fx-background-color: #ffec00; -fx-border-width: 0 0 0 5; -fx-border-color: white");
 		goals.setStyle("-fx-background-color: #ffe600; -fx-border-width: 0 0 0 0");
 		learn.setStyle("-fx-background-color: #ffe600; -fx-border-width: 0 0 0 0");
 		colorVoc = "-fx-background-color: #ffec00; -fx-border-width: 0 0 0 5; -fx-border-color: white";
 		colorGoals = "-fx-background-color: #ffe600";
 		colorLearn = "-fx-background-color: #ffe600";
+	}
+
+	private void listThread() {
+		ControllerMainScene t = this;
+		ControllerLoading l = new ControllerLoading();
+		l.changeSize(410,700,280.0,350.0);
+		mainContent.setCenter(l);
+		new Thread(() -> {
+			ControllerVocList VocListCont = new ControllerVocList(t);
+			Platform.runLater(() -> mainContent.setCenter(VocListCont));
+		}).start();
+		page.setText(vocab.getText());
 	}
 
 	/**

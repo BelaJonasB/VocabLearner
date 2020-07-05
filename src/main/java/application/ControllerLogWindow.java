@@ -230,30 +230,38 @@ public class ControllerLogWindow extends Main implements Initializable {
 	 */
 	private void logReg(Response regResp, String warn) {
 		if(regResp.code()==200) {
-			try {
-				resp.getUsersVocab();
-				//Object form User if remember is selected, else delete user
-				String s;
+			new Thread(() -> {
+				try {
+					resp.getUsersVocab();
+					//Object form User if remember is selected, else delete user
+					String s;
 
-				if(remember.selectedProperty().get()) {
-					//encrypt PW
-					String encryptetPW = c.encrypt(pw.textProperty().get());
+					if(remember.selectedProperty().get()) {
+						//encrypt PW
+						String encryptetPW = c.encrypt(pw.textProperty().get());
 
-					User u = new User(mail.textProperty().get(), encryptetPW);
-					s = g.toJson(u);
-				} else {
-					User u = new User("", "");
-					s = g.toJson(u);
+						User u = new User(mail.textProperty().get(), encryptetPW);
+						s = g.toJson(u);
+					} else {
+						User u = new User("", "");
+						s = g.toJson(u);
+					}
+
+					//login Info To JSon
+					FileWriter file = new FileWriter("src/main/resources/logInfo.json");
+					file.write(s);
+					file.close();
+					Platform.runLater(() -> {
+						try {
+							changeScene("MainScene.fxml", 1080, 720, true, false, x, y);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					});
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-
-				//login Info To JSon
-				FileWriter file = new FileWriter("src/main/resources/logInfo.json");
-				file.write(s);
-				file.close();
-				changeScene("MainScene.fxml", 1080, 720, true, false, x, y);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			}).start();
 		} else {
 			mainLogCont.setCenter(loginBox);
 			wrongLogin.setText(warn);
