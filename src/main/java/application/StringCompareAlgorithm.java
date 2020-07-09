@@ -12,7 +12,7 @@ public class StringCompareAlgorithm {
             return new Cost();
         } else if (input.isEmpty()) {
             return new Cost(IntStream.range(0, output.length())
-                    .mapToObj(ModificationType.INSERTION::newModification)
+                    .mapToObj(position -> ModificationType.INSERTION.newModification(0))
                     .collect(Collectors.toList()));
         } else if (output.isEmpty()) {
             return new Cost(IntStream.range(0, input.length())

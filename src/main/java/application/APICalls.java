@@ -149,7 +149,8 @@ public class APICalls{
                 .url(server+"voc")
                 .post(regBody)
                 .build();
-        call(o, req);
+        Response r = call(o, req);
+        Objects.requireNonNull(r.body()).close();
 
         //Update the Vocab List in Variables (with id and phase)
         getUsersVocab();
