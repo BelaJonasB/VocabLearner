@@ -28,23 +28,13 @@ public class APICalls{
      * Constructor for when not instantiated in login screen
      */
     public APICalls() {
-
-        //Enryption key with mac adress
-        String mac = "DiddiKong"; //Default, if no mac adress
-        try {
-            NetworkInterface net = NetworkInterface.getByInetAddress(InetAddress.getLocalHost());
-            mac = new String(net.getHardwareAddress());
-        } catch (SocketException | UnknownHostException e) {
-            System.out.println("No Mac-Address found");
-        }
-        Crypt c = new Crypt(mac);
         Gson g = new Gson();
 
         //set Variables for Requests
         try {
             User u = g.fromJson(new FileReader("src/main/resources/logInfo.json"), User.class);
             this.user = u.getEmail();
-            this.pw = c.decrypt(u.getPassword());
+            this.pw = u.getPassword();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -59,7 +49,9 @@ public class APICalls{
      */
     public APICalls(String userIn, String pwIn, String serverIn) {
         this.user = userIn;
-        this.pw = pwIn;
+        String mac = "Henlo4Soms.!eagIzarsaFing";
+        Crypt c = new Crypt(mac);
+        this.pw = c.encrypt(pwIn);
         this.server = serverIn;
         Variables.setServer(serverIn);
     }
@@ -158,8 +150,8 @@ public class APICalls{
 
     /**
      * Delete an Entry in users Vocab
-     * @param v the id which gets deleted
-     * @return
+     * @param id the id which gets deleted
+     * @return code
      */
     public int deleteVoc(Integer id) {
 
@@ -218,7 +210,7 @@ public class APICalls{
     public void changeLog(String newMail, String newPw) {
         String nPw,nMail;
         if(!newPw.equals("0")){
-            nPw = newPw;
+            nPw = new Crypt("Henlo4Soms.!eagIzarsaFing").encrypt(newPw);
             nMail = user;
         } else {
             nPw = pw;

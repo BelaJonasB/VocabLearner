@@ -71,13 +71,7 @@ public class ControllerSettings extends AnchorPane implements Initializable {
         new Thread(() -> {
             //Set selected Language to the selected item in dropdown
             try {
-                String mac = "DiddiKong"; //Default, if no mac adress
-                try {
-                    NetworkInterface net = NetworkInterface.getByInetAddress(InetAddress.getLocalHost());
-                    mac = new String(net.getHardwareAddress());
-                } catch (SocketException | UnknownHostException e) {
-                    System.out.println("No Mac-Address found");
-                }
+                String mac = "Henlo4Soms.!eagIzarsaFing";
                 c = new Crypt(mac);
 
                 Gson g = new Gson();

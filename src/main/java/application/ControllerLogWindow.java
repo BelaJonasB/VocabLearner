@@ -61,13 +61,7 @@ public class ControllerLogWindow extends Main implements Initializable {
 
 
 		//Enryption key with mac adress
-		String mac = "DiddiKong"; //Default, if no mac adress
-		try {
-			NetworkInterface net = NetworkInterface.getByInetAddress(InetAddress.getLocalHost());
-			mac = new String(net.getHardwareAddress());
-		} catch (SocketException | UnknownHostException e) {
-			System.out.println("No Mac-Address found");
-		}
+		String mac = "Henlo4Soms.!eagIzarsaFing";
 		c = new Crypt(mac);
 
 		//default enabling
