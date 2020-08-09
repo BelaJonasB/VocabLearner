@@ -5,13 +5,59 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
 
 <fx:root xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             prefHeight="400.0" prefWidth="600.0" type="AnchorPane">
-    <HBox styleClass="setts" AnchorPane.topAnchor="10.0" AnchorPane.leftAnchor="10.0">
-        <Label text="Language:" styleClass="listSetts" fx:id="listSetts1"/>
-        <ComboBox styleClass="langDD" fx:id="langDD"/>
-    </HBox>
+    <VBox AnchorPane.topAnchor="40.0" AnchorPane.leftAnchor="50.0" spacing="20">
+        <Label styleClass="settHeader" fx:id="settsHeader1" text="Application"/>
+        <AnchorPane styleClass="setts" fx:id="settingsTable1">
+            <Label text="Language:" styleClass="listSetts" fx:id="listSetts1" AnchorPane.leftAnchor="10.0"/>
+            <ComboBox styleClass="langDD" prefWidth="150" fx:id="langDD" AnchorPane.rightAnchor="10.0"/>
+        </AnchorPane>
+        <Label styleClass="settHeader" fx:id="settsHeader2" text="Profile"/>
+        <AnchorPane styleClass="setts" fx:id="settingsTable2">
+            <Label text="E-Mail:" styleClass="listSetts" fx:id="listSetts2" AnchorPane.leftAnchor="10.0"/>
+            <TextField styleClass="textSetts" fx:id="email" AnchorPane.rightAnchor="10.0"/>
+        </AnchorPane>
+        <AnchorPane styleClass="setts" fx:id="settingsTable3" minWidth="350">
+            <Label text="Password:" styleClass="listSetts" fx:id="listSetts3" AnchorPane.leftAnchor="10.0"/>
+            <Button styleClass="classicButton" onAction="#pwChange" text="Change password" prefWidth="150" fx:id="pw" AnchorPane.rightAnchor="10.0"/>
+        </AnchorPane>
+    </VBox>
     <Button fx:id="apply" styleClass="b" text="Apply" onAction="#apply" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0"/>
+    <BorderPane AnchorPane.leftAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" styleClass="pwChangeWind" fx:id="pwChangeWind">
+        <center>
+            <VBox fx:id="pwMain" styleClass="pwMain" spacing="20">
+                <HBox spacing="50" alignment="CENTER_RIGHT">
+                    <Label text="Old Password:" fx:id="oldPw" styleClass="listSetts"/>
+                    <PasswordField fx:id="oldPwText" styleClass="textSetts"/>
+                </HBox>
+                <HBox spacing="50" alignment="CENTER_RIGHT">
+                    <Label text="New Password:" fx:id="newPw" styleClass="listSetts"/>
+                    <PasswordField fx:id="newPwText" styleClass="textSetts"/>
+                </HBox>
+                <HBox spacing="50" alignment="CENTER_RIGHT">
+                    <Label text="Confirm New Password:" fx:id="newPwConf" styleClass="listSetts"/>
+                    <PasswordField fx:id="newPwConfText" styleClass="textSetts"/>
+                </HBox>
+                <Label fx:id="warn"/>
+                <HBox spacing="20" alignment="CENTER_RIGHT" styleClass="pwChangeButt">
+                    <Button fx:id="applyPwChange" styleClass="b" text="Confirm" onAction="#confirm"/>
+                    <Button fx:id="cancelPwChange" styleClass="b" text="Cancel" onAction="#cancel"/>
+                </HBox>
+            </VBox>
+        </center>
+    </BorderPane>
 </fx:root>

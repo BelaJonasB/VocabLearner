@@ -215,6 +215,43 @@ public class APICalls{
         }
     }
 
+    public void changeLog(String newMail, String newPw) {
+        String nPw,nMail;
+        if(!newPw.equals("0")){
+            nPw = newPw;
+            nMail = user;
+        } else {
+            nPw = pw;
+            nMail = newMail;
+        }
+        User u = new User(nMail,nPw);
+        Gson g = new GsonBuilder()
+                .create();
+
+        //User data to Object
+        String s = g.toJson(u);
+        System.out.println(s);
+
+        //For Media Type in request body
+        final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+
+        //Build and call
+        RequestBody regBody = RequestBody.create(s, JSON);
+        Request req = new Request.Builder()
+                .header("email", user)
+                .header("password", pw)
+                .url(server+"user")
+                .patch(regBody)
+                .build();
+        try {
+            Response r = call(o, req);
+            int i = r.code();
+            Objects.requireNonNull(r.body()).close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Call to the API
      * @param o Client to use

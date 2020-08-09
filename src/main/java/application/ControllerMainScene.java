@@ -1,5 +1,6 @@
 package application;
 
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.net.URL;
 import java.util.Collections;
@@ -202,18 +203,22 @@ public class ControllerMainScene extends Main implements Initializable {
 	 * Method to Logout and return to Login window
 	 */
 	public void logout() throws Exception {
-		Gson g = new GsonBuilder()
-				.setPrettyPrinting()
-				.create();
+		String lang = "ENGLISH";
+		try {
+			Gson g = new Gson();
+			Settings s = g.fromJson(new FileReader("src/main/resources/Settings.json"), Settings.class);
+			lang = s.getLang();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		Gson g = new Gson();
 
-		//Make User Info empty
-		User u = new User("", "");
-		String s = g.toJson(u);
+		Settings s = new Settings(lang,0);
+		String set = g.toJson(s);
+		FileWriter file1 = new FileWriter("src/main/resources/Settings.json");
+		file1.write(set);
+		file1.close();
 
-		//login Info To JSon
-		FileWriter file = new FileWriter("src/main/resources/logInfo.json");
-										file.write(s);
-										file.close();
 		changeScene("FXLogin.fxml", 850,520, false, false, Variables.getX(), Variables.getY());
 	}
 }

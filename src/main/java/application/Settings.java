@@ -5,9 +5,11 @@ package application;
  */
 public class Settings {
     private String lang;
+    private int rem;
 
-    public Settings(String lang) {
+    public Settings(String lang,int rem) {
         this.lang = lang;
+        this.rem = rem;
     }
 
     public String getLang() {
@@ -16,5 +18,13 @@ public class Settings {
 
     public void setLang(String lang) {
         this.lang = lang;
+    }
+
+    public int getRem() {
+        return rem;
+    }
+
+    public void setRem(int rem) {
+        this.rem = rem;
     }
 }

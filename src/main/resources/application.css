@@ -200,6 +200,11 @@
 	-fx-text-fill: #555555;
 	-fx-font-size: 20;
 }
+.settHeader {
+	-fx-font-weight: bold;
+	-fx-text-fill: #555555;
+	-fx-font-size: 18;
+}
 .bLogout {
 	-fx-background-color: #ffe600;
 	-fx-text-fill: white;
@@ -360,8 +365,8 @@
 
 /* Settings */
 #apply {
-	-fx-pref-height: 30px;
-	-fx-pref-width: 80px;
+	-fx-pref-height: 33px;
+	-fx-pref-width: 100px;
 }
 .setts {
 	-fx-spacing: 10px;
@@ -373,6 +378,13 @@
 }
 .langDD {
 	-fx-background-color: #ffe600;
+	-fx-font-weight: bold;
+	-fx-font-size: 14;
+}
+.textSetts {
+	-fx-pref-width: 150;
+	-fx-background-radius: 15px;
+	-fx-padding: 6 5 6 15;
 }
 .combo-box#langDD .cell:selected {
 	-fx-text-fill: #767676;
@@ -393,4 +405,25 @@
 	-fx-background-color: #ffe600;
 	-fx-text-fill: #767676;
 	-fx-cursor: hand;
+}
+.pwChangeWind {
+	-fx-background-color: white;
+
+}
+.pwMain {
+	-fx-padding: 80 380 80 80;
+	-fx-alignment: top-right;
+}
+#applyPwChange,#cancelPwChange {
+	-fx-pref-height: 30;
+	-fx-pref-width: 150;
+}
+.pwChangeButt {
+	-fx-pref-width: 200;
+	-fx-padding: 50 0 0 0;
+}
+#warn {
+	-fx-text-fill: #f3dc00;
+	-fx-font-weight: bold;
+	-fx-font-size: 16;
 }

@@ -42,7 +42,7 @@
 
 			<HBox>
 				<VBox styleClass="serverField">
-					<TextField fx:id="serverAddress" text="https://api.voc5.org/"/>
+					<TextField fx:id="serverAddress" text="https://vocab-db.herokuapp.com/"/>
 				</VBox>
 			</HBox>
 		</VBox>

@@ -112,8 +112,8 @@
         </HBox>
 
         <HBox fx:id="errorButtons" layoutY="353.0" spacing="15">
-            <Button fx:id="changeToVocabulary" mnemonicParsing="false" onAction="#gotoVocabList" prefHeight="25.0" prefWidth="258.0" styleClass="classicButton"/>
-            <Button fx:id="changeToGoals" mnemonicParsing="false" onAction="#gotoGoals" prefHeight="25.0" prefWidth="258.0" styleClass="classicButton"/>
+            <Button fx:id="changeToVocabulary" visible="false" mnemonicParsing="false" onAction="#gotoVocabList" prefHeight="25.0" prefWidth="258.0" styleClass="classicButton"/>
+            <Button fx:id="changeToGoals" visible="false" mnemonicParsing="false" onAction="#gotoGoals" prefHeight="25.0" prefWidth="258.0" styleClass="classicButton"/>
         </HBox>
     </AnchorPane>
 </fx:root>

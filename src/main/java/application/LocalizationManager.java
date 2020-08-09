@@ -17,8 +17,17 @@ public class LocalizationManager extends ControllerMainScene {
     private static SupportedLanguage currentLanguage = SupportedLanguage.ENGLISH;//defaults to english
     private static final Map<SupportedLanguage, Map<String, String>> translations = new HashMap<>();
     private static Settings u;
+    private static int rem;
 
     public static void Init() {
+        try {
+            Gson g = new Gson();
+            Settings s = g.fromJson(new FileReader("src/main/resources/Settings.json"), Settings.class);
+            rem = s.getRem();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         //Initialize the strings.
 
         Map<String, String> english = new HashMap<>();
@@ -35,9 +44,23 @@ public class LocalizationManager extends ControllerMainScene {
         english.put("wrongRegText", "EMail already registered");
         english.put("pwLabel", "Password:");
         english.put("remember", "Remember me");
+
+        //Settings
         english.put("listSetts1", "Language:");
         english.put("apply", "Apply");
         english.put("setting", "Settings");
+        english.put("settsHeader1", "Application");
+        english.put("listSetts3", "Password:");
+        english.put("settsHeader2", "Profile");
+        english.put("oldPw", "Old Password:");
+        english.put("newPw", "New Password:");
+        english.put("newPwConf", "Confirm New Password:");
+        english.put("applyPwChange", "Confirm");
+        english.put("cancelPwChange", "Cancel");
+        english.put("pw", "Change Password");
+        english.put("warnEmpty", "New Password cannot be empty!");
+        english.put("warnWrongOld", "The old password is wrong!");
+        english.put("warnWrongNew", "Passwords do not match!");
 
         //English text for VocList
         //TODO Check translations
@@ -119,13 +142,27 @@ public class LocalizationManager extends ControllerMainScene {
         german.put("wrongRegText", "EMail bereits registriert");
         german.put("pwLabel", "Passwort:");
         german.put("remember", "Anmeldung merken");
+
+        //Settings
         german.put("listSetts1", "Sprache:");
         german.put("apply", "Anwenden");
         german.put("setting", "Einstellungen");
+        german.put("settsHeader1", "Anwendung");
+        german.put("listSetts3", "Passwort:");
+        german.put("settsHeader2", "Profil");
+        german.put("oldPw", "Altes Passwort:");
+        german.put("newPw", "Neues Passwort:");
+        german.put("newPwConf", "Wiederhole Passwort:");
+        german.put("applyPwChange", "Best\u00E4tigen");
+        german.put("cancelPwChange", "Abbrechen");
+        german.put("pw", "Passwort \u00E4ndern");
+        german.put("warnEmpty", "Neues Passwort darf nicht leer sein!");
+        german.put("warnWrongOld", "Altes Passwort falsch!");
+        german.put("warnWrongNew", "Passw\u00F6rter stimmen nicht \u00FCberein!");
 
         //German text for VocList
         //TODO Check translations
-        german.put("searchField","Suche hier ein eingeben");
+        german.put("searchField","Suche hier eingeben");
         german.put("search","Suchen");
         german.put("add","Hinzuf\u00FCgen");
         german.put("delete","L\u00F6schen");
@@ -204,8 +241,6 @@ public class LocalizationManager extends ControllerMainScene {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 
     public static String get(String key) {
@@ -218,6 +253,7 @@ public class LocalizationManager extends ControllerMainScene {
                 .setPrettyPrinting()
                 .create();
         u.setLang(language.toString());
+        u.setRem(rem);
         String s = g.toJson(u);
         FileWriter file = new FileWriter("src/main/resources/Settings.json");
         file.write(s);

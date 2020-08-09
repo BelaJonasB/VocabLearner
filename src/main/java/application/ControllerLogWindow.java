@@ -44,6 +44,8 @@ public class ControllerLogWindow extends Main implements Initializable {
 			.create();
 	Crypt c;
 	APICalls resp;
+	int rem=0;
+	String lang;
 
 	/**
 	 * Initializes the Window
@@ -78,9 +80,17 @@ public class ControllerLogWindow extends Main implements Initializable {
 
 		//set the Remembered values
 		try {
+			Gson g = new Gson();
+			Settings s = g.fromJson(new FileReader("src/main/resources/Settings.json"), Settings.class);
+			rem = s.getRem();
+			lang = s.getLang();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
 			User u = g.fromJson(new FileReader("src/main/resources/logInfo.json"), User.class);
 			//accesses the file in the resources not root dir
-			if (!(u.getEmail().isEmpty() || u.getPassword().isEmpty())) {
+			if (rem==1) {
 				mail.setText(u.getEmail());
 				pw.setText(c.decrypt(u.getPassword()));
 				if (!u.getEmail().equals("")) {
@@ -223,25 +233,32 @@ public class ControllerLogWindow extends Main implements Initializable {
 		if(regResp.code()==200) {
 			new Thread(() -> {
 				try {
-					resp.getUsersVocab();
 					//Object form User if remember is selected, else delete user
 					String s;
 
+					Settings sett = null;
 					if(remember.selectedProperty().get()) {
-						//encrypt PW
-						String encryptetPW = c.encrypt(pw.textProperty().get());
-
-						User u = new User(mail.textProperty().get(), encryptetPW);
-						s = g.toJson(u);
+						sett = new Settings(lang,1);
 					} else {
-						User u = new User("", "");
-						s = g.toJson(u);
+						sett = new Settings(lang,0);
 					}
+					//encrypt PW
+					String encryptetPW = c.encrypt(pw.textProperty().get());
+					User u = new User(mail.textProperty().get(), encryptetPW);
+					s = g.toJson(u);
+
+					String set = g.toJson(sett);
+					FileWriter file1 = new FileWriter("src/main/resources/Settings.json");
+					file1.write(set);
+					file1.close();
 
 					//login Info To JSon
 					FileWriter file = new FileWriter("src/main/resources/logInfo.json");
 					file.write(s);
 					file.close();
+
+
+					resp.getUsersVocab();
 					Platform.runLater(() -> {
 						try {
 							changeScene("MainScene.fxml", 1080, 720, true, false, x, y);
